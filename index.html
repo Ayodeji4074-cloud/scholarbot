@@ -3,909 +3,818 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ScholarBot — AI Academic Research Assistant</title>
+  <title>ScholarBot · Research Intelligence</title>
+  <meta name="description" content="ScholarBot — AI-powered research intelligence. Turn any topic into a full literature review, real paper references, research gaps, and an execution roadmap in seconds."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
-      --navy:#0D1B2A;--navy-mid:#1B2E42;--navy-card:#162336;
-      --gold:#C9A84C;--gold-soft:#F0D98B;
-      --white:#F8F9FA;--grey-300:#CBD5E1;--grey-500:#64748B;--grey-700:#334155;
-      --green:#22C55E;--red:#EF4444;--radius:12px;--shadow:0 4px 24px rgba(0,0,0,0.35);
+      --ink:       #080B1A;
+      --ink-card:  #0D1124;
+      --ink-mid:   #141830;
+      --ink-edge:  #1C2140;
+      --indigo:    #4F46E5;
+      --indigo-lt: #6366F1;
+      --cyan:      #06B6D4;
+      --cyan-lt:   #22D3EE;
+      --gradient:  linear-gradient(135deg,#4F46E5,#06B6D4);
+      --grad-rev:  linear-gradient(135deg,#06B6D4,#4F46E5);
+      --white:     #EEF2FF;
+      --grey-200:  #C7D2E8;
+      --grey-400:  #64748B;
+      --grey-600:  #334155;
+      --green:     #10B981;
+      --red:       #EF4444;
+      --radius:    14px;
+      --shadow:    0 8px 40px rgba(0,0,0,0.5);
     }
     html{scroll-behavior:smooth}
-    body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--white);min-height:100vh;overflow-x:hidden}
+    body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--white);min-height:100vh;overflow-x:hidden}
     .hidden{display:none!important}
 
-    @keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
     @keyframes spin{to{transform:rotate(360deg)}}
-    @keyframes agentGlow{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0)}50%{box-shadow:0 0 0 8px rgba(201,168,76,.25)}}
-    @keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(79,70,229,0)}50%{box-shadow:0 0 0 10px rgba(79,70,229,.2)}}
+    @keyframes nodeOn{0%{opacity:.2;transform:scale(.8)}100%{opacity:1;transform:scale(1)}}
+    @keyframes flowLine{0%{stroke-dashoffset:60}100%{stroke-dashoffset:0}}
+    @keyframes toastIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 
     /* ── NAV ── */
-    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:14px 40px;background:rgba(13,27,42,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,.15)}
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:60px;background:rgba(8,11,26,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(79,70,229,.18)}
     .nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
-    .nav-logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--gold),#8B6914);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
-    .nav-logo-text{font-family:'DM Serif Display',serif;font-size:19px;color:var(--white)}
+    .nav-logo-mark{width:32px;height:32px;flex-shrink:0}
+    .nav-logo-text{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--white);letter-spacing:-.3px}
+    .nav-logo-text span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .nav-right{display:flex;align-items:center;gap:10px}
-    .nav-badge{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gold);font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;letter-spacing:.5px;text-transform:uppercase}
-    .nav-user{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--grey-300)}
-    .nav-user-avatar{width:30px;height:30px;background:linear-gradient(135deg,var(--gold),#8B6914);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--navy)}
-    .btn-nav-logout{background:transparent;border:1px solid rgba(203,213,225,.15);color:var(--grey-500);font-size:11px;padding:4px 12px;border-radius:100px;cursor:pointer;transition:color .15s,border-color .15s}
-    .btn-nav-logout:hover{color:var(--red);border-color:rgba(239,68,68,.4)}
-    .nav-pdf-btn{background:linear-gradient(135deg,var(--gold),#8B6914);color:var(--navy);border:none;padding:7px 16px;border-radius:100px;font-size:12px;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s}
-    .nav-pdf-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(201,168,76,.4)}
+    .nav-tag{font-size:10px;font-weight:600;color:var(--indigo-lt);letter-spacing:.6px;text-transform:uppercase;background:rgba(79,70,229,.12);border:1px solid rgba(79,70,229,.25);padding:3px 10px;border-radius:100px}
+    .nav-user{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--grey-200)}
+    .nav-avatar{width:28px;height:28px;background:var(--gradient);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+    .btn-nav-out{background:transparent;border:1px solid rgba(203,213,225,.1);color:var(--grey-400);font-size:11px;padding:4px 12px;border-radius:100px;cursor:pointer;transition:color .15s,border-color .15s}
+    .btn-nav-out:hover{color:var(--red);border-color:rgba(239,68,68,.35)}
+    .nav-dl-btn{background:var(--gradient);color:#fff;border:none;padding:6px 16px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;transition:opacity .15s,transform .15s}
+    .nav-dl-btn:hover{opacity:.88;transform:translateY(-1px)}
 
     /* ── TOAST ── */
-    #toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--navy-card);border:1px solid rgba(201,168,76,.3);border-radius:10px;padding:11px 18px;font-size:13px;color:var(--white);animation:toastIn .3s ease;pointer-events:none}
-
-    /* ── SHARED CARD ── */
-    .auth-wrap,.input-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 24px 60px}
-    .card{background:var(--navy-card);border:1px solid rgba(201,168,76,.18);border-radius:20px;padding:44px 40px;width:100%;max-width:460px;box-shadow:var(--shadow);animation:slideUp .4s ease}
-    .card-wide{max-width:680px}
-    .card h2{font-family:'DM Serif Display',serif;font-size:26px;margin-bottom:6px}
-    .card>p{font-size:14px;color:var(--grey-300);margin-bottom:28px;line-height:1.6}
-    .field-label{font-size:11px;font-weight:600;color:var(--gold);letter-spacing:.8px;text-transform:uppercase;margin-bottom:7px;display:block}
-    .field-group{margin-bottom:18px}
-    input[type=text],input[type=email],input[type=password],textarea,select{width:100%;background:rgba(13,27,42,.7);border:1px solid rgba(203,213,225,.15);border-radius:10px;color:var(--white);font-family:'Inter',sans-serif;font-size:14px;padding:13px 15px;outline:none;transition:border-color .2s;resize:none}
-    input:focus,textarea:focus,select:focus{border-color:var(--gold)}
-    textarea{min-height:100px;line-height:1.6}
-    select option{background:var(--navy-mid)}
-    .row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .btn-gold{width:100%;background:linear-gradient(135deg,var(--gold),#8B6914);color:var(--navy);border:none;padding:15px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s;margin-top:6px}
-    .btn-gold:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.35)}
-    .btn-gold:disabled{opacity:.5;cursor:not-allowed}
-    .link-switch{text-align:center;font-size:13px;color:var(--grey-500);margin-top:18px}
-    .link-switch a{color:var(--gold);cursor:pointer;text-decoration:none;font-weight:500}
-    .link-switch a:hover{text-decoration:underline}
-    .back-link{text-align:center;font-size:13px;color:var(--grey-500);cursor:pointer;margin-top:14px;transition:color .15s}
-    .back-link:hover{color:var(--gold)}
-    .field-error{font-size:11px;color:#FCA5A5;margin-top:5px}
-    .form-error{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#FCA5A5;margin-bottom:14px}
-    .divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--grey-700);font-size:12px}
-    .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07)}
+    #toast{position:fixed;bottom:24px;right:24px;z-index:999;background:var(--ink-card);border:1px solid rgba(79,70,229,.3);border-radius:10px;padding:10px 18px;font-size:13px;color:var(--white);animation:toastIn .25s ease;pointer-events:none}
 
     /* ── HERO ── */
-    #section-hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 24px 80px;position:relative;overflow:hidden}
-    .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(201,168,76,.08) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 80% 80%,rgba(27,46,66,.8) 0%,transparent 60%);pointer-events:none}
-    .hero-eyebrow{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:22px}
-    .hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:28px;height:1px;background:var(--gold);opacity:.5}
-    .hero-title{font-family:'DM Serif Display',serif;font-size:clamp(40px,6vw,78px);line-height:1.05;text-align:center;max-width:820px;margin-bottom:22px;letter-spacing:-1px}
-    .hero-title em{font-style:italic;color:var(--gold)}
-    .hero-sub{font-size:16px;color:var(--grey-300);text-align:center;max-width:520px;line-height:1.7;margin-bottom:44px}
-    .hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:52px}
-    .btn-primary{background:linear-gradient(135deg,var(--gold),#8B6914);color:var(--navy);border:none;padding:15px 34px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s}
-    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.35)}
-    .btn-secondary{background:transparent;color:var(--grey-300);border:1px solid rgba(203,213,225,.25);padding:15px 30px;border-radius:100px;font-size:15px;font-weight:500;cursor:pointer;transition:border-color .15s,color .15s}
-    .btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
-    .hero-flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:52px}
-    .flow-node{background:var(--navy-card);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:10px 16px;font-size:12px;font-weight:600;color:var(--grey-300);display:flex;align-items:center;gap:8px}
-    .flow-node .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 2s ease-in-out infinite}
-    .flow-node .dot.green{background:var(--green);animation-delay:.5s}
-    .flow-node .dot.blue{background:#60A5FA;animation-delay:1s}
-    .flow-arrow{color:var(--gold);font-size:16px;opacity:.6}
-    .hero-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;max-width:820px}
-    .step-card{background:var(--navy-card);border:1px solid rgba(201,168,76,.1);border-radius:var(--radius);padding:18px;text-align:center}
-    .step-num{font-family:'DM Serif Display',serif;font-size:30px;color:rgba(201,168,76,.3);line-height:1;margin-bottom:7px}
-    .step-label{font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px}
-    .step-desc{font-size:11px;color:var(--grey-500);line-height:1.5}
+    #section-hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 24px 80px;position:relative;overflow:hidden;text-align:center}
+    .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(79,70,229,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(79,70,229,.04) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
+    .hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(79,70,229,.12) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-60%);pointer-events:none}
+    .hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(79,70,229,.1);border:1px solid rgba(79,70,229,.3);border-radius:100px;padding:6px 16px;font-size:12px;font-weight:600;color:var(--indigo-lt);letter-spacing:.4px;text-transform:uppercase;margin-bottom:28px}
+    .hero-pill-dot{width:6px;height:6px;background:var(--cyan);border-radius:50%;animation:pulse 1.8s ease-in-out infinite}
+    .hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(38px,6vw,76px);font-weight:700;line-height:1.04;letter-spacing:-2px;max-width:820px;margin-bottom:24px}
+    .hero-title .grad{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-sub{font-size:17px;color:var(--grey-200);max-width:520px;line-height:1.72;margin:0 auto 48px}
+    .hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:64px}
+    .btn-primary{background:var(--gradient);color:#fff;border:none;padding:15px 34px;border-radius:100px;font-size:15px;font-weight:600;cursor:pointer;transition:transform .15s,box-shadow .15s;font-family:'Space Grotesk',sans-serif}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(79,70,229,.4)}
+    .btn-secondary{background:transparent;color:var(--grey-200);border:1px solid rgba(199,210,232,.2);padding:15px 30px;border-radius:100px;font-size:15px;font-weight:500;cursor:pointer;transition:border-color .15s,color .15s}
+    .btn-secondary:hover{border-color:var(--indigo-lt);color:var(--white)}
+    .agent-strip{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:64px}
+    .a-chip{background:var(--ink-card);border:1px solid rgba(79,70,229,.2);border-radius:10px;padding:10px 18px;font-size:12px;font-weight:600;color:var(--grey-200);display:flex;align-items:center;gap:8px}
+    .a-chip .dot{width:7px;height:7px;border-radius:50%;animation:pulse 2s ease-in-out infinite}
+    .dot-i{background:var(--indigo-lt)}.dot-c{background:var(--cyan);animation-delay:.6s}.dot-g{background:var(--green);animation-delay:1.2s}
+    .a-arrow{color:var(--indigo-lt);font-size:14px;opacity:.5}
+    .process-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;max-width:800px;width:100%}
+    .p-card{background:var(--ink-card);border:1px solid rgba(79,70,229,.1);border-radius:var(--radius);padding:20px;text-align:left}
+    .p-card-num{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--indigo-lt);letter-spacing:1px;margin-bottom:8px}
+    .p-card-title{font-size:13px;font-weight:600;color:var(--white);margin-bottom:4px}
+    .p-card-desc{font-size:11px;color:var(--grey-400);line-height:1.5}
+
+    /* ── SHARED FORM CARD ── */
+    .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px 60px}
+    .card{background:var(--ink-card);border:1px solid rgba(79,70,229,.18);border-radius:20px;padding:40px;width:100%;max-width:480px;box-shadow:var(--shadow);animation:fadeUp .35s ease}
+    .card-wide{max-width:700px}
+    .card h2{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;margin-bottom:6px;letter-spacing:-.4px}
+    .card>p{font-size:14px;color:var(--grey-200);margin-bottom:26px;line-height:1.6}
+    .fl{font-size:11px;font-weight:600;color:var(--cyan);letter-spacing:.7px;text-transform:uppercase;margin-bottom:7px;display:block}
+    .fg{margin-bottom:16px}
+    input[type=text],input[type=email],input[type=password],textarea,select{width:100%;background:rgba(8,11,26,.7);border:1px solid rgba(199,210,232,.12);border-radius:10px;color:var(--white);font-family:'Inter',sans-serif;font-size:14px;padding:12px 14px;outline:none;transition:border-color .2s;resize:none}
+    input:focus,textarea:focus,select:focus{border-color:var(--indigo-lt)}
+    textarea{min-height:96px;line-height:1.6}
+    select option{background:var(--ink-mid)}
+    .r2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .btn-action{width:100%;background:var(--gradient);color:#fff;border:none;padding:14px;border-radius:100px;font-size:15px;font-weight:600;cursor:pointer;transition:transform .15s,box-shadow .15s;margin-top:6px;font-family:'Space Grotesk',sans-serif;letter-spacing:-.2px}
+    .btn-action:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(79,70,229,.4)}
+    .btn-action:disabled{opacity:.45;cursor:not-allowed}
+    .sw{text-align:center;font-size:13px;color:var(--grey-400);margin-top:16px}
+    .sw a{color:var(--cyan);cursor:pointer;font-weight:500;text-decoration:none}
+    .sw a:hover{text-decoration:underline}
+    .back{text-align:center;font-size:13px;color:var(--grey-400);cursor:pointer;margin-top:12px;transition:color .15s}
+    .back:hover{color:var(--cyan)}
+    .ferr{font-size:11px;color:#FCA5A5;margin-top:5px}
+    .form-err{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.25);border-radius:8px;padding:10px 14px;font-size:13px;color:#FCA5A5;margin-bottom:14px}
+    .divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:var(--grey-600);font-size:12px}
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06)}
+    .checks{display:flex;flex-direction:column;gap:9px}
+    .ch{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--grey-200);cursor:pointer}
+    .ch input[type=checkbox]{width:15px;height:15px;accent-color:var(--indigo-lt);cursor:pointer}
 
     /* ── LOADING ── */
     #section-loading{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
-    .loading-title{font-family:'DM Serif Display',serif;font-size:26px;margin-bottom:10px}
-    .loading-sub{font-size:14px;color:var(--grey-300);margin-bottom:48px}
-    .agent-pipeline{display:flex;flex-direction:column;gap:0;align-items:center;margin-bottom:44px}
-    .agent-box{background:var(--navy-card);border:1px solid rgba(203,213,225,.1);border-radius:14px;padding:18px 26px;width:300px;text-align:left;transition:border-color .3s,box-shadow .3s}
-    .agent-box.active{border-color:var(--gold);animation:agentGlow 1.5s ease-in-out infinite}
-    .agent-box.done{border-color:var(--green)}
-    .agent-box-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
-    .agent-name{font-size:13px;font-weight:700;color:var(--white)}
-    .agent-status{font-size:11px;font-weight:600;padding:2px 8px;border-radius:100px;background:rgba(100,116,139,.2);color:var(--grey-500)}
-    .agent-box.active .agent-status{background:rgba(201,168,76,.15);color:var(--gold)}
-    .agent-box.done .agent-status{background:rgba(34,197,94,.15);color:var(--green)}
-    .agent-desc{font-size:12px;color:var(--grey-500);line-height:1.5}
-    .agent-box.active .agent-desc{color:var(--grey-300)}
-    .pipeline-arrow{width:2px;height:26px;background:linear-gradient(to bottom,rgba(201,168,76,.4),rgba(201,168,76,.1));margin:0 auto}
-    .spinner{width:38px;height:38px;border:3px solid rgba(201,168,76,.15);border-top-color:var(--gold);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 14px}
-    .loading-status-text{font-size:13px;color:var(--grey-500);min-height:20px}
+    .ld-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin-bottom:10px;letter-spacing:-.4px}
+    .ld-sub{font-size:14px;color:var(--grey-200);margin-bottom:52px}
+    /* neural animation */
+    .neural-wrap{margin-bottom:48px}
+    .neural-svg{overflow:visible}
+    .n-node{fill:var(--ink-card);stroke-width:1.5;transition:stroke .3s}
+    .n-node.waiting{stroke:rgba(199,210,232,.15)}
+    .n-node.active{stroke:var(--indigo);filter:drop-shadow(0 0 6px rgba(79,70,229,.6));animation:glow 1.4s ease-in-out infinite}
+    .n-node.done{stroke:var(--green)}
+    .n-label{fill:var(--white);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:middle}
+    .n-sub{fill:var(--grey-400);font-family:'Inter',sans-serif;font-size:9px;text-anchor:middle;dominant-baseline:middle}
+    .n-status{font-family:'Space Grotesk',sans-serif;font-size:9px;font-weight:700;text-anchor:middle;dominant-baseline:middle;transition:fill .3s}
+    .n-line{stroke:rgba(79,70,229,.25);stroke-width:1.5;stroke-dasharray:4 3;fill:none}
+    .n-line.active{stroke:var(--indigo);stroke-dasharray:60;stroke-dashoffset:60;animation:flowLine .8s linear forwards}
+    .spinner{width:36px;height:36px;border:2.5px solid rgba(79,70,229,.15);border-top-color:var(--indigo-lt);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 12px}
+    .ld-status{font-size:13px;color:var(--grey-400);min-height:20px}
 
     /* ── RESULTS ── */
-    #section-results{padding:96px 24px 110px;max-width:860px;margin:0 auto}
-    .results-header{margin-bottom:32px;animation:slideUp .4s ease}
-    .results-topic-label{font-size:11px;font-weight:600;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
-    .results-topic-text{font-family:'DM Serif Display',serif;font-size:28px;line-height:1.2;margin-bottom:16px}
-    .results-meta{display:flex;gap:18px;flex-wrap:wrap}
-    .results-meta-item{font-size:12px;color:var(--grey-500);display:flex;align-items:center;gap:4px}
-    .results-meta-item span{color:var(--grey-300);font-weight:500}
-    .results-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-    .toolbar-left{font-size:13px;color:var(--grey-500)}
-    .toolbar-right{display:flex;gap:8px}
-    .btn-sm{background:transparent;border:1px solid rgba(203,213,225,.13);color:var(--grey-300);font-size:12px;padding:5px 13px;border-radius:100px;cursor:pointer;transition:border-color .15s,color .15s}
-    .btn-sm:hover{border-color:var(--gold);color:var(--gold)}
-    .accordion{display:flex;flex-direction:column;gap:10px}
-    .acc-item{background:var(--navy-card);border:1px solid rgba(203,213,225,.08);border-radius:var(--radius);overflow:hidden;transition:border-color .2s;animation:slideUp .4s ease both}
+    #section-results{padding:88px 24px 100px;max-width:860px;margin:0 auto}
+    .r-header{margin-bottom:28px;animation:fadeUp .4s ease}
+    .r-tag{font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+    .r-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;line-height:1.2;margin-bottom:14px;letter-spacing:-.4px}
+    .r-meta{display:flex;gap:16px;flex-wrap:wrap}
+    .r-meta-i{font-size:12px;color:var(--grey-400);display:flex;align-items:center;gap:4px}
+    .r-meta-i span{color:var(--grey-200);font-weight:500}
+    .r-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+    .r-toolbar-l{font-size:13px;color:var(--grey-400)}
+    .r-toolbar-r{display:flex;gap:7px}
+    .btn-sm{background:transparent;border:1px solid rgba(199,210,232,.1);color:var(--grey-200);font-size:12px;padding:5px 13px;border-radius:100px;cursor:pointer;transition:border-color .15s,color .15s}
+    .btn-sm:hover{border-color:var(--indigo-lt);color:var(--indigo-lt)}
+    .accordion{display:flex;flex-direction:column;gap:9px}
+    .acc-item{background:var(--ink-card);border:1px solid rgba(79,70,229,.1);border-radius:var(--radius);overflow:hidden;transition:border-color .2s;animation:fadeUp .4s ease both}
     .acc-item:nth-child(1){animation-delay:.04s}.acc-item:nth-child(2){animation-delay:.08s}
     .acc-item:nth-child(3){animation-delay:.12s}.acc-item:nth-child(4){animation-delay:.16s}
     .acc-item:nth-child(5){animation-delay:.20s}
-    .acc-item:hover{border-color:rgba(201,168,76,.22)}
-    .acc-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;cursor:pointer;user-select:none}
-    .acc-header-left{display:flex;align-items:center;gap:12px}
-    .acc-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-    .acc-title{font-size:14px;font-weight:600}
-    .acc-count{font-size:11px;color:var(--grey-500);margin-top:2px}
-    .acc-header-right{display:flex;align-items:center;gap:8px}
-    .acc-copy{background:transparent;border:1px solid rgba(203,213,225,.12);color:var(--grey-500);font-size:11px;padding:3px 9px;border-radius:100px;cursor:pointer;transition:border-color .15s,color .15s}
-    .acc-copy:hover{border-color:var(--gold);color:var(--gold)}
-    .acc-chevron{color:var(--grey-500);font-size:14px;transition:transform .25s}
-    .acc-item.open .acc-chevron{transform:rotate(180deg)}
+    .acc-item:hover{border-color:rgba(79,70,229,.3)}
+    .acc-h{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;cursor:pointer;user-select:none}
+    .acc-hl{display:flex;align-items:center;gap:12px}
+    .acc-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+    .i-ideas{background:rgba(99,102,241,.15)}.i-papers{background:rgba(6,182,212,.12)}
+    .i-gaps{background:rgba(124,58,237,.12)}.i-review{background:rgba(16,185,129,.1)}
+    .i-roadmap{background:rgba(245,158,11,.1)}.i-raw{background:rgba(100,116,139,.08)}
+    .acc-title{font-size:14px;font-weight:600;font-family:'Space Grotesk',sans-serif}
+    .acc-sub{font-size:11px;color:var(--grey-400);margin-top:2px}
+    .acc-hr{display:flex;align-items:center;gap:8px}
+    .acc-copy{background:transparent;border:1px solid rgba(199,210,232,.1);color:var(--grey-400);font-size:11px;padding:3px 9px;border-radius:100px;cursor:pointer;transition:border-color .15s,color .15s}
+    .acc-copy:hover{border-color:var(--cyan);color:var(--cyan)}
+    .acc-chev{color:var(--grey-400);font-size:13px;transition:transform .25s}
+    .acc-item.open .acc-chev{transform:rotate(180deg)}
     .acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
     .acc-item.open .acc-body{max-height:99999px}
-    .acc-content{padding:0 18px 18px;font-size:14px;color:var(--grey-300);line-height:1.85;white-space:pre-wrap;word-break:break-word}
-    .icon-ideas{background:rgba(201,168,76,.12)}.icon-papers{background:rgba(96,165,250,.12)}
-    .icon-gaps{background:rgba(167,139,250,.12)}.icon-review{background:rgba(34,197,94,.12)}
-    .icon-roadmap{background:rgba(249,115,22,.12)}.icon-raw{background:rgba(96,165,250,.07)}
-    .citation-bar{margin-top:12px;background:var(--navy-card);border:1px solid rgba(203,213,225,.08);border-radius:var(--radius);padding:14px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-    .citation-bar label{font-size:13px;color:var(--grey-300);white-space:nowrap}
-    .citation-bar select{flex:1;min-width:140px;padding:8px 12px;font-size:13px}
-    .btn-reformat{background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,.3);padding:7px 16px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s}
-    .btn-reformat:hover{background:rgba(201,168,76,.1)}
-    .btn-reformat:disabled{opacity:.5;cursor:not-allowed}
-    .download-bar{margin-top:12px;background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(139,105,20,.05));border:1px solid rgba(201,168,76,.22);border-radius:var(--radius);padding:22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-    .download-bar-text h4{font-size:15px;font-weight:600;margin-bottom:4px}
-    .download-bar-text p{font-size:13px;color:var(--grey-500)}
-    .download-actions{display:flex;gap:8px;flex-wrap:wrap}
-    .btn-pdf{background:linear-gradient(135deg,var(--gold),#8B6914);color:var(--navy);border:none;padding:12px 22px;border-radius:100px;font-size:13px;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s}
-    .btn-pdf:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(201,168,76,.4)}
-    .btn-word{background:rgba(21,101,192,.15);color:#90CAF9;border:1px solid rgba(21,101,192,.3);padding:12px 22px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s,box-shadow .15s}
-    .btn-word:hover{background:rgba(21,101,192,.25);box-shadow:0 4px 14px rgba(21,101,192,.2)}
-    .btn-new-search{background:transparent;color:var(--grey-300);border:1px solid rgba(203,213,225,.18);padding:12px 20px;border-radius:100px;font-size:13px;font-weight:500;cursor:pointer;transition:border-color .15s,color .15s}
-    .btn-new-search:hover{border-color:var(--gold);color:var(--gold)}
-    .error-box{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);border-radius:var(--radius);padding:18px 22px;color:#FCA5A5;font-size:14px;line-height:1.6;margin-top:22px}
+    .acc-content{padding:0 18px 18px;font-size:14px;color:var(--grey-200);line-height:1.85;white-space:pre-wrap;word-break:break-word}
+    .cite-bar{margin-top:10px;background:var(--ink-card);border:1px solid rgba(79,70,229,.1);border-radius:var(--radius);padding:14px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .cite-bar label{font-size:13px;color:var(--grey-200);white-space:nowrap}
+    .cite-bar select{flex:1;min-width:140px;padding:8px 12px;font-size:13px}
+    .btn-ref{background:transparent;color:var(--cyan);border:1px solid rgba(6,182,212,.3);padding:7px 16px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s}
+    .btn-ref:hover{background:rgba(6,182,212,.08)}.btn-ref:disabled{opacity:.45;cursor:not-allowed}
+    .dl-bar{margin-top:10px;background:linear-gradient(135deg,rgba(79,70,229,.08),rgba(6,182,212,.05));border:1px solid rgba(79,70,229,.2);border-radius:var(--radius);padding:22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .dl-bar-text h4{font-size:15px;font-weight:600;font-family:'Space Grotesk',sans-serif;margin-bottom:3px}
+    .dl-bar-text p{font-size:13px;color:var(--grey-400)}
+    .dl-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .btn-pdf{background:var(--gradient);color:#fff;border:none;padding:12px 22px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;transition:transform .15s,box-shadow .15s}
+    .btn-pdf:hover{transform:translateY(-1px);box-shadow:0 5px 20px rgba(79,70,229,.4)}
+    .btn-word{background:rgba(6,182,212,.1);color:var(--cyan-lt);border:1px solid rgba(6,182,212,.25);padding:12px 22px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s}
+    .btn-word:hover{background:rgba(6,182,212,.18)}
+    .btn-new{background:transparent;color:var(--grey-200);border:1px solid rgba(199,210,232,.15);padding:12px 20px;border-radius:100px;font-size:13px;font-weight:500;cursor:pointer;transition:border-color .15s,color .15s}
+    .btn-new:hover{border-color:var(--indigo-lt);color:var(--white)}
+    .err-box{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.25);border-radius:var(--radius);padding:16px 20px;color:#FCA5A5;font-size:14px;line-height:1.6;margin-top:20px}
 
-    footer{text-align:center;padding:36px 24px;font-size:12px;color:var(--grey-700);border-top:1px solid rgba(255,255,255,.05)}
-    footer a{color:var(--gold);text-decoration:none}
-
-    /* ── CHECKBOXES ── */
-    .checkboxes{display:flex;flex-direction:column;gap:9px}
-    .checkbox-item{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--grey-300);cursor:pointer}
-    .checkbox-item input[type=checkbox]{width:15px;height:15px;accent-color:var(--gold);cursor:pointer}
+    footer{text-align:center;padding:36px 24px;font-size:12px;color:var(--grey-600);border-top:1px solid rgba(255,255,255,.04)}
+    footer strong{color:var(--grey-400)}
+    footer a{color:var(--indigo-lt);text-decoration:none}
+    footer a:hover{text-decoration:underline}
 
     @media(max-width:640px){
-      nav{padding:12px 18px}
-      .card{padding:28px 18px}
-      .row-2{grid-template-columns:1fr}
-      .download-bar{flex-direction:column}
-      .download-actions{width:100%}
-      .btn-pdf,.btn-word,.btn-new-search{flex:1;text-align:center}
-      .agent-box{width:100%;max-width:300px}
-      .hero-title{font-size:34px}
+      nav{padding:0 16px}
+      .card{padding:26px 16px}
+      .r2{grid-template-columns:1fr}
+      .dl-bar{flex-direction:column}
+      .dl-actions{width:100%}
+      .btn-pdf,.btn-word,.btn-new{flex:1;text-align:center}
+      .hero-title{letter-spacing:-1px}
     }
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
   </style>
 </head>
 <body>
 
-<!-- TOAST -->
 <div id="toast" class="hidden"></div>
 
-<!-- NAV -->
+<!-- ══ NAV ══ -->
 <nav>
   <div class="nav-logo" onclick="goHome()">
-    <div class="nav-logo-icon">📚</div>
-    <span class="nav-logo-text">ScholarBot</span>
+    <!-- Hexagonal SVG logo mark -->
+    <svg class="nav-logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="lg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#4F46E5"/>
+          <stop offset="100%" stop-color="#06B6D4"/>
+        </linearGradient>
+      </defs>
+      <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="url(#lg)" opacity=".9"/>
+      <circle cx="16" cy="14" r="5" fill="none" stroke="white" stroke-width="1.8"/>
+      <line x1="19.5" y1="17.5" x2="23" y2="21" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      <circle cx="16" cy="14" r="1.5" fill="white"/>
+    </svg>
+    <span class="nav-logo-text">Scholar<span>Bot</span></span>
   </div>
   <div class="nav-right">
-    <button class="nav-pdf-btn hidden" id="nav-pdf-btn" onclick="downloadPDF()">⬇ PDF</button>
-    <!-- user info shown after login -->
+    <button class="nav-dl-btn hidden" id="nav-dl" onclick="downloadPDF()">⬇ PDF</button>
     <div class="nav-user hidden" id="nav-user">
-      <div class="nav-user-avatar" id="nav-avatar">A</div>
-      <span id="nav-username"></span>
-      <button class="btn-nav-logout" onclick="logout()">Log out</button>
+      <div class="nav-avatar" id="nav-av">A</div>
+      <span id="nav-name"></span>
+      <button class="btn-nav-out" onclick="logout()">Log out</button>
     </div>
-    <div class="nav-badge">LD7237 Hackathon</div>
+    <div class="nav-tag">Research Intelligence</div>
   </div>
 </nav>
 
-<!-- ══════════════════════════════════════════ -->
-<!-- HERO                                      -->
-<!-- ══════════════════════════════════════════ -->
+<!-- ══ HERO ══ -->
 <section id="section-hero">
-  <div class="hero-bg"></div>
-  <div class="hero-eyebrow">AI-Powered Academic Research</div>
-  <h1 class="hero-title">Your research,<br/><em>deeply understood</em></h1>
-  <p class="hero-sub">ScholarBot uses a two-agent AI pipeline to turn any research topic into genuine paper references, research gaps, a full literature review, and an execution roadmap — in seconds.</p>
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-pill"><div class="hero-pill-dot"></div>Powered by Multi-Agent AI</div>
+  <h1 class="hero-title">Research,<br/><span class="grad">Reimagined.</span></h1>
+  <p class="hero-sub">Enter any topic. ScholarBot's two-agent pipeline finds real papers, surfaces research gaps, and writes a full literature review — ready to download in seconds.</p>
   <div class="hero-cta">
-    <button class="btn-primary" onclick="handleStartClick()">Start Your Research →</button>
-    <button class="btn-secondary" onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'})">See how it works</button>
+    <button class="btn-primary" onclick="handleStart()">Start Researching →</button>
+    <button class="btn-secondary" onclick="document.getElementById('process').scrollIntoView({behavior:'smooth'})">How it works</button>
   </div>
-  <div class="hero-flow">
-    <div class="flow-node"><div class="dot"></div>Research Scout</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node"><div class="dot green"></div>Academic Writer</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node"><div class="dot blue"></div>Your Report</div>
+  <div class="agent-strip">
+    <div class="a-chip"><div class="dot dot-i"></div>Research Scout</div>
+    <div class="a-arrow">→</div>
+    <div class="a-chip"><div class="dot dot-c"></div>Academic Writer</div>
+    <div class="a-arrow">→</div>
+    <div class="a-chip"><div class="dot dot-g"></div>Your Report</div>
   </div>
-  <div class="hero-steps" id="how-it-works">
-    <div class="step-card"><div class="step-num">01</div><div class="step-label">Enter a topic</div><div class="step-desc">Type any research area — broad or specific</div></div>
-    <div class="step-card"><div class="step-num">02</div><div class="step-label">Agent 1 scouts</div><div class="step-desc">Searches for real papers and identifies gaps</div></div>
-    <div class="step-card"><div class="step-num">03</div><div class="step-label">Agent 2 writes</div><div class="step-desc">Synthesises a full academic literature review</div></div>
-    <div class="step-card"><div class="step-num">04</div><div class="step-label">Download report</div><div class="step-desc">PDF or Word — formatted and ready to use</div></div>
+  <div class="process-row" id="process">
+    <div class="p-card"><div class="p-card-num">STEP 01</div><div class="p-card-title">Enter a topic</div><div class="p-card-desc">Type any research area, broad or specific</div></div>
+    <div class="p-card"><div class="p-card-num">STEP 02</div><div class="p-card-title">Scout searches</div><div class="p-card-desc">Agent 1 finds and verifies real academic papers</div></div>
+    <div class="p-card"><div class="p-card-num">STEP 03</div><div class="p-card-title">Writer synthesises</div><div class="p-card-desc">Agent 2 produces a full structured report</div></div>
+    <div class="p-card"><div class="p-card-num">STEP 04</div><div class="p-card-title">Download</div><div class="p-card-desc">Save as PDF or Word — formatted and ready</div></div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════ -->
-<!-- SIGN UP                                   -->
-<!-- ══════════════════════════════════════════ -->
-<section id="section-signup" class="auth-wrap hidden">
+<!-- ══ SIGN UP ══ -->
+<section id="section-signup" class="wrap hidden">
   <div class="card">
     <h2>Create your account</h2>
-    <p>Join ScholarBot to save your research history and access all features.</p>
-    <div id="signup-error" class="form-error hidden"></div>
-    <div class="row-2">
-      <div class="field-group">
-        <label class="field-label">First Name</label>
-        <input type="text" id="su-firstname" placeholder="Ada"/>
-      </div>
-      <div class="field-group">
-        <label class="field-label">Last Name</label>
-        <input type="text" id="su-lastname" placeholder="Lovelace"/>
-      </div>
+    <p>Free to use. No credit card required.</p>
+    <div id="su-err" class="form-err hidden"></div>
+    <div class="r2">
+      <div class="fg"><label class="fl">First Name</label><input type="text" id="su-fn" placeholder="Ada"/></div>
+      <div class="fg"><label class="fl">Last Name</label><input type="text" id="su-ln" placeholder="Lovelace"/></div>
     </div>
-    <div class="field-group">
-      <label class="field-label">Email Address</label>
-      <input type="email" id="su-email" placeholder="ada@example.com"/>
-    </div>
-    <div class="field-group">
-      <label class="field-label">Password</label>
-      <input type="password" id="su-password" placeholder="At least 6 characters"/>
-    </div>
-    <div class="field-group">
-      <label class="field-label">Academic Level</label>
-      <select id="su-level">
+    <div class="fg"><label class="fl">Email</label><input type="email" id="su-em" placeholder="ada@example.com"/></div>
+    <div class="fg"><label class="fl">Password</label><input type="password" id="su-pw" placeholder="At least 6 characters"/></div>
+    <div class="fg"><label class="fl">Institution / University <span style="color:var(--grey-400);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label><input type="text" id="su-inst" placeholder="e.g. University of Manchester"/></div>
+    <div class="fg"><label class="fl">Academic Level</label>
+      <select id="su-lv">
         <option value="Masters">Masters (MSc)</option>
         <option value="PhD">PhD / Doctoral</option>
         <option value="Undergraduate">Undergraduate</option>
+        <option value="Researcher">Researcher</option>
       </select>
     </div>
-    <button class="btn-gold" onclick="signUp()">Create Account →</button>
-    <div class="link-switch">Already have an account? <a onclick="showSection('login')">Log in</a></div>
-    <p class="back-link" onclick="showSection('hero')">← Back to home</p>
+    <button class="btn-action" onclick="signUp()">Create Account →</button>
+    <div class="sw">Already have an account? <a onclick="showSection('login')">Log in</a></div>
+    <p class="back" onclick="showSection('hero')">← Back to home</p>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════ -->
-<!-- LOG IN                                    -->
-<!-- ══════════════════════════════════════════ -->
-<section id="section-login" class="auth-wrap hidden">
+<!-- ══ LOG IN ══ -->
+<section id="section-login" class="wrap hidden">
   <div class="card">
     <h2>Welcome back</h2>
-    <p>Log in to continue your research with ScholarBot.</p>
-    <div id="login-error" class="form-error hidden"></div>
-    <div class="field-group">
-      <label class="field-label">Email Address</label>
-      <input type="email" id="li-email" placeholder="ada@example.com"/>
-    </div>
-    <div class="field-group">
-      <label class="field-label">Password</label>
-      <input type="password" id="li-password" placeholder="Your password"/>
-    </div>
-    <button class="btn-gold" onclick="logIn()">Log In →</button>
+    <p>Log in to continue your research.</p>
+    <div id="li-err" class="form-err hidden"></div>
+    <div class="fg"><label class="fl">Email</label><input type="email" id="li-em" placeholder="ada@example.com"/></div>
+    <div class="fg"><label class="fl">Password</label><input type="password" id="li-pw" placeholder="Your password"/></div>
+    <button class="btn-action" onclick="logIn()">Log In →</button>
     <div class="divider">or</div>
-    <div class="link-switch">Don't have an account? <a onclick="showSection('signup')">Sign up free</a></div>
-    <p class="back-link" onclick="showSection('hero')">← Back to home</p>
+    <div class="sw">No account? <a onclick="showSection('signup')">Sign up free</a></div>
+    <p class="back" onclick="showSection('hero')">← Back to home</p>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════ -->
-<!-- INPUT                                     -->
-<!-- ══════════════════════════════════════════ -->
-<section id="section-input" class="input-wrap hidden">
+<!-- ══ INPUT ══ -->
+<section id="section-input" class="wrap hidden">
   <div class="card card-wide">
     <h2>Start your research</h2>
-    <p>Enter your topic below. The more specific you are, the better the output.</p>
-    <div class="field-group">
-      <label class="field-label">Research Topic *</label>
+    <p>The more specific your topic, the sharper the output.</p>
+    <div class="fg"><label class="fl">Research Topic *</label>
       <textarea id="topic-input" placeholder="e.g. Federated learning and data privacy in healthcare systems..." maxlength="500"></textarea>
     </div>
-    <div class="row-2">
-      <div class="field-group">
-        <label class="field-label">Academic Level</label>
-        <select id="level-select">
+    <div class="r2">
+      <div class="fg"><label class="fl">Academic Level</label>
+        <select id="lv-sel">
           <option value="Masters">Masters (MSc)</option>
           <option value="PhD">PhD / Doctoral</option>
           <option value="Undergraduate">Undergraduate</option>
+          <option value="Researcher">Researcher</option>
         </select>
       </div>
-      <div class="field-group">
-        <label class="field-label">Discipline</label>
-        <select id="discipline-select">
+      <div class="fg"><label class="fl">Discipline</label>
+        <select id="di-sel">
           <option value="Data Science">Data Science</option>
           <option value="Computer Science">Computer Science</option>
           <option value="Artificial Intelligence">Artificial Intelligence</option>
           <option value="Cyber Security">Cyber Security</option>
           <option value="Big Data">Big Data</option>
+          <option value="Medicine & Health">Medicine &amp; Health</option>
+          <option value="Business & Finance">Business &amp; Finance</option>
+          <option value="Engineering">Engineering</option>
           <option value="Other">Other</option>
         </select>
       </div>
     </div>
-    <div class="field-group">
-      <label class="field-label">Include in Report</label>
-      <div class="checkboxes">
-        <label class="checkbox-item"><input type="checkbox" id="cb-ideas" checked/>Research ideas and unique angles</label>
-        <label class="checkbox-item"><input type="checkbox" id="cb-gaps" checked/>Research gaps and originality opportunities</label>
-        <label class="checkbox-item"><input type="checkbox" id="cb-review" checked/>Full detailed literature review</label>
-        <label class="checkbox-item"><input type="checkbox" id="cb-roadmap" checked/>Execution roadmap and methodology guide</label>
+    <div class="fg"><label class="fl">Include in Report</label>
+      <div class="checks">
+        <label class="ch"><input type="checkbox" id="cb-ideas" checked/>Research ideas and unique angles</label>
+        <label class="ch"><input type="checkbox" id="cb-gaps"  checked/>Research gaps and originality opportunities</label>
+        <label class="ch"><input type="checkbox" id="cb-rev"   checked/>Full detailed literature review</label>
+        <label class="ch"><input type="checkbox" id="cb-road"  checked/>Execution roadmap and methodology guide</label>
       </div>
     </div>
-    <button class="btn-gold" id="btn-generate" onclick="startGeneration()">Generate Research Report →</button>
-    <p class="back-link" onclick="showSection('hero')">← Back to home</p>
+    <button class="btn-action" id="btn-gen" onclick="startGen()">Generate Report →</button>
+    <p class="back" onclick="showSection('hero')">← Back to home</p>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════ -->
-<!-- LOADING                                   -->
-<!-- ══════════════════════════════════════════ -->
+<!-- ══ LOADING ══ -->
 <section id="section-loading" class="hidden">
-  <h2 class="loading-title">Agents are working…</h2>
-  <p class="loading-sub">This usually takes 20–40 seconds. Please wait.</p>
-  <div class="agent-pipeline">
-    <div class="agent-box" id="agent1-box">
-      <div class="agent-box-header">
-        <span class="agent-name">🔍 Research Scout</span>
-        <span class="agent-status" id="agent1-status">Waiting</span>
-      </div>
-      <p class="agent-desc">Searching for real papers, identifying themes and gaps</p>
-    </div>
-    <div class="pipeline-arrow"></div>
-    <div class="agent-box" id="agent2-box">
-      <div class="agent-box-header">
-        <span class="agent-name">✍️ Academic Writer</span>
-        <span class="agent-status" id="agent2-status">Waiting</span>
-      </div>
-      <p class="agent-desc">Synthesising findings into a full academic report</p>
-    </div>
+  <h2 class="ld-title">Agents are working…</h2>
+  <p class="ld-sub">This usually takes 20–40 seconds.</p>
+
+  <!-- Neural SVG pipeline animation -->
+  <div class="neural-wrap">
+    <svg class="neural-svg" width="320" height="160" viewBox="0 0 320 160">
+      <!-- connecting line -->
+      <path id="n-conn" class="n-line" d="M 110 80 Q 160 80 210 80"/>
+      <!-- Agent 1 node -->
+      <rect id="n1-rect" class="n-node waiting" x="10" y="40" width="100" height="80" rx="12"/>
+      <text class="n-label" x="60" y="70">🔍</text>
+      <text class="n-label" x="60" y="86" style="font-size:10px">Research</text>
+      <text class="n-label" x="60" y="98" style="font-size:10px">Scout</text>
+      <text id="n1-status" class="n-status" x="60" y="112" style="fill:#475569">Waiting</text>
+      <!-- Agent 2 node -->
+      <rect id="n2-rect" class="n-node waiting" x="210" y="40" width="100" height="80" rx="12"/>
+      <text class="n-label" x="260" y="70">✍️</text>
+      <text class="n-label" x="260" y="86" style="font-size:10px">Academic</text>
+      <text class="n-label" x="260" y="98" style="font-size:10px">Writer</text>
+      <text id="n2-status" class="n-status" x="260" y="112" style="fill:#475569">Waiting</text>
+    </svg>
   </div>
+
   <div class="spinner"></div>
-  <p class="loading-status-text" id="loading-status">Connecting to AI pipeline…</p>
+  <p class="ld-status" id="ld-txt">Connecting to AI pipeline…</p>
 </section>
 
-<!-- ══════════════════════════════════════════ -->
-<!-- RESULTS                                   -->
-<!-- ══════════════════════════════════════════ -->
+<!-- ══ RESULTS ══ -->
 <section id="section-results" class="hidden">
-  <div class="results-header">
-    <div class="results-topic-label">Research Report</div>
-    <div class="results-topic-text" id="results-topic-text"></div>
-    <div class="results-meta">
-      <div class="results-meta-item">Level: <span id="meta-level">—</span></div>
-      <div class="results-meta-item">Discipline: <span id="meta-discipline">—</span></div>
-      <div class="results-meta-item">By: <span id="meta-user">—</span></div>
-      <div class="results-meta-item">Generated: <span id="meta-date">—</span></div>
+  <div class="r-header">
+    <div class="r-tag">Research Report</div>
+    <div class="r-title" id="r-topic"></div>
+    <div class="r-meta">
+      <div class="r-meta-i">Level: <span id="m-lv">—</span></div>
+      <div class="r-meta-i">Discipline: <span id="m-di">—</span></div>
+      <div class="r-meta-i">By: <span id="m-user">—</span></div>
+      <div class="r-meta-i" id="m-inst-wrap" style="display:none">Institution: <span id="m-inst">—</span></div>
+      <div class="r-meta-i">Generated: <span id="m-date">—</span></div>
     </div>
   </div>
-  <div class="error-box hidden" id="error-box"><strong>Something went wrong.</strong><br/><span id="error-message"></span></div>
-  <div class="results-toolbar">
-    <span class="toolbar-left">5 sections generated</span>
-    <div class="toolbar-right">
-      <button class="btn-sm" onclick="setAllAcc(true)">Expand all</button>
-      <button class="btn-sm" onclick="setAllAcc(false)">Collapse all</button>
+
+  <div class="err-box hidden" id="err-box"><strong>Something went wrong.</strong><br/><span id="err-msg"></span></div>
+
+  <div class="r-toolbar">
+    <span class="r-toolbar-l">5 sections generated</span>
+    <div class="r-toolbar-r">
+      <button class="btn-sm" onclick="setAll(true)">Expand all</button>
+      <button class="btn-sm" onclick="setAll(false)">Collapse all</button>
     </div>
   </div>
-  <div class="accordion" id="results-accordion">
+
+  <div class="accordion">
     <div class="acc-item open" id="acc-ideas">
-      <div class="acc-header" onclick="toggleAcc('acc-ideas')">
-        <div class="acc-header-left"><div class="acc-icon icon-ideas">💡</div><div><div class="acc-title">Research Ideas</div><div class="acc-count">Unique angles to explore</div></div></div>
-        <div class="acc-header-right"><button class="acc-copy" onclick="copySection(event,'content-ideas')">Copy</button><div class="acc-chevron">▾</div></div>
+      <div class="acc-h" onclick="tog('acc-ideas')">
+        <div class="acc-hl"><div class="acc-icon i-ideas">💡</div><div><div class="acc-title">Research Ideas</div><div class="acc-sub">Unique angles to explore</div></div></div>
+        <div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-ideas')">Copy</button><div class="acc-chev">▾</div></div>
       </div>
-      <div class="acc-body"><div class="acc-content" id="content-ideas">Loading…</div></div>
+      <div class="acc-body"><div class="acc-content" id="c-ideas">Loading…</div></div>
     </div>
     <div class="acc-item open" id="acc-papers">
-      <div class="acc-header" onclick="toggleAcc('acc-papers')">
-        <div class="acc-header-left"><div class="acc-icon icon-papers">📄</div><div><div class="acc-title">Relevant Papers</div><div class="acc-count">Real, verified academic papers</div></div></div>
-        <div class="acc-header-right"><button class="acc-copy" onclick="copySection(event,'content-papers')">Copy</button><div class="acc-chevron">▾</div></div>
+      <div class="acc-h" onclick="tog('acc-papers')">
+        <div class="acc-hl"><div class="acc-icon i-papers">📄</div><div><div class="acc-title">Relevant Papers</div><div class="acc-sub">Real, verified academic papers</div></div></div>
+        <div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-papers')">Copy</button><div class="acc-chev">▾</div></div>
       </div>
-      <div class="acc-body"><div class="acc-content" id="content-papers">Loading…</div></div>
+      <div class="acc-body"><div class="acc-content" id="c-papers">Loading…</div></div>
     </div>
     <div class="acc-item" id="acc-gaps">
-      <div class="acc-header" onclick="toggleAcc('acc-gaps')">
-        <div class="acc-header-left"><div class="acc-icon icon-gaps">🔍</div><div><div class="acc-title">Research Gaps</div><div class="acc-count">Where your original contribution can go</div></div></div>
-        <div class="acc-header-right"><button class="acc-copy" onclick="copySection(event,'content-gaps')">Copy</button><div class="acc-chevron">▾</div></div>
+      <div class="acc-h" onclick="tog('acc-gaps')">
+        <div class="acc-hl"><div class="acc-icon i-gaps">🔍</div><div><div class="acc-title">Research Gaps</div><div class="acc-sub">Where your original contribution can go</div></div></div>
+        <div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-gaps')">Copy</button><div class="acc-chev">▾</div></div>
       </div>
-      <div class="acc-body"><div class="acc-content" id="content-gaps">Loading…</div></div>
+      <div class="acc-body"><div class="acc-content" id="c-gaps">Loading…</div></div>
     </div>
-    <div class="acc-item" id="acc-review">
-      <div class="acc-header" onclick="toggleAcc('acc-review')">
-        <div class="acc-header-left"><div class="acc-icon icon-review">📚</div><div><div class="acc-title">Literature Review</div><div class="acc-count">Full academic-quality writeup</div></div></div>
-        <div class="acc-header-right"><button class="acc-copy" onclick="copySection(event,'content-review')">Copy</button><div class="acc-chevron">▾</div></div>
+    <div class="acc-item" id="acc-rev">
+      <div class="acc-h" onclick="tog('acc-rev')">
+        <div class="acc-hl"><div class="acc-icon i-review">📚</div><div><div class="acc-title">Literature Review</div><div class="acc-sub">Full academic-quality writeup</div></div></div>
+        <div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-rev')">Copy</button><div class="acc-chev">▾</div></div>
       </div>
-      <div class="acc-body"><div class="acc-content" id="content-review">Loading…</div></div>
+      <div class="acc-body"><div class="acc-content" id="c-rev">Loading…</div></div>
     </div>
-    <div class="acc-item" id="acc-roadmap">
-      <div class="acc-header" onclick="toggleAcc('acc-roadmap')">
-        <div class="acc-header-left"><div class="acc-icon icon-roadmap">🗺️</div><div><div class="acc-title">Execution Roadmap</div><div class="acc-count">How to go about this research</div></div></div>
-        <div class="acc-header-right"><button class="acc-copy" onclick="copySection(event,'content-roadmap')">Copy</button><div class="acc-chevron">▾</div></div>
+    <div class="acc-item" id="acc-road">
+      <div class="acc-h" onclick="tog('acc-road')">
+        <div class="acc-hl"><div class="acc-icon i-roadmap">🗺️</div><div><div class="acc-title">Execution Roadmap</div><div class="acc-sub">How to go about this research</div></div></div>
+        <div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-road')">Copy</button><div class="acc-chev">▾</div></div>
       </div>
-      <div class="acc-body"><div class="acc-content" id="content-roadmap">Loading…</div></div>
+      <div class="acc-body"><div class="acc-content" id="c-road">Loading…</div></div>
     </div>
-    <div class="acc-item raw-output hidden" id="acc-raw">
-      <div class="acc-header" onclick="toggleAcc('acc-raw')">
-        <div class="acc-header-left"><div class="acc-icon icon-raw">📋</div><div><div class="acc-title">Full Agent Output</div><div class="acc-count">Raw response — view if sections above appear empty</div></div></div>
-        <div class="acc-header-right"><button class="acc-copy" onclick="copySection(event,'content-raw')">Copy all</button><div class="acc-chevron">▾</div></div>
+    <div class="acc-item hidden" id="acc-raw">
+      <div class="acc-h" onclick="tog('acc-raw')">
+        <div class="acc-hl"><div class="acc-icon i-raw">📋</div><div><div class="acc-title">Full Agent Output</div><div class="acc-sub">Raw response — view if sections above appear empty</div></div></div>
+        <div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-raw')">Copy all</button><div class="acc-chev">▾</div></div>
       </div>
-      <div class="acc-body"><div class="acc-content" id="content-raw"></div></div>
+      <div class="acc-body"><div class="acc-content" id="c-raw"></div></div>
     </div>
   </div>
 
-  <!-- Citation formatter -->
-  <div class="citation-bar">
-    <label>Reformat paper references as:</label>
-    <select id="citation-style">
+  <div class="cite-bar">
+    <label>Reformat references as:</label>
+    <select id="cite-sty">
       <option value="APA">APA 7th Edition</option>
       <option value="Harvard">Harvard</option>
       <option value="IEEE">IEEE</option>
       <option value="Chicago">Chicago</option>
     </select>
-    <button class="btn-reformat" id="btn-reformat" onclick="reformatCitations()">Apply Style</button>
+    <button class="btn-ref" id="btn-ref" onclick="reformat()">Apply Style</button>
   </div>
 
-  <!-- Download bar -->
-  <div class="download-bar">
-    <div class="download-bar-text">
+  <div class="dl-bar">
+    <div class="dl-bar-text">
       <h4>⬇ Download your full report</h4>
       <p>All five sections — choose your preferred format</p>
     </div>
-    <div class="download-actions">
-      <button class="btn-pdf"        onclick="downloadPDF()">PDF</button>
-      <button class="btn-word"       onclick="downloadWord()">Word (.doc)</button>
-      <button class="btn-new-search" onclick="newSearch()">New Search</button>
+    <div class="dl-actions">
+      <button class="btn-pdf"  onclick="downloadPDF()">PDF</button>
+      <button class="btn-word" onclick="downloadWord()">Word (.doc)</button>
+      <button class="btn-new"  onclick="newSearch()">New Search</button>
     </div>
   </div>
 </section>
 
-<footer>ScholarBot &mdash; Built for <a href="#">LD7237 Hackathon</a> &middot; MSc Big Data &amp; Data Science Technologies &middot; University of East London &middot; 2025–2026</footer>
+<footer>
+  <strong>ScholarBot</strong> · Research Intelligence<br/>
+  <span style="margin-top:6px;display:block">
+    Built with <a href="https://flowiseai.com" target="_blank">Flowise</a> &amp; Gemini AI ·
+    <a href="#" onclick="showSection('signup');return false">Get started free</a>
+  </span>
+</footer>
 
 <script>
-// ════════════════════════════════════════════════════════
-// FLOWISE API — live endpoint
-// ════════════════════════════════════════════════════════
-const FLOWISE_API_URL =
-  'https://cloud.flowiseai.com/api/v1/prediction/2ae796b1-b682-4ad6-9d0d-61e3905dd345';
+// ══ CONFIG ══
+const API = 'https://cloud.flowiseai.com/api/v1/prediction/2ae796b1-b682-4ad6-9d0d-61e3905dd345';
 
-// ── STATE ─────────────────────────────────────────────
-let currentTopic      = '';
-let currentLevel      = '';
-let currentDiscipline = '';
-let fullReportText    = '';
-let sessionId         = null;
-let currentUser       = null;
+// ══ STATE ══
+let topic='', level='', discipline='', institution='', fullText='', sessionId=null, user=null;
 
-// ── SECTIONS ──────────────────────────────────────────
-const ALL_SECTIONS = ['hero','signup','login','input','loading','results'];
+// ══ SECTIONS ══
+const SECS=['hero','signup','login','input','loading','results'];
+function showSection(n){
+  SECS.forEach(s=>{const e=document.getElementById('section-'+s);if(e)e.classList.toggle('hidden',s!==n)});
+  document.getElementById('nav-dl').classList.toggle('hidden',n!=='results');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goHome(){showSection('hero')}
+function handleStart(){showSection(user?'input':'signup')}
+function newSearch(){sessionId=null;showSection('input')}
 
-function showSection(name) {
-  ALL_SECTIONS.forEach(s => {
-    const el = document.getElementById('section-' + s);
-    if (el) el.classList.toggle('hidden', s !== name);
-  });
-  document.getElementById('nav-pdf-btn').classList.toggle('hidden', name !== 'results');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+// ══ TOAST ══
+let _tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.remove('hidden');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.add('hidden'),2800)}
 
-// ── TOAST ─────────────────────────────────────────────
-let toastTimer;
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.remove('hidden');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.add('hidden'), 2800);
-}
-
-// ── AUTH HELPERS ──────────────────────────────────────
-function getUsers() {
-  return JSON.parse(localStorage.getItem('sb_users') || '[]');
-}
-function saveUsers(users) {
-  localStorage.setItem('sb_users', JSON.stringify(users));
-}
-function hashPass(p) {
-  // Simple hash for demo — use a proper backend for production
-  let h = 0;
-  for (let i = 0; i < p.length; i++) { h = (Math.imul(31, h) + p.charCodeAt(i)) | 0; }
-  return h.toString(36);
-}
-function updateNavUser(user) {
-  if (!user) {
-    document.getElementById('nav-user').classList.add('hidden');
-    return;
-  }
+// ══ AUTH ══
+function getUsers(){return JSON.parse(localStorage.getItem('sb_u')||'[]')}
+function saveUsers(u){localStorage.setItem('sb_u',JSON.stringify(u))}
+function hp(p){let h=0;for(let i=0;i<p.length;i++){h=(Math.imul(31,h)+p.charCodeAt(i))|0}return h.toString(36)}
+function setNavUser(u){
+  if(!u){document.getElementById('nav-user').classList.add('hidden');return}
   document.getElementById('nav-user').classList.remove('hidden');
-  document.getElementById('nav-username').textContent = user.firstName;
-  document.getElementById('nav-avatar').textContent = user.firstName[0].toUpperCase();
+  document.getElementById('nav-name').textContent=u.fn;
+  document.getElementById('nav-av').textContent=u.fn[0].toUpperCase();
+}
+function showErr(id,msg){const e=document.getElementById(id);e.textContent=msg;e.classList.remove('hidden')}
+
+function signUp(){
+  document.getElementById('su-err').classList.add('hidden');
+  const fn=document.getElementById('su-fn').value.trim();
+  const ln=document.getElementById('su-ln').value.trim();
+  const em=document.getElementById('su-em').value.trim().toLowerCase();
+  const pw=document.getElementById('su-pw').value;
+  const inst=document.getElementById('su-inst').value.trim();
+  const lv=document.getElementById('su-lv').value;
+  if(!fn||!ln)return showErr('su-err','Please enter your first and last name.');
+  if(!em.includes('@'))return showErr('su-err','Please enter a valid email address.');
+  if(pw.length<6)return showErr('su-err','Password must be at least 6 characters.');
+  const users=getUsers();
+  if(users.find(u=>u.em===em))return showErr('su-err','An account with this email already exists. Log in instead.');
+  const u={fn,ln,em,pw:hp(pw),inst,lv,at:Date.now()};
+  users.push(u);saveUsers(users);
+  user=u;localStorage.setItem('sb_s',JSON.stringify(u));
+  setNavUser(u);
+  document.getElementById('lv-sel').value=lv;
+  toast(`Welcome, ${fn}! 🎉`);showSection('input');
 }
 
-// ── SIGN UP ───────────────────────────────────────────
-function signUp() {
-  const err   = document.getElementById('signup-error');
-  err.classList.add('hidden');
-  const fn    = document.getElementById('su-firstname').value.trim();
-  const ln    = document.getElementById('su-lastname').value.trim();
-  const email = document.getElementById('su-email').value.trim().toLowerCase();
-  const pass  = document.getElementById('su-password').value;
-  const level = document.getElementById('su-level').value;
-
-  if (!fn || !ln)    { return showErr(err, 'Please enter your first and last name.'); }
-  if (!email.includes('@')) { return showErr(err, 'Please enter a valid email address.'); }
-  if (pass.length < 6)      { return showErr(err, 'Password must be at least 6 characters.'); }
-
-  const users = getUsers();
-  if (users.find(u => u.email === email)) {
-    return showErr(err, 'An account with this email already exists. Please log in.');
-  }
-
-  const user = { firstName: fn, lastName: ln, email, password: hashPass(pass), level, createdAt: Date.now() };
-  users.push(user);
-  saveUsers(users);
-  currentUser = user;
-  localStorage.setItem('sb_session', JSON.stringify(user));
-  updateNavUser(user);
-  // pre-fill level from signup
-  document.getElementById('level-select').value = level;
-  showToast(`Welcome, ${fn}! 🎓`);
-  showSection('input');
+function logIn(){
+  document.getElementById('li-err').classList.add('hidden');
+  const em=document.getElementById('li-em').value.trim().toLowerCase();
+  const pw=document.getElementById('li-pw').value;
+  const u=getUsers().find(u=>u.em===em&&u.pw===hp(pw));
+  if(!u)return showErr('li-err','Email or password is incorrect.');
+  user=u;localStorage.setItem('sb_s',JSON.stringify(u));
+  setNavUser(u);
+  document.getElementById('lv-sel').value=u.lv||'Masters';
+  toast(`Welcome back, ${u.fn}!`);showSection('input');
 }
 
-function showErr(el, msg) {
-  el.textContent = msg;
-  el.classList.remove('hidden');
+function logout(){
+  user=null;sessionId=null;
+  localStorage.removeItem('sb_s');
+  setNavUser(null);toast('Logged out.');showSection('hero');
 }
 
-// ── LOG IN ────────────────────────────────────────────
-function logIn() {
-  const err   = document.getElementById('login-error');
-  err.classList.add('hidden');
-  const email = document.getElementById('li-email').value.trim().toLowerCase();
-  const pass  = document.getElementById('li-password').value;
+// ══ ACCORDION ══
+function tog(id){document.getElementById(id).classList.toggle('open')}
+function setAll(o){document.querySelectorAll('.acc-item').forEach(e=>e.classList.toggle('open',o))}
+function cp(e,id){e.stopPropagation();navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>toast('Copied ✓'))}
 
-  const users = getUsers();
-  const user  = users.find(u => u.email === email && u.password === hashPass(pass));
-  if (!user) return showErr(err, 'Email or password is incorrect. Please try again.');
-
-  currentUser = user;
-  localStorage.setItem('sb_session', JSON.stringify(user));
-  updateNavUser(user);
-  document.getElementById('level-select').value = user.level || 'Masters';
-  showToast(`Welcome back, ${user.firstName}!`);
-  showSection('input');
-}
-
-// ── LOG OUT ───────────────────────────────────────────
-function logout() {
-  currentUser = null;
-  sessionId   = null;
-  localStorage.removeItem('sb_session');
-  updateNavUser(null);
-  showToast('Logged out successfully.');
-  showSection('hero');
-}
-
-// ── HANDLE START CLICK ────────────────────────────────
-function handleStartClick() {
-  if (currentUser) {
-    showSection('input');
-  } else {
-    showSection('signup');
+// ══ AGENT ANIMATION ══
+function setAgent(n,state){
+  const rect=document.getElementById('n'+n+'-rect');
+  const stat=document.getElementById('n'+n+'-status');
+  rect.className.baseVal='n-node '+state;
+  const labels={waiting:'Waiting',active:'Working…',done:'Done ✓'};
+  stat.textContent=labels[state]||state;
+  stat.style.fill=state==='active'?'#6366F1':state==='done'?'#10B981':'#475569';
+  if(state==='active'&&n===2){
+    const line=document.getElementById('n-conn');
+    line.classList.add('active');
   }
 }
+function setLdTxt(m){document.getElementById('ld-txt').textContent=m}
 
-function goHome() {
-  showSection('hero');
+// ══ PROMPT ══
+function buildPrompt(){
+  const t=document.getElementById('topic-input').value.trim();
+  const lv=document.getElementById('lv-sel').value;
+  const di=document.getElementById('di-sel').value;
+  const secs=['RELEVANT PAPERS'];
+  if(document.getElementById('cb-ideas').checked)secs.push('RESEARCH IDEAS');
+  if(document.getElementById('cb-gaps').checked)secs.push('RESEARCH GAPS');
+  if(document.getElementById('cb-rev').checked)secs.push('LITERATURE REVIEW');
+  if(document.getElementById('cb-road').checked)secs.push('EXECUTION ROADMAP');
+  return`Research topic: ${t}\nAcademic level: ${lv}\nDiscipline: ${di}\nSections to include: ${secs.join(', ')}\n\nProduce a structured academic research report on this topic.`;
 }
 
-function newSearch() {
-  sessionId = null;
-  showSection('input');
-}
-
-// ── ACCORDION ─────────────────────────────────────────
-function toggleAcc(id) { document.getElementById(id).classList.toggle('open'); }
-function setAllAcc(open) { document.querySelectorAll('.acc-item').forEach(el => el.classList.toggle('open', open)); }
-
-// ── COPY SECTION ──────────────────────────────────────
-function copySection(e, id) {
-  e.stopPropagation();
-  navigator.clipboard.writeText(document.getElementById(id).textContent)
-    .then(() => showToast('Copied to clipboard ✓'));
-}
-
-// ── LOADING HELPERS ───────────────────────────────────
-function setAgent(num, state) {
-  const box    = document.getElementById('agent' + num + '-box');
-  const status = document.getElementById('agent' + num + '-status');
-  box.className = 'agent-box' + (state !== 'waiting' ? ' ' + state : '');
-  status.textContent = { waiting:'Waiting', active:'Working…', done:'Done ✓' }[state] || state;
-}
-function setLoadingStatus(msg) { document.getElementById('loading-status').textContent = msg; }
-
-// ── BUILD PROMPT ──────────────────────────────────────
-function buildPrompt() {
-  const topic      = document.getElementById('topic-input').value.trim();
-  const level      = document.getElementById('level-select').value;
-  const discipline = document.getElementById('discipline-select').value;
-  const secs       = ['RELEVANT PAPERS'];
-  if (document.getElementById('cb-ideas').checked)   secs.push('RESEARCH IDEAS');
-  if (document.getElementById('cb-gaps').checked)    secs.push('RESEARCH GAPS');
-  if (document.getElementById('cb-review').checked)  secs.push('LITERATURE REVIEW');
-  if (document.getElementById('cb-roadmap').checked) secs.push('EXECUTION ROADMAP');
-  return `Research topic: ${topic}\nAcademic level: ${level}\nDiscipline: ${discipline}\nSections to include: ${secs.join(', ')}\n\nPlease produce a structured academic research report on this topic.`;
-}
-
-// ── PARSE RESPONSE ────────────────────────────────────
-function parseResponse(text) {
-  const out = { ideas:'', papers:'', gaps:'', review:'', roadmap:'' };
-  const t   = text.replace(/\*\*/g,'').replace(/#{1,3}\s*/g,'');
-  const pats = {
-    ideas:   /(?:\d[.):]?\s*)?RESEARCH IDEAS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RELEVANT PAPERS?|$)/i,
-    papers:  /(?:\d[.):]?\s*)?RELEVANT PAPERS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RESEARCH GAPS?|$)/i,
-    gaps:    /(?:\d[.):]?\s*)?RESEARCH GAPS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?LITERATURE REVIEW|$)/i,
-    review:  /(?:\d[.):]?\s*)?LITERATURE REVIEW\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?EXECUTION ROADMAP|$)/i,
-    roadmap: /(?:\d[.):]?\s*)?EXECUTION ROADMAP\s*\n([\s\S]*?)$/i,
+// ══ PARSE ══
+function parse(text){
+  const out={ideas:'',papers:'',gaps:'',rev:'',road:''};
+  const t=text.replace(/\*\*/g,'').replace(/#{1,3}\s*/g,'');
+  const ps={
+    ideas:/(?:\d[.):]?\s*)?RESEARCH IDEAS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RELEVANT PAPERS?|$)/i,
+    papers:/(?:\d[.):]?\s*)?RELEVANT PAPERS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RESEARCH GAPS?|$)/i,
+    gaps:/(?:\d[.):]?\s*)?RESEARCH GAPS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?LITERATURE REVIEW|$)/i,
+    rev:/(?:\d[.):]?\s*)?LITERATURE REVIEW\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?EXECUTION ROADMAP|$)/i,
+    road:/(?:\d[.):]?\s*)?EXECUTION ROADMAP\s*\n([\s\S]*?)$/i,
   };
-  let anyParsed = false;
-  for (const [k, r] of Object.entries(pats)) {
-    const m = t.match(r);
-    if (m && m[1].trim().length > 10) { out[k] = m[1].trim(); anyParsed = true; }
-  }
-  return { sections: out, anyParsed };
+  let any=false;
+  for(const[k,r]of Object.entries(ps)){const m=t.match(r);if(m&&m[1].trim().length>10){out[k]=m[1].trim();any=true;}}
+  return{sec:out,any};
 }
 
-// ── CALL FLOWISE ──────────────────────────────────────
-async function callFlowise(prompt) {
-  const body = { question: prompt };
-  if (sessionId) body.sessionId = sessionId;
-  const res = await fetch(FLOWISE_API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) { const e = await res.text(); throw new Error(`API ${res.status}: ${e}`); }
-  const data = await res.json();
-  if (data.sessionId) sessionId = data.sessionId;
-  return data.text || data.answer || data.output || JSON.stringify(data);
+// ══ API CALL ══
+async function callAPI(prompt){
+  const body={question:prompt};
+  if(sessionId)body.sessionId=sessionId;
+  const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!res.ok){const e=await res.text();throw new Error(`API ${res.status}: ${e}`);}
+  const d=await res.json();
+  if(d.sessionId)sessionId=d.sessionId;
+  return d.text||d.answer||d.output||JSON.stringify(d);
 }
 
-// ── MAIN GENERATION ───────────────────────────────────
-async function startGeneration() {
-  const topic = document.getElementById('topic-input').value.trim();
-  if (!topic) { alert('Please enter a research topic.'); return; }
-
-  currentTopic      = topic;
-  currentLevel      = document.getElementById('level-select').value;
-  currentDiscipline = document.getElementById('discipline-select').value;
-
+// ══ GENERATION ══
+async function startGen(){
+  const t=document.getElementById('topic-input').value.trim();
+  if(!t){alert('Please enter a research topic.');return;}
+  topic=t;
+  level=document.getElementById('lv-sel').value;
+  discipline=document.getElementById('di-sel').value;
+  institution=user?.inst||'';
   showSection('loading');
-  setAgent(1,'waiting'); setAgent(2,'waiting');
-  setLoadingStatus('Connecting to AI pipeline…');
-
-  try {
-    setAgent(1,'active');
-    setLoadingStatus('Research Scout is searching for papers…');
-    const raw = await callFlowise(buildPrompt());
-
-    setAgent(1,'done'); setAgent(2,'active');
-    setLoadingStatus('Academic Writer is synthesising your report…');
-    await new Promise(r => setTimeout(r, 1000));
-    setAgent(2,'done');
-    setLoadingStatus('Report ready!');
-
-    fullReportText = raw;
-    const { sections, anyParsed } = parseResponse(raw);
-    populateResults(sections, anyParsed, raw);
+  setAgent(1,'waiting');setAgent(2,'waiting');
+  setLdTxt('Connecting to AI pipeline…');
+  try{
+    setAgent(1,'active');setLdTxt('Research Scout is searching for papers…');
+    const raw=await callAPI(buildPrompt());
+    setAgent(1,'done');setAgent(2,'active');
+    setLdTxt('Academic Writer is synthesising your report…');
+    await new Promise(r=>setTimeout(r,900));
+    setAgent(2,'done');setLdTxt('Report ready!');
+    fullText=raw;
+    const{sec,any}=parse(raw);
+    populate(sec,any,raw);
     showSection('results');
-
-  } catch(err) {
+  }catch(err){
     showSection('results');
-    document.getElementById('error-box').classList.remove('hidden');
-    document.getElementById('error-message').textContent = err.message;
+    document.getElementById('err-box').classList.remove('hidden');
+    document.getElementById('err-msg').textContent=err.message;
   }
 }
 
-// ── POPULATE RESULTS ──────────────────────────────────
-function populateResults(sections, anyParsed, rawText) {
-  document.getElementById('results-topic-text').textContent = currentTopic;
-  document.getElementById('meta-level').textContent         = currentLevel;
-  document.getElementById('meta-discipline').textContent    = currentDiscipline;
-  document.getElementById('meta-user').textContent          = currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : 'Guest';
-  document.getElementById('meta-date').textContent          = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
-  document.getElementById('content-ideas').textContent   = sections.ideas   || 'Not included.';
-  document.getElementById('content-papers').textContent  = sections.papers  || 'Not included.';
-  document.getElementById('content-gaps').textContent    = sections.gaps    || 'Not included.';
-  document.getElementById('content-review').textContent  = sections.review  || 'Not included.';
-  document.getElementById('content-roadmap').textContent = sections.roadmap || 'Not included.';
-  document.getElementById('error-box').classList.add('hidden');
-  const rawAcc = document.getElementById('acc-raw');
-  if (!anyParsed && rawText) {
-    document.getElementById('content-raw').textContent = rawText;
-    rawAcc.classList.remove('hidden'); rawAcc.classList.add('open');
-  } else { rawAcc.classList.add('hidden'); }
+// ══ POPULATE ══
+function populate(sec,any,raw){
+  document.getElementById('r-topic').textContent=topic;
+  document.getElementById('m-lv').textContent=level;
+  document.getElementById('m-di').textContent=discipline;
+  document.getElementById('m-date').textContent=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('m-user').textContent=user?`${user.fn} ${user.ln}`:'Guest';
+  if(institution){
+    document.getElementById('m-inst').textContent=institution;
+    document.getElementById('m-inst-wrap').style.display='flex';
+  }
+  document.getElementById('c-ideas').textContent=sec.ideas||'Not included.';
+  document.getElementById('c-papers').textContent=sec.papers||'Not included.';
+  document.getElementById('c-gaps').textContent=sec.gaps||'Not included.';
+  document.getElementById('c-rev').textContent=sec.rev||'Not included.';
+  document.getElementById('c-road').textContent=sec.road||'Not included.';
+  document.getElementById('err-box').classList.add('hidden');
+  const rawEl=document.getElementById('acc-raw');
+  if(!any&&raw){document.getElementById('c-raw').textContent=raw;rawEl.classList.remove('hidden');rawEl.classList.add('open');}
+  else rawEl.classList.add('hidden');
 }
 
-// ── CITATION REFORMATTER ──────────────────────────────
-async function reformatCitations() {
-  const style = document.getElementById('citation-style').value;
-  const btn   = document.getElementById('btn-reformat');
-  btn.textContent = 'Reformatting…'; btn.disabled = true;
-  try {
-    const r = await callFlowise(`Reformat all paper references from the report on "${currentTopic}" into ${style} citation style. Return only the formatted reference list.`);
-    document.getElementById('content-papers').textContent = r;
+// ══ CITATION ══
+async function reformat(){
+  const sty=document.getElementById('cite-sty').value;
+  const btn=document.getElementById('btn-ref');
+  btn.textContent='Reformatting…';btn.disabled=true;
+  try{
+    const r=await callAPI(`Reformat all paper references from the report on "${topic}" into ${sty} citation style. Return only the formatted reference list.`);
+    document.getElementById('c-papers').textContent=r;
     document.getElementById('acc-papers').classList.add('open');
-    showToast(`References reformatted to ${style} ✓`);
-  } catch(e) { showToast('Could not reformat: ' + e.message); }
-  finally { btn.textContent = 'Apply Style'; btn.disabled = false; }
+    toast(`Reformatted to ${sty} ✓`);
+  }catch(e){toast('Could not reformat: '+e.message);}
+  finally{btn.textContent='Apply Style';btn.disabled=false;}
 }
 
-// ── PDF DOWNLOAD ──────────────────────────────────────
-function downloadPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc  = new jsPDF({ unit:'mm', format:'a4' });
-  const W    = doc.internal.pageSize.getWidth();
-  const H    = doc.internal.pageSize.getHeight();
-  const mg   = 18;
-  const maxW = W - mg * 2;
-  let y      = mg;
-
-  const addTxt = (text, size, style, col) => {
-    doc.setFontSize(size); doc.setFont('helvetica', style||'normal');
+// ══ PDF ══
+function downloadPDF(){
+  const{jsPDF}=window.jspdf;
+  const doc=new jsPDF({unit:'mm',format:'a4'});
+  const W=doc.internal.pageSize.getWidth(),H=doc.internal.pageSize.getHeight();
+  const mg=18,maxW=W-mg*2;let y=mg;
+  const add=(text,size,style,col)=>{
+    doc.setFontSize(size);doc.setFont('helvetica',style||'normal');
     doc.setTextColor(...(col||[40,40,40]));
-    doc.splitTextToSize(String(text), maxW).forEach(l => {
-      if (y > H - mg - 10) { doc.addPage(); y = mg; }
-      doc.text(l, mg, y); y += size * 0.42;
-    }); y += 3;
+    doc.splitTextToSize(String(text),maxW).forEach(l=>{
+      if(y>H-mg-10){doc.addPage();y=mg;}
+      doc.text(l,mg,y);y+=size*.42;
+    });y+=3;
   };
-  const addLine = () => {
-    if (y > H - mg - 12) { doc.addPage(); y = mg; }
-    doc.setDrawColor(201,168,76); doc.setLineWidth(.4);
-    doc.line(mg, y, W-mg, y); y += 5;
+  const line=()=>{
+    if(y>H-mg-12){doc.addPage();y=mg;}
+    doc.setDrawColor(79,70,229);doc.setLineWidth(.4);
+    doc.line(mg,y,W-mg,y);y+=5;
   };
-
   // Cover
-  doc.setFillColor(13,27,42); doc.rect(0,0,W,H,'F');
-  doc.setFillColor(201,168,76); doc.rect(0,H*.55,W,H*.45,'F');
-  doc.setFontSize(34); doc.setFont('helvetica','bold'); doc.setTextColor(201,168,76);
-  doc.text('ScholarBot', W/2, 68, {align:'center'});
-  doc.setFontSize(12); doc.setFont('helvetica','normal'); doc.setTextColor(200,210,220);
-  doc.text('AI-Powered Academic Research Report', W/2, 81, {align:'center'});
-  doc.setFontSize(13); doc.setFont('helvetica','bold'); doc.setTextColor(255,255,255);
-  doc.splitTextToSize(currentTopic, maxW).forEach((l,i)=>doc.text(l,W/2,100+i*7,{align:'center'}));
-  const cy = H*.58;
-  doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(13,27,42);
-  doc.text(`Level: ${currentLevel}`,      mg, cy+10);
-  doc.text(`Discipline: ${currentDiscipline}`, mg, cy+18);
-  doc.text(`By: ${currentUser ? currentUser.firstName+' '+currentUser.lastName : 'Guest'}`, mg, cy+26);
-  doc.text(`Date: ${document.getElementById('meta-date').textContent}`, mg, cy+34);
-  doc.setFontSize(8); doc.setTextColor(13,27,42);
-  doc.text('ScholarBot — LD7237 Hackathon | University of East London', W/2, H-8, {align:'center'});
-
-  doc.addPage(); y = mg;
-  addTxt('Research Topic', 9, 'normal', [120,120,120]);
-  addTxt(currentTopic, 17, 'bold', [13,27,42]); y+=2; addLine();
-
-  [
-    {label:'1.  RESEARCH IDEAS',    id:'content-ideas'},
-    {label:'2.  RELEVANT PAPERS',   id:'content-papers'},
-    {label:'3.  RESEARCH GAPS',     id:'content-gaps'},
-    {label:'4.  LITERATURE REVIEW', id:'content-review'},
-    {label:'5.  EXECUTION ROADMAP', id:'content-roadmap'},
-  ].forEach(({label,id}) => {
-    const c = document.getElementById(id).textContent;
-    if (!c || c==='Not included.') return;
-    y += 5; if (y > H-mg-20){doc.addPage();y=mg;}
-    addTxt(label, 13, 'bold', [13,27,42]); addLine();
-    addTxt(c, 10, 'normal', [40,40,40]); y += 4;
+  doc.setFillColor(8,11,26);doc.rect(0,0,W,H,'F');
+  // gradient bar
+  doc.setFillColor(79,70,229);doc.rect(0,H*.55,W,6,'F');
+  doc.setFillColor(6,182,212);doc.rect(0,H*.55+5,W,H*.45-5,'F');
+  doc.setFontSize(36);doc.setFont('helvetica','bold');doc.setTextColor(255,255,255);
+  doc.text('ScholarBot',W/2,64,{align:'center'});
+  doc.setFontSize(11);doc.setFont('helvetica','normal');doc.setTextColor(148,163,184);
+  doc.text('Research Intelligence',W/2,75,{align:'center'});
+  doc.setFontSize(13);doc.setFont('helvetica','bold');doc.setTextColor(238,242,255);
+  doc.splitTextToSize(topic,maxW).forEach((l,i)=>doc.text(l,W/2,96+i*7,{align:'center'}));
+  const cy=H*.58;
+  doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(8,11,26);
+  const meta=[
+    ['Level',level],['Discipline',discipline],
+    ['Researcher',user?`${user.fn} ${user.ln}`:'Guest'],
+  ];
+  if(institution)meta.push(['Institution',institution]);
+  meta.push(['Date',document.getElementById('m-date').textContent]);
+  meta.forEach(([k,v],i)=>{
+    doc.setFont('helvetica','bold');doc.text(k+':',mg,cy+8+i*8);
+    doc.setFont('helvetica','normal');doc.text(v,mg+28,cy+8+i*8);
   });
-
-  const pages = doc.internal.getNumberOfPages();
-  for (let i=2;i<=pages;i++) {
-    doc.setPage(i); doc.setFontSize(8); doc.setTextColor(160,160,160);
-    doc.text('ScholarBot — LD7237 Hackathon | University of East London', mg, H-8);
-    doc.text(`Page ${i-1} of ${pages-1}`, W-mg, H-8, {align:'right'});
+  doc.setFontSize(8);doc.setTextColor(8,11,26);
+  doc.text('scholarbot.app · Research Intelligence',W/2,H-8,{align:'center'});
+  // Content
+  doc.addPage();y=mg;
+  add('Research Topic',9,'normal',[120,120,120]);
+  add(topic,17,'bold',[8,11,26]);y+=2;line();
+  [
+    {label:'1.  RESEARCH IDEAS',id:'c-ideas'},
+    {label:'2.  RELEVANT PAPERS',id:'c-papers'},
+    {label:'3.  RESEARCH GAPS',id:'c-gaps'},
+    {label:'4.  LITERATURE REVIEW',id:'c-rev'},
+    {label:'5.  EXECUTION ROADMAP',id:'c-road'},
+  ].forEach(({label,id})=>{
+    const c=document.getElementById(id).textContent;
+    if(!c||c==='Not included.')return;
+    y+=5;if(y>H-mg-20){doc.addPage();y=mg;}
+    add(label,13,'bold',[8,11,26]);line();
+    add(c,10,'normal',[40,40,40]);y+=4;
+  });
+  // Footers
+  const pages=doc.internal.getNumberOfPages();
+  for(let i=2;i<=pages;i++){
+    doc.setPage(i);doc.setFontSize(8);doc.setTextColor(160,160,160);
+    doc.text('ScholarBot · Research Intelligence',mg,H-8);
+    doc.text(`Page ${i-1} of ${pages-1}`,W-mg,H-8,{align:'right'});
   }
-  doc.save('ScholarBot-' + currentTopic.slice(0,40).replace(/\s+/g,'-') + '.pdf');
-  showToast('PDF downloaded ✓');
+  doc.save('ScholarBot-'+topic.slice(0,40).replace(/\s+/g,'-')+'.pdf');
+  toast('PDF downloaded ✓');
 }
 
-// ── WORD DOC DOWNLOAD ─────────────────────────────────
-function downloadWord() {
-  const userName = currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : 'Guest';
-  const dateStr  = document.getElementById('meta-date').textContent;
-
-  const getSection = id => {
-    const t = document.getElementById(id).textContent;
-    return (!t || t === 'Not included.') ? '' : t;
+// ══ WORD ══
+function downloadWord(){
+  const userName=user?`${user.fn} ${user.ln}`:'Guest';
+  const dateStr=document.getElementById('m-date').textContent;
+  const g=id=>{const t=document.getElementById(id).textContent;return(!t||t==='Not included.')?'':t;};
+  const sh=(title,content)=>{
+    if(!content)return'';
+    const ps=content.split('\n').filter(l=>l.trim()).map(l=>`<p>${l}</p>`).join('');
+    return`<h2>${title}</h2>${ps}`;
   };
-
-  const secHtml = (title, content) => {
-    if (!content) return '';
-    const paragraphs = content.split('\n').filter(l=>l.trim()).map(l=>`<p>${l}</p>`).join('');
-    return `<h2 style="color:#0D1B2A;border-bottom:2px solid #C9A84C;padding-bottom:6px;margin-top:28px">${title}</h2>${paragraphs}`;
-  };
-
-  const html = `
-    <html xmlns:o="urn:schemas-microsoft-com:office:office"
-          xmlns:w="urn:schemas-microsoft-com:office:word"
-          xmlns="http://www.w3.org/TR/REC-html40">
-    <head>
-      <meta charset="utf-8"/>
-      <title>ScholarBot Report — ${currentTopic}</title>
-      <!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->
-      <style>
-        body { font-family: Calibri, 'Segoe UI', sans-serif; font-size: 11pt; color: #222; margin: 2.5cm; line-height: 1.6; }
-        h1   { font-family: 'Times New Roman', serif; font-size: 20pt; color: #0D1B2A; margin-bottom: 4pt; }
-        h2   { font-family: Calibri, sans-serif; font-size: 13pt; color: #0D1B2A; margin-top: 22pt; margin-bottom: 8pt; border-bottom: 1pt solid #C9A84C; padding-bottom: 4pt; }
-        p    { margin: 4pt 0; font-size: 11pt; }
-        .cover { text-align: center; padding: 60pt 0 40pt; border-bottom: 2pt solid #C9A84C; margin-bottom: 30pt; }
-        .cover h1 { font-size: 28pt; color: #C9A84C; letter-spacing: 2pt; }
-        .cover .subtitle { font-size: 13pt; color: #555; margin: 8pt 0 20pt; }
-        .cover .topic { font-size: 15pt; font-weight: bold; color: #0D1B2A; margin: 16pt 0 8pt; }
-        .meta-table { border-collapse: collapse; width: 100%; margin: 16pt 0; }
-        .meta-table td { padding: 5pt 8pt; font-size: 10pt; color: #555; border: 1pt solid #E0E0E0; }
-        .meta-table td:first-child { font-weight: bold; background: #F5F5F5; width: 30%; color: #333; }
-        .footer-note { margin-top: 40pt; padding-top: 8pt; border-top: 1pt solid #DDD; font-size: 9pt; color: #999; text-align: center; }
-      </style>
-    </head>
-    <body>
-      <div class="cover">
-        <h1>ScholarBot</h1>
-        <div class="subtitle">AI-Powered Academic Research Report</div>
-        <div class="topic">${currentTopic}</div>
-        <table class="meta-table">
-          <tr><td>Academic Level</td><td>${currentLevel}</td></tr>
-          <tr><td>Discipline</td><td>${currentDiscipline}</td></tr>
-          <tr><td>Researcher</td><td>${userName}</td></tr>
-          <tr><td>Generated</td><td>${dateStr}</td></tr>
-        </table>
-      </div>
-      ${secHtml('1. Research Ideas',    getSection('content-ideas'))}
-      ${secHtml('2. Relevant Papers',   getSection('content-papers'))}
-      ${secHtml('3. Research Gaps',     getSection('content-gaps'))}
-      ${secHtml('4. Literature Review', getSection('content-review'))}
-      ${secHtml('5. Execution Roadmap', getSection('content-roadmap'))}
-      <div class="footer-note">Generated by ScholarBot — LD7237 Hackathon | MSc Big Data &amp; Data Science Technologies | University of East London</div>
-    </body>
-    </html>`;
-
-  const blob     = new Blob([html], { type: 'application/msword' });
-  const url      = URL.createObjectURL(blob);
-  const a        = document.createElement('a');
-  a.href         = url;
-  a.download     = 'ScholarBot-' + currentTopic.slice(0,40).replace(/\s+/g,'-') + '.doc';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showToast('Word document downloaded ✓');
+  const instRow=institution?`<tr><td>Institution</td><td>${institution}</td></tr>`:'';
+  const html=`
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="utf-8"/><title>ScholarBot — ${topic}</title>
+<style>
+body{font-family:Calibri,sans-serif;font-size:11pt;color:#222;margin:2.5cm;line-height:1.6}
+h1{font-family:'Segoe UI',sans-serif;font-size:22pt;color:#4F46E5;margin-bottom:4pt}
+h2{font-family:'Segoe UI',sans-serif;font-size:13pt;color:#0D1124;margin-top:22pt;margin-bottom:8pt;border-bottom:1pt solid #4F46E5;padding-bottom:4pt}
+p{margin:4pt 0;font-size:11pt}
+.cover{text-align:center;padding:50pt 0 36pt;border-bottom:2pt solid #4F46E5;margin-bottom:28pt}
+.cover h1{font-size:30pt;color:#4F46E5;letter-spacing:1pt}
+.cover .sub{font-size:11pt;color:#64748B;margin:6pt 0 18pt}
+.cover .tp{font-size:14pt;font-weight:bold;color:#0D1124;margin:14pt 0 8pt}
+table{border-collapse:collapse;width:100%;margin:14pt 0}
+td{padding:5pt 8pt;font-size:10pt;border:1pt solid #E0E0E0;color:#555}
+td:first-child{font-weight:bold;background:#F8F8FF;width:28%;color:#333}
+.foot{margin-top:36pt;padding-top:8pt;border-top:1pt solid #DDD;font-size:9pt;color:#999;text-align:center}
+</style></head>
+<body>
+<div class="cover">
+  <h1>ScholarBot</h1>
+  <div class="sub">Research Intelligence</div>
+  <div class="tp">${topic}</div>
+  <table>
+    <tr><td>Academic Level</td><td>${level}</td></tr>
+    <tr><td>Discipline</td><td>${discipline}</td></tr>
+    <tr><td>Researcher</td><td>${userName}</td></tr>
+    ${instRow}
+    <tr><td>Generated</td><td>${dateStr}</td></tr>
+  </table>
+</div>
+${sh('1. Research Ideas',g('c-ideas'))}
+${sh('2. Relevant Papers',g('c-papers'))}
+${sh('3. Research Gaps',g('c-gaps'))}
+${sh('4. Literature Review',g('c-rev'))}
+${sh('5. Execution Roadmap',g('c-road'))}
+<div class="foot">ScholarBot · Research Intelligence · scholarbot.app</div>
+</body></html>`;
+  const blob=new Blob([html],{type:'application/msword'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='ScholarBot-'+topic.slice(0,40).replace(/\s+/g,'-')+'.doc';
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);
+  toast('Word document downloaded ✓');
 }
 
-// ── INIT — restore session on page load ───────────────
-(function init() {
-  const saved = localStorage.getItem('sb_session');
-  if (saved) {
-    try {
-      currentUser = JSON.parse(saved);
-      updateNavUser(currentUser);
-    } catch(e) { localStorage.removeItem('sb_session'); }
-  }
-  // Allow Enter key on login/signup
-  document.addEventListener('keydown', e => {
-    if (e.key !== 'Enter') return;
-    const active = ALL_SECTIONS.find(s => !document.getElementById('section-'+s).classList.contains('hidden'));
-    if (active === 'login')  logIn();
-    if (active === 'signup') signUp();
+// ══ INIT ══
+(function(){
+  const s=localStorage.getItem('sb_s');
+  if(s){try{user=JSON.parse(s);setNavUser(user);}catch(e){localStorage.removeItem('sb_s');}}
+  document.addEventListener('keydown',e=>{
+    if(e.key!=='Enter')return;
+    const a=SECS.find(s=>!document.getElementById('section-'+s).classList.contains('hidden'));
+    if(a==='login')logIn();
+    if(a==='signup')signUp();
   });
 })();
 </script>
