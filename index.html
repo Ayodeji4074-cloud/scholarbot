@@ -1,1230 +1,913 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ScholarBot — AI Academic Research Assistant</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --navy:#0D1B2A;--navy-mid:#1B2E42;--navy-card:#162336;
+      --gold:#C9A84C;--gold-soft:#F0D98B;
+      --white:#F8F9FA;--grey-300:#CBD5E1;--grey-500:#64748B;--grey-700:#334155;
+      --green:#22C55E;--red:#EF4444;--radius:12px;--shadow:0 4px 24px rgba(0,0,0,0.35);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--white);min-height:100vh;overflow-x:hidden}
+    .hidden{display:none!important}
 
-    :root {
-      --navy:      #0D1B2A;
-      --navy-mid:  #1B2E42;
-      --navy-card: #162336;
-      --gold:      #C9A84C;
-      --gold-soft: #F0D98B;
-      --white:     #F8F9FA;
-      --grey-300:  #CBD5E1;
-      --grey-500:  #64748B;
-      --grey-700:  #334155;
-      --green:     #22C55E;
-      --red:       #EF4444;
-      --radius:    12px;
-      --shadow:    0 4px 24px rgba(0,0,0,0.35);
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--navy);
-      color: var(--white);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    .hidden { display: none !important; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.4; }
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    @keyframes agentGlow {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
-      50%       { box-shadow: 0 0 0 8px rgba(201,168,76,0.25); }
-    }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes toastIn {
-      from { opacity: 0; transform: translateX(40px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
+    @keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes agentGlow{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0)}50%{box-shadow:0 0 0 8px rgba(201,168,76,.25)}}
+    @keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
 
     /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 40px;
-      background: rgba(13,27,42,0.9);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(201,168,76,0.15);
-    }
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .nav-logo-icon {
-      width: 36px; height: 36px;
-      background: linear-gradient(135deg, var(--gold), #8B6914);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-    }
-    .nav-logo-text {
-      font-family: 'DM Serif Display', serif;
-      font-size: 20px;
-      color: var(--white);
-    }
-    .nav-right { display: flex; align-items: center; gap: 12px; }
-    .nav-badge {
-      background: rgba(201,168,76,0.15);
-      border: 1px solid rgba(201,168,76,0.3);
-      color: var(--gold);
-      font-size: 11px;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 100px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-    /* floating PDF button in nav — shown only on results */
-    .nav-pdf-btn {
-      background: linear-gradient(135deg, var(--gold), #8B6914);
-      color: var(--navy);
-      border: none;
-      padding: 8px 18px;
-      border-radius: 100px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .nav-pdf-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(201,168,76,0.4);
-    }
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:14px 40px;background:rgba(13,27,42,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,.15)}
+    .nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
+    .nav-logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--gold),#8B6914);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+    .nav-logo-text{font-family:'DM Serif Display',serif;font-size:19px;color:var(--white)}
+    .nav-right{display:flex;align-items:center;gap:10px}
+    .nav-badge{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gold);font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;letter-spacing:.5px;text-transform:uppercase}
+    .nav-user{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--grey-300)}
+    .nav-user-avatar{width:30px;height:30px;background:linear-gradient(135deg,var(--gold),#8B6914);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--navy)}
+    .btn-nav-logout{background:transparent;border:1px solid rgba(203,213,225,.15);color:var(--grey-500);font-size:11px;padding:4px 12px;border-radius:100px;cursor:pointer;transition:color .15s,border-color .15s}
+    .btn-nav-logout:hover{color:var(--red);border-color:rgba(239,68,68,.4)}
+    .nav-pdf-btn{background:linear-gradient(135deg,var(--gold),#8B6914);color:var(--navy);border:none;padding:7px 16px;border-radius:100px;font-size:12px;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s}
+    .nav-pdf-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(201,168,76,.4)}
 
     /* ── TOAST ── */
-    #toast {
-      position: fixed;
-      bottom: 32px; right: 32px;
-      z-index: 999;
-      background: var(--navy-card);
-      border: 1px solid rgba(201,168,76,0.3);
-      border-radius: 10px;
-      padding: 12px 20px;
-      font-size: 13px;
-      color: var(--white);
-      animation: toastIn 0.3s ease;
-      pointer-events: none;
-    }
+    #toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--navy-card);border:1px solid rgba(201,168,76,.3);border-radius:10px;padding:11px 18px;font-size:13px;color:var(--white);animation:toastIn .3s ease;pointer-events:none}
+
+    /* ── SHARED CARD ── */
+    .auth-wrap,.input-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 24px 60px}
+    .card{background:var(--navy-card);border:1px solid rgba(201,168,76,.18);border-radius:20px;padding:44px 40px;width:100%;max-width:460px;box-shadow:var(--shadow);animation:slideUp .4s ease}
+    .card-wide{max-width:680px}
+    .card h2{font-family:'DM Serif Display',serif;font-size:26px;margin-bottom:6px}
+    .card>p{font-size:14px;color:var(--grey-300);margin-bottom:28px;line-height:1.6}
+    .field-label{font-size:11px;font-weight:600;color:var(--gold);letter-spacing:.8px;text-transform:uppercase;margin-bottom:7px;display:block}
+    .field-group{margin-bottom:18px}
+    input[type=text],input[type=email],input[type=password],textarea,select{width:100%;background:rgba(13,27,42,.7);border:1px solid rgba(203,213,225,.15);border-radius:10px;color:var(--white);font-family:'Inter',sans-serif;font-size:14px;padding:13px 15px;outline:none;transition:border-color .2s;resize:none}
+    input:focus,textarea:focus,select:focus{border-color:var(--gold)}
+    textarea{min-height:100px;line-height:1.6}
+    select option{background:var(--navy-mid)}
+    .row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .btn-gold{width:100%;background:linear-gradient(135deg,var(--gold),#8B6914);color:var(--navy);border:none;padding:15px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s;margin-top:6px}
+    .btn-gold:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.35)}
+    .btn-gold:disabled{opacity:.5;cursor:not-allowed}
+    .link-switch{text-align:center;font-size:13px;color:var(--grey-500);margin-top:18px}
+    .link-switch a{color:var(--gold);cursor:pointer;text-decoration:none;font-weight:500}
+    .link-switch a:hover{text-decoration:underline}
+    .back-link{text-align:center;font-size:13px;color:var(--grey-500);cursor:pointer;margin-top:14px;transition:color .15s}
+    .back-link:hover{color:var(--gold)}
+    .field-error{font-size:11px;color:#FCA5A5;margin-top:5px}
+    .form-error{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#FCA5A5;margin-bottom:14px}
+    .divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--grey-700);font-size:12px}
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07)}
 
     /* ── HERO ── */
-    #section-hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 120px 24px 80px;
-      position: relative; overflow: hidden;
-    }
-    .hero-bg {
-      position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 40% at 80% 80%, rgba(27,46,66,0.8) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .hero-eyebrow {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 12px; font-weight: 600;
-      color: var(--gold); letter-spacing: 1.5px;
-      text-transform: uppercase; margin-bottom: 24px;
-    }
-    .hero-eyebrow::before, .hero-eyebrow::after {
-      content: ''; display: block;
-      width: 32px; height: 1px;
-      background: var(--gold); opacity: 0.5;
-    }
-    .hero-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(42px, 6vw, 80px);
-      line-height: 1.05; text-align: center;
-      max-width: 820px; margin-bottom: 24px; letter-spacing: -1px;
-    }
-    .hero-title em { font-style: italic; color: var(--gold); }
-    .hero-sub {
-      font-size: 17px; color: var(--grey-300);
-      text-align: center; max-width: 540px;
-      line-height: 1.7; margin-bottom: 48px;
-    }
-    .hero-cta {
-      display: flex; gap: 16px;
-      flex-wrap: wrap; justify-content: center;
-      margin-bottom: 56px;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--gold), #8B6914);
-      color: var(--navy); border: none;
-      padding: 16px 36px; border-radius: 100px;
-      font-size: 15px; font-weight: 700; cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(201,168,76,0.35);
-    }
-    .btn-secondary {
-      background: transparent; color: var(--grey-300);
-      border: 1px solid rgba(203,213,225,0.25);
-      padding: 16px 32px; border-radius: 100px;
-      font-size: 15px; font-weight: 500; cursor: pointer;
-      transition: border-color 0.15s, color 0.15s;
-    }
-    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
-
-    .hero-flow {
-      display: flex; align-items: center; gap: 12px;
-      flex-wrap: wrap; justify-content: center;
-      margin-bottom: 56px;
-    }
-    .flow-node {
-      background: var(--navy-card);
-      border: 1px solid rgba(201,168,76,0.2);
-      border-radius: 10px; padding: 12px 18px;
-      font-size: 12px; font-weight: 600; color: var(--grey-300);
-      display: flex; align-items: center; gap: 8px;
-    }
-    .flow-node .dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--gold);
-      animation: pulse 2s ease-in-out infinite;
-    }
-    .flow-node .dot.green { background: var(--green); animation-delay: 0.5s; }
-    .flow-node .dot.blue  { background: #60A5FA; animation-delay: 1s; }
-    .flow-arrow { color: var(--gold); font-size: 18px; opacity: 0.6; }
-
-    .hero-steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
-      gap: 16px; max-width: 860px;
-    }
-    .step-card {
-      background: var(--navy-card);
-      border: 1px solid rgba(201,168,76,0.12);
-      border-radius: var(--radius); padding: 20px; text-align: center;
-    }
-    .step-num {
-      font-family: 'DM Serif Display', serif;
-      font-size: 32px; color: rgba(201,168,76,0.3);
-      line-height: 1; margin-bottom: 8px;
-    }
-    .step-label { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
-    .step-desc  { font-size: 11px; color: var(--grey-500); line-height: 1.5; }
-
-    /* ── INPUT ── */
-    #section-input {
-      min-height: 100vh; display: flex;
-      flex-direction: column; align-items: center; justify-content: center;
-      padding: 120px 24px 80px;
-    }
-    .input-card {
-      background: var(--navy-card);
-      border: 1px solid rgba(201,168,76,0.18);
-      border-radius: 20px; padding: 48px;
-      width: 100%; max-width: 660px;
-      box-shadow: var(--shadow);
-      animation: slideUp 0.4s ease;
-    }
-    .input-card h2 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 28px; margin-bottom: 8px;
-    }
-    .input-card > p {
-      font-size: 14px; color: var(--grey-300);
-      margin-bottom: 32px; line-height: 1.6;
-    }
-    .field-label {
-      font-size: 12px; font-weight: 600; color: var(--gold);
-      letter-spacing: 0.8px; text-transform: uppercase;
-      margin-bottom: 8px; display: block;
-    }
-    .field-group { margin-bottom: 20px; }
-    textarea, select {
-      width: 100%;
-      background: rgba(13,27,42,0.7);
-      border: 1px solid rgba(203,213,225,0.15);
-      border-radius: 10px; color: var(--white);
-      font-family: 'Inter', sans-serif; font-size: 15px;
-      padding: 14px 16px; outline: none;
-      transition: border-color 0.2s; resize: none;
-    }
-    textarea:focus, select:focus { border-color: var(--gold); }
-    textarea { min-height: 110px; line-height: 1.6; }
-    select option { background: var(--navy-mid); }
-    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .checkboxes { display: flex; flex-direction: column; gap: 10px; }
-    .checkbox-item {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 13px; color: var(--grey-300); cursor: pointer;
-    }
-    .checkbox-item input[type="checkbox"] {
-      width: 16px; height: 16px;
-      accent-color: var(--gold); cursor: pointer;
-    }
-    .btn-generate {
-      width: 100%;
-      background: linear-gradient(135deg, var(--gold), #8B6914);
-      color: var(--navy); border: none; padding: 18px;
-      border-radius: 100px; font-size: 16px; font-weight: 700;
-      cursor: pointer; margin-top: 28px;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .btn-generate:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(201,168,76,0.35);
-    }
-    .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; }
-    .back-link {
-      margin-top: 20px; text-align: center;
-      font-size: 13px; color: var(--grey-500); cursor: pointer;
-      transition: color 0.15s;
-    }
-    .back-link:hover { color: var(--gold); }
+    #section-hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 24px 80px;position:relative;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(201,168,76,.08) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 80% 80%,rgba(27,46,66,.8) 0%,transparent 60%);pointer-events:none}
+    .hero-eyebrow{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:22px}
+    .hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:28px;height:1px;background:var(--gold);opacity:.5}
+    .hero-title{font-family:'DM Serif Display',serif;font-size:clamp(40px,6vw,78px);line-height:1.05;text-align:center;max-width:820px;margin-bottom:22px;letter-spacing:-1px}
+    .hero-title em{font-style:italic;color:var(--gold)}
+    .hero-sub{font-size:16px;color:var(--grey-300);text-align:center;max-width:520px;line-height:1.7;margin-bottom:44px}
+    .hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:52px}
+    .btn-primary{background:linear-gradient(135deg,var(--gold),#8B6914);color:var(--navy);border:none;padding:15px 34px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.35)}
+    .btn-secondary{background:transparent;color:var(--grey-300);border:1px solid rgba(203,213,225,.25);padding:15px 30px;border-radius:100px;font-size:15px;font-weight:500;cursor:pointer;transition:border-color .15s,color .15s}
+    .btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+    .hero-flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:52px}
+    .flow-node{background:var(--navy-card);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:10px 16px;font-size:12px;font-weight:600;color:var(--grey-300);display:flex;align-items:center;gap:8px}
+    .flow-node .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 2s ease-in-out infinite}
+    .flow-node .dot.green{background:var(--green);animation-delay:.5s}
+    .flow-node .dot.blue{background:#60A5FA;animation-delay:1s}
+    .flow-arrow{color:var(--gold);font-size:16px;opacity:.6}
+    .hero-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;max-width:820px}
+    .step-card{background:var(--navy-card);border:1px solid rgba(201,168,76,.1);border-radius:var(--radius);padding:18px;text-align:center}
+    .step-num{font-family:'DM Serif Display',serif;font-size:30px;color:rgba(201,168,76,.3);line-height:1;margin-bottom:7px}
+    .step-label{font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px}
+    .step-desc{font-size:11px;color:var(--grey-500);line-height:1.5}
 
     /* ── LOADING ── */
-    #section-loading {
-      min-height: 100vh; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 24px; text-align: center;
-    }
-    .loading-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 28px; margin-bottom: 12px;
-    }
-    .loading-sub {
-      font-size: 14px; color: var(--grey-300); margin-bottom: 52px;
-    }
-    .agent-pipeline {
-      display: flex; flex-direction: column;
-      gap: 0; align-items: center; margin-bottom: 48px;
-    }
-    .agent-box {
-      background: var(--navy-card);
-      border: 1px solid rgba(203,213,225,0.1);
-      border-radius: 14px; padding: 20px 28px;
-      width: 320px; text-align: left;
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
-    .agent-box.active {
-      border-color: var(--gold);
-      animation: agentGlow 1.5s ease-in-out infinite;
-    }
-    .agent-box.done { border-color: var(--green); }
-    .agent-box-header {
-      display: flex; align-items: center;
-      justify-content: space-between; margin-bottom: 6px;
-    }
-    .agent-name { font-size: 13px; font-weight: 700; color: var(--white); }
-    .agent-status {
-      font-size: 11px; font-weight: 600;
-      padding: 2px 8px; border-radius: 100px;
-      background: rgba(100,116,139,0.2); color: var(--grey-500);
-    }
-    .agent-box.active .agent-status { background: rgba(201,168,76,0.15); color: var(--gold); }
-    .agent-box.done  .agent-status  { background: rgba(34,197,94,0.15);  color: var(--green); }
-    .agent-desc { font-size: 12px; color: var(--grey-500); line-height: 1.5; }
-    .agent-box.active .agent-desc { color: var(--grey-300); }
-    .pipeline-arrow {
-      width: 2px; height: 28px;
-      background: linear-gradient(to bottom, rgba(201,168,76,0.4), rgba(201,168,76,0.1));
-      margin: 0 auto;
-    }
-    .spinner {
-      width: 40px; height: 40px;
-      border: 3px solid rgba(201,168,76,0.15);
-      border-top-color: var(--gold); border-radius: 50%;
-      animation: spin 0.9s linear infinite;
-      margin: 0 auto 16px;
-    }
-    .loading-status-text {
-      font-size: 13px; color: var(--grey-500); min-height: 20px;
-    }
+    #section-loading{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
+    .loading-title{font-family:'DM Serif Display',serif;font-size:26px;margin-bottom:10px}
+    .loading-sub{font-size:14px;color:var(--grey-300);margin-bottom:48px}
+    .agent-pipeline{display:flex;flex-direction:column;gap:0;align-items:center;margin-bottom:44px}
+    .agent-box{background:var(--navy-card);border:1px solid rgba(203,213,225,.1);border-radius:14px;padding:18px 26px;width:300px;text-align:left;transition:border-color .3s,box-shadow .3s}
+    .agent-box.active{border-color:var(--gold);animation:agentGlow 1.5s ease-in-out infinite}
+    .agent-box.done{border-color:var(--green)}
+    .agent-box-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+    .agent-name{font-size:13px;font-weight:700;color:var(--white)}
+    .agent-status{font-size:11px;font-weight:600;padding:2px 8px;border-radius:100px;background:rgba(100,116,139,.2);color:var(--grey-500)}
+    .agent-box.active .agent-status{background:rgba(201,168,76,.15);color:var(--gold)}
+    .agent-box.done .agent-status{background:rgba(34,197,94,.15);color:var(--green)}
+    .agent-desc{font-size:12px;color:var(--grey-500);line-height:1.5}
+    .agent-box.active .agent-desc{color:var(--grey-300)}
+    .pipeline-arrow{width:2px;height:26px;background:linear-gradient(to bottom,rgba(201,168,76,.4),rgba(201,168,76,.1));margin:0 auto}
+    .spinner{width:38px;height:38px;border:3px solid rgba(201,168,76,.15);border-top-color:var(--gold);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 14px}
+    .loading-status-text{font-size:13px;color:var(--grey-500);min-height:20px}
 
     /* ── RESULTS ── */
-    #section-results {
-      padding: 100px 24px 120px;
-      max-width: 860px; margin: 0 auto;
-    }
-    .results-header { margin-bottom: 36px; animation: slideUp 0.4s ease; }
-    .results-topic-label {
-      font-size: 12px; font-weight: 600; color: var(--gold);
-      letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px;
-    }
-    .results-topic-text {
-      font-family: 'DM Serif Display', serif;
-      font-size: 30px; line-height: 1.2; margin-bottom: 20px;
-    }
-    .results-meta { display: flex; gap: 20px; flex-wrap: wrap; }
-    .results-meta-item {
-      font-size: 12px; color: var(--grey-500);
-      display: flex; align-items: center; gap: 5px;
-    }
-    .results-meta-item span { color: var(--grey-300); font-weight: 500; }
+    #section-results{padding:96px 24px 110px;max-width:860px;margin:0 auto}
+    .results-header{margin-bottom:32px;animation:slideUp .4s ease}
+    .results-topic-label{font-size:11px;font-weight:600;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+    .results-topic-text{font-family:'DM Serif Display',serif;font-size:28px;line-height:1.2;margin-bottom:16px}
+    .results-meta{display:flex;gap:18px;flex-wrap:wrap}
+    .results-meta-item{font-size:12px;color:var(--grey-500);display:flex;align-items:center;gap:4px}
+    .results-meta-item span{color:var(--grey-300);font-weight:500}
+    .results-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+    .toolbar-left{font-size:13px;color:var(--grey-500)}
+    .toolbar-right{display:flex;gap:8px}
+    .btn-sm{background:transparent;border:1px solid rgba(203,213,225,.13);color:var(--grey-300);font-size:12px;padding:5px 13px;border-radius:100px;cursor:pointer;transition:border-color .15s,color .15s}
+    .btn-sm:hover{border-color:var(--gold);color:var(--gold)}
+    .accordion{display:flex;flex-direction:column;gap:10px}
+    .acc-item{background:var(--navy-card);border:1px solid rgba(203,213,225,.08);border-radius:var(--radius);overflow:hidden;transition:border-color .2s;animation:slideUp .4s ease both}
+    .acc-item:nth-child(1){animation-delay:.04s}.acc-item:nth-child(2){animation-delay:.08s}
+    .acc-item:nth-child(3){animation-delay:.12s}.acc-item:nth-child(4){animation-delay:.16s}
+    .acc-item:nth-child(5){animation-delay:.20s}
+    .acc-item:hover{border-color:rgba(201,168,76,.22)}
+    .acc-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;cursor:pointer;user-select:none}
+    .acc-header-left{display:flex;align-items:center;gap:12px}
+    .acc-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+    .acc-title{font-size:14px;font-weight:600}
+    .acc-count{font-size:11px;color:var(--grey-500);margin-top:2px}
+    .acc-header-right{display:flex;align-items:center;gap:8px}
+    .acc-copy{background:transparent;border:1px solid rgba(203,213,225,.12);color:var(--grey-500);font-size:11px;padding:3px 9px;border-radius:100px;cursor:pointer;transition:border-color .15s,color .15s}
+    .acc-copy:hover{border-color:var(--gold);color:var(--gold)}
+    .acc-chevron{color:var(--grey-500);font-size:14px;transition:transform .25s}
+    .acc-item.open .acc-chevron{transform:rotate(180deg)}
+    .acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+    .acc-item.open .acc-body{max-height:99999px}
+    .acc-content{padding:0 18px 18px;font-size:14px;color:var(--grey-300);line-height:1.85;white-space:pre-wrap;word-break:break-word}
+    .icon-ideas{background:rgba(201,168,76,.12)}.icon-papers{background:rgba(96,165,250,.12)}
+    .icon-gaps{background:rgba(167,139,250,.12)}.icon-review{background:rgba(34,197,94,.12)}
+    .icon-roadmap{background:rgba(249,115,22,.12)}.icon-raw{background:rgba(96,165,250,.07)}
+    .citation-bar{margin-top:12px;background:var(--navy-card);border:1px solid rgba(203,213,225,.08);border-radius:var(--radius);padding:14px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .citation-bar label{font-size:13px;color:var(--grey-300);white-space:nowrap}
+    .citation-bar select{flex:1;min-width:140px;padding:8px 12px;font-size:13px}
+    .btn-reformat{background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,.3);padding:7px 16px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s}
+    .btn-reformat:hover{background:rgba(201,168,76,.1)}
+    .btn-reformat:disabled{opacity:.5;cursor:not-allowed}
+    .download-bar{margin-top:12px;background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(139,105,20,.05));border:1px solid rgba(201,168,76,.22);border-radius:var(--radius);padding:22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .download-bar-text h4{font-size:15px;font-weight:600;margin-bottom:4px}
+    .download-bar-text p{font-size:13px;color:var(--grey-500)}
+    .download-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .btn-pdf{background:linear-gradient(135deg,var(--gold),#8B6914);color:var(--navy);border:none;padding:12px 22px;border-radius:100px;font-size:13px;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s}
+    .btn-pdf:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(201,168,76,.4)}
+    .btn-word{background:rgba(21,101,192,.15);color:#90CAF9;border:1px solid rgba(21,101,192,.3);padding:12px 22px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s,box-shadow .15s}
+    .btn-word:hover{background:rgba(21,101,192,.25);box-shadow:0 4px 14px rgba(21,101,192,.2)}
+    .btn-new-search{background:transparent;color:var(--grey-300);border:1px solid rgba(203,213,225,.18);padding:12px 20px;border-radius:100px;font-size:13px;font-weight:500;cursor:pointer;transition:border-color .15s,color .15s}
+    .btn-new-search:hover{border-color:var(--gold);color:var(--gold)}
+    .error-box{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);border-radius:var(--radius);padding:18px 22px;color:#FCA5A5;font-size:14px;line-height:1.6;margin-top:22px}
 
-    /* toolbar above accordion */
-    .results-toolbar {
-      display: flex; align-items: center;
-      justify-content: space-between;
-      gap: 12px; flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-    .toolbar-left { font-size: 13px; color: var(--grey-500); }
-    .toolbar-right { display: flex; gap: 8px; }
-    .btn-expand-all, .btn-collapse-all {
-      background: transparent;
-      border: 1px solid rgba(203,213,225,0.15);
-      color: var(--grey-300); font-size: 12px;
-      padding: 6px 14px; border-radius: 100px; cursor: pointer;
-      transition: border-color 0.15s, color 0.15s;
-    }
-    .btn-expand-all:hover, .btn-collapse-all:hover {
-      border-color: var(--gold); color: var(--gold);
-    }
+    footer{text-align:center;padding:36px 24px;font-size:12px;color:var(--grey-700);border-top:1px solid rgba(255,255,255,.05)}
+    footer a{color:var(--gold);text-decoration:none}
 
-    /* accordion */
-    .accordion { display: flex; flex-direction: column; gap: 10px; }
-    .acc-item {
-      background: var(--navy-card);
-      border: 1px solid rgba(203,213,225,0.08);
-      border-radius: var(--radius); overflow: hidden;
-      transition: border-color 0.2s;
-      animation: slideUp 0.4s ease both;
-    }
-    .acc-item:nth-child(1) { animation-delay: 0.05s; }
-    .acc-item:nth-child(2) { animation-delay: 0.10s; }
-    .acc-item:nth-child(3) { animation-delay: 0.15s; }
-    .acc-item:nth-child(4) { animation-delay: 0.20s; }
-    .acc-item:nth-child(5) { animation-delay: 0.25s; }
-    .acc-item:hover { border-color: rgba(201,168,76,0.25); }
-    .acc-header {
-      display: flex; align-items: center;
-      justify-content: space-between;
-      padding: 18px 20px; cursor: pointer; user-select: none;
-    }
-    .acc-header-left { display: flex; align-items: center; gap: 14px; }
-    .acc-icon {
-      width: 38px; height: 38px; border-radius: 9px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 17px; flex-shrink: 0;
-    }
-    .acc-title { font-size: 14px; font-weight: 600; }
-    .acc-count { font-size: 11px; color: var(--grey-500); margin-top: 2px; }
-    .acc-header-right { display: flex; align-items: center; gap: 10px; }
-    .acc-copy {
-      background: transparent;
-      border: 1px solid rgba(203,213,225,0.12);
-      color: var(--grey-500); font-size: 11px;
-      padding: 4px 10px; border-radius: 100px; cursor: pointer;
-      transition: border-color 0.15s, color 0.15s;
-      white-space: nowrap;
-    }
-    .acc-copy:hover { border-color: var(--gold); color: var(--gold); }
-    .acc-chevron { color: var(--grey-500); font-size: 16px; transition: transform 0.25s; }
-    .acc-item.open .acc-chevron { transform: rotate(180deg); }
-    .acc-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
-    .acc-item.open .acc-body { max-height: 99999px; }
-    .acc-content {
-      padding: 0 20px 20px;
-      font-size: 14px; color: var(--grey-300);
-      line-height: 1.85; white-space: pre-wrap; word-break: break-word;
-    }
-    /* raw output section */
-    .acc-item.raw-output { border-color: rgba(96,165,250,0.2); }
-    .icon-ideas   { background: rgba(201,168,76,0.12); }
-    .icon-papers  { background: rgba(96,165,250,0.12); }
-    .icon-gaps    { background: rgba(167,139,250,0.12); }
-    .icon-review  { background: rgba(34,197,94,0.12);  }
-    .icon-roadmap { background: rgba(249,115,22,0.12); }
-    .icon-raw     { background: rgba(96,165,250,0.08); }
+    /* ── CHECKBOXES ── */
+    .checkboxes{display:flex;flex-direction:column;gap:9px}
+    .checkbox-item{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--grey-300);cursor:pointer}
+    .checkbox-item input[type=checkbox]{width:15px;height:15px;accent-color:var(--gold);cursor:pointer}
 
-    /* citation bar */
-    .citation-bar {
-      margin-top: 14px;
-      background: var(--navy-card);
-      border: 1px solid rgba(203,213,225,0.08);
-      border-radius: var(--radius); padding: 16px 20px;
-      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    @media(max-width:640px){
+      nav{padding:12px 18px}
+      .card{padding:28px 18px}
+      .row-2{grid-template-columns:1fr}
+      .download-bar{flex-direction:column}
+      .download-actions{width:100%}
+      .btn-pdf,.btn-word,.btn-new-search{flex:1;text-align:center}
+      .agent-box{width:100%;max-width:300px}
+      .hero-title{font-size:34px}
     }
-    .citation-bar label { font-size: 13px; color: var(--grey-300); white-space: nowrap; }
-    .citation-bar select { flex: 1; min-width: 150px; padding: 8px 12px; font-size: 13px; }
-    .btn-reformat {
-      background: transparent; color: var(--gold);
-      border: 1px solid rgba(201,168,76,0.3);
-      padding: 8px 18px; border-radius: 100px;
-      font-size: 13px; font-weight: 600; cursor: pointer;
-      white-space: nowrap; transition: background 0.15s;
-    }
-    .btn-reformat:hover { background: rgba(201,168,76,0.1); }
-    .btn-reformat:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    /* PDF bar */
-    .pdf-bar {
-      margin-top: 14px;
-      background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(139,105,20,0.06));
-      border: 1px solid rgba(201,168,76,0.25);
-      border-radius: var(--radius); padding: 24px;
-      display: flex; align-items: center;
-      justify-content: space-between; gap: 16px; flex-wrap: wrap;
-    }
-    .pdf-bar-text h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
-    .pdf-bar-text p  { font-size: 13px; color: var(--grey-500); }
-    .pdf-bar-actions { display: flex; gap: 10px; flex-shrink: 0; }
-    .btn-pdf {
-      background: linear-gradient(135deg, var(--gold), #8B6914);
-      color: var(--navy); border: none;
-      padding: 13px 28px; border-radius: 100px;
-      font-size: 14px; font-weight: 700; cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .btn-pdf:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(201,168,76,0.4);
-    }
-    .btn-new-search {
-      background: transparent; color: var(--grey-300);
-      border: 1px solid rgba(203,213,225,0.2);
-      padding: 13px 24px; border-radius: 100px;
-      font-size: 13px; font-weight: 500; cursor: pointer;
-      transition: border-color 0.15s, color 0.15s;
-    }
-    .btn-new-search:hover { border-color: var(--gold); color: var(--gold); }
-
-    /* error */
-    .error-box {
-      background: rgba(239,68,68,0.08);
-      border: 1px solid rgba(239,68,68,0.3);
-      border-radius: var(--radius); padding: 20px 24px;
-      color: #FCA5A5; font-size: 14px; line-height: 1.6; margin-top: 24px;
-    }
-
-    footer {
-      text-align: center; padding: 40px 24px;
-      font-size: 12px; color: var(--grey-700);
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-    footer a { color: var(--gold); text-decoration: none; }
-
-    @media (max-width: 640px) {
-      nav { padding: 14px 20px; }
-      .input-card { padding: 28px 18px; }
-      .row-2 { grid-template-columns: 1fr; }
-      .pdf-bar { flex-direction: column; }
-      .pdf-bar-actions { width: 100%; }
-      .btn-pdf, .btn-new-search { flex: 1; text-align: center; }
-      .agent-box { width: 100%; max-width: 320px; }
-      .hero-title { font-size: 36px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation: none !important; transition: none !important; }
-    }
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
   </style>
 </head>
 <body>
 
-  <!-- TOAST -->
-  <div id="toast" class="hidden"></div>
+<!-- TOAST -->
+<div id="toast" class="hidden"></div>
 
-  <!-- NAV -->
-  <nav>
-    <div class="nav-logo" onclick="showSection('hero')">
-      <div class="nav-logo-icon">📚</div>
-      <span class="nav-logo-text">ScholarBot</span>
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="goHome()">
+    <div class="nav-logo-icon">📚</div>
+    <span class="nav-logo-text">ScholarBot</span>
+  </div>
+  <div class="nav-right">
+    <button class="nav-pdf-btn hidden" id="nav-pdf-btn" onclick="downloadPDF()">⬇ PDF</button>
+    <!-- user info shown after login -->
+    <div class="nav-user hidden" id="nav-user">
+      <div class="nav-user-avatar" id="nav-avatar">A</div>
+      <span id="nav-username"></span>
+      <button class="btn-nav-logout" onclick="logout()">Log out</button>
     </div>
-    <div class="nav-right">
-      <button class="nav-pdf-btn hidden" id="nav-pdf-btn" onclick="downloadPDF()">
-        ⬇ Download PDF
-      </button>
-      <div class="nav-badge">LD7237 Hackathon</div>
-    </div>
-  </nav>
+    <div class="nav-badge">LD7237 Hackathon</div>
+  </div>
+</nav>
 
-  <!-- ══════════════════════════════════════ -->
-  <!-- HERO                                  -->
-  <!-- ══════════════════════════════════════ -->
-  <section id="section-hero">
-    <div class="hero-bg"></div>
-    <div class="hero-eyebrow">AI-Powered Academic Research</div>
-    <h1 class="hero-title">Your research,<br/><em>deeply understood</em></h1>
-    <p class="hero-sub">
-      ScholarBot uses a two-agent AI pipeline to turn any research topic into
-      genuine paper references, research gaps, a full literature review, and
-      an execution roadmap — in seconds.
-    </p>
-    <div class="hero-cta">
-      <button class="btn-primary" onclick="showSection('input')">
-        Start Your Research →
-      </button>
-      <button class="btn-secondary" onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'})">
-        See how it works
-      </button>
-    </div>
-    <div class="hero-flow">
-      <div class="flow-node"><div class="dot"></div> Research Scout</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-node"><div class="dot green"></div> Academic Writer</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-node"><div class="dot blue"></div> Your Report</div>
-    </div>
-    <div class="hero-steps" id="how-it-works">
-      <div class="step-card">
-        <div class="step-num">01</div>
-        <div class="step-label">Enter a topic</div>
-        <div class="step-desc">Type any research area — broad or specific</div>
-      </div>
-      <div class="step-card">
-        <div class="step-num">02</div>
-        <div class="step-label">Agent 1 scouts</div>
-        <div class="step-desc">Searches for real papers and identifies gaps</div>
-      </div>
-      <div class="step-card">
-        <div class="step-num">03</div>
-        <div class="step-label">Agent 2 writes</div>
-        <div class="step-desc">Synthesises a full academic literature review</div>
-      </div>
-      <div class="step-card">
-        <div class="step-num">04</div>
-        <div class="step-label">Download PDF</div>
-        <div class="step-desc">One click — formatted report, ready to save</div>
-      </div>
-    </div>
-  </section>
+<!-- ══════════════════════════════════════════ -->
+<!-- HERO                                      -->
+<!-- ══════════════════════════════════════════ -->
+<section id="section-hero">
+  <div class="hero-bg"></div>
+  <div class="hero-eyebrow">AI-Powered Academic Research</div>
+  <h1 class="hero-title">Your research,<br/><em>deeply understood</em></h1>
+  <p class="hero-sub">ScholarBot uses a two-agent AI pipeline to turn any research topic into genuine paper references, research gaps, a full literature review, and an execution roadmap — in seconds.</p>
+  <div class="hero-cta">
+    <button class="btn-primary" onclick="handleStartClick()">Start Your Research →</button>
+    <button class="btn-secondary" onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'})">See how it works</button>
+  </div>
+  <div class="hero-flow">
+    <div class="flow-node"><div class="dot"></div>Research Scout</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><div class="dot green"></div>Academic Writer</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><div class="dot blue"></div>Your Report</div>
+  </div>
+  <div class="hero-steps" id="how-it-works">
+    <div class="step-card"><div class="step-num">01</div><div class="step-label">Enter a topic</div><div class="step-desc">Type any research area — broad or specific</div></div>
+    <div class="step-card"><div class="step-num">02</div><div class="step-label">Agent 1 scouts</div><div class="step-desc">Searches for real papers and identifies gaps</div></div>
+    <div class="step-card"><div class="step-num">03</div><div class="step-label">Agent 2 writes</div><div class="step-desc">Synthesises a full academic literature review</div></div>
+    <div class="step-card"><div class="step-num">04</div><div class="step-label">Download report</div><div class="step-desc">PDF or Word — formatted and ready to use</div></div>
+  </div>
+</section>
 
-  <!-- ══════════════════════════════════════ -->
-  <!-- INPUT                                 -->
-  <!-- ══════════════════════════════════════ -->
-  <section id="section-input" class="hidden">
-    <div class="input-card">
-      <h2>Start your research</h2>
-      <p>Enter your topic below. The more specific you are, the better the output.</p>
-
+<!-- ══════════════════════════════════════════ -->
+<!-- SIGN UP                                   -->
+<!-- ══════════════════════════════════════════ -->
+<section id="section-signup" class="auth-wrap hidden">
+  <div class="card">
+    <h2>Create your account</h2>
+    <p>Join ScholarBot to save your research history and access all features.</p>
+    <div id="signup-error" class="form-error hidden"></div>
+    <div class="row-2">
       <div class="field-group">
-        <label class="field-label">Research Topic *</label>
-        <textarea id="topic-input"
-          placeholder="e.g. Federated learning and data privacy in healthcare systems..."
-          maxlength="500"></textarea>
+        <label class="field-label">First Name</label>
+        <input type="text" id="su-firstname" placeholder="Ada"/>
       </div>
-
-      <div class="row-2">
-        <div class="field-group">
-          <label class="field-label">Academic Level</label>
-          <select id="level-select">
-            <option value="Masters">Masters (MSc)</option>
-            <option value="PhD">PhD / Doctoral</option>
-            <option value="Undergraduate">Undergraduate</option>
-          </select>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Discipline</label>
-          <select id="discipline-select">
-            <option value="Data Science">Data Science</option>
-            <option value="Computer Science">Computer Science</option>
-            <option value="Artificial Intelligence">Artificial Intelligence</option>
-            <option value="Cyber Security">Cyber Security</option>
-            <option value="Big Data">Big Data</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-      </div>
-
       <div class="field-group">
-        <label class="field-label">Include in Report</label>
-        <div class="checkboxes">
-          <label class="checkbox-item">
-            <input type="checkbox" id="cb-ideas" checked />
-            Research ideas and unique angles
-          </label>
-          <label class="checkbox-item">
-            <input type="checkbox" id="cb-gaps" checked />
-            Research gaps and originality opportunities
-          </label>
-          <label class="checkbox-item">
-            <input type="checkbox" id="cb-review" checked />
-            Full detailed literature review
-          </label>
-          <label class="checkbox-item">
-            <input type="checkbox" id="cb-roadmap" checked />
-            Execution roadmap and methodology guide
-          </label>
-        </div>
-      </div>
-
-      <button class="btn-generate" id="btn-generate" onclick="startGeneration()">
-        Generate Research Report →
-      </button>
-      <p class="back-link" onclick="showSection('hero')">← Back to home</p>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════ -->
-  <!-- LOADING                               -->
-  <!-- ══════════════════════════════════════ -->
-  <section id="section-loading" class="hidden">
-    <h2 class="loading-title">Agents are working…</h2>
-    <p class="loading-sub">This usually takes 20–40 seconds. Please wait.</p>
-    <div class="agent-pipeline">
-      <div class="agent-box" id="agent1-box">
-        <div class="agent-box-header">
-          <span class="agent-name">🔍 Research Scout</span>
-          <span class="agent-status" id="agent1-status">Waiting</span>
-        </div>
-        <p class="agent-desc">Searching for real papers, identifying themes and research gaps</p>
-      </div>
-      <div class="pipeline-arrow"></div>
-      <div class="agent-box" id="agent2-box">
-        <div class="agent-box-header">
-          <span class="agent-name">✍️ Academic Writer</span>
-          <span class="agent-status" id="agent2-status">Waiting</span>
-        </div>
-        <p class="agent-desc">Synthesising findings into a full structured academic report</p>
+        <label class="field-label">Last Name</label>
+        <input type="text" id="su-lastname" placeholder="Lovelace"/>
       </div>
     </div>
-    <div class="spinner"></div>
-    <p class="loading-status-text" id="loading-status">Connecting to AI pipeline…</p>
-  </section>
-
-  <!-- ══════════════════════════════════════ -->
-  <!-- RESULTS                               -->
-  <!-- ══════════════════════════════════════ -->
-  <section id="section-results" class="hidden">
-
-    <div class="results-header">
-      <div class="results-topic-label">Research Report</div>
-      <div class="results-topic-text" id="results-topic-text"></div>
-      <div class="results-meta">
-        <div class="results-meta-item">Level: <span id="meta-level">—</span></div>
-        <div class="results-meta-item">Discipline: <span id="meta-discipline">—</span></div>
-        <div class="results-meta-item">Generated: <span id="meta-date">—</span></div>
-      </div>
+    <div class="field-group">
+      <label class="field-label">Email Address</label>
+      <input type="email" id="su-email" placeholder="ada@example.com"/>
     </div>
-
-    <div class="error-box hidden" id="error-box">
-      <strong>Something went wrong.</strong><br/>
-      <span id="error-message"></span>
+    <div class="field-group">
+      <label class="field-label">Password</label>
+      <input type="password" id="su-password" placeholder="At least 6 characters"/>
     </div>
-
-    <div class="results-toolbar">
-      <span class="toolbar-left">5 sections generated</span>
-      <div class="toolbar-right">
-        <button class="btn-expand-all"   onclick="setAllAcc(true)">Expand all</button>
-        <button class="btn-collapse-all" onclick="setAllAcc(false)">Collapse all</button>
-      </div>
-    </div>
-
-    <div class="accordion" id="results-accordion">
-
-      <div class="acc-item open" id="acc-ideas">
-        <div class="acc-header" onclick="toggleAcc('acc-ideas')">
-          <div class="acc-header-left">
-            <div class="acc-icon icon-ideas">💡</div>
-            <div>
-              <div class="acc-title">Research Ideas</div>
-              <div class="acc-count">Unique angles to explore</div>
-            </div>
-          </div>
-          <div class="acc-header-right">
-            <button class="acc-copy" onclick="copySection(event,'content-ideas')">Copy</button>
-            <div class="acc-chevron">▾</div>
-          </div>
-        </div>
-        <div class="acc-body">
-          <div class="acc-content" id="content-ideas">Loading…</div>
-        </div>
-      </div>
-
-      <div class="acc-item open" id="acc-papers">
-        <div class="acc-header" onclick="toggleAcc('acc-papers')">
-          <div class="acc-header-left">
-            <div class="acc-icon icon-papers">📄</div>
-            <div>
-              <div class="acc-title">Relevant Papers</div>
-              <div class="acc-count">Real, verified academic papers</div>
-            </div>
-          </div>
-          <div class="acc-header-right">
-            <button class="acc-copy" onclick="copySection(event,'content-papers')">Copy</button>
-            <div class="acc-chevron">▾</div>
-          </div>
-        </div>
-        <div class="acc-body">
-          <div class="acc-content" id="content-papers">Loading…</div>
-        </div>
-      </div>
-
-      <div class="acc-item" id="acc-gaps">
-        <div class="acc-header" onclick="toggleAcc('acc-gaps')">
-          <div class="acc-header-left">
-            <div class="acc-icon icon-gaps">🔍</div>
-            <div>
-              <div class="acc-title">Research Gaps</div>
-              <div class="acc-count">Where your original contribution can go</div>
-            </div>
-          </div>
-          <div class="acc-header-right">
-            <button class="acc-copy" onclick="copySection(event,'content-gaps')">Copy</button>
-            <div class="acc-chevron">▾</div>
-          </div>
-        </div>
-        <div class="acc-body">
-          <div class="acc-content" id="content-gaps">Loading…</div>
-        </div>
-      </div>
-
-      <div class="acc-item" id="acc-review">
-        <div class="acc-header" onclick="toggleAcc('acc-review')">
-          <div class="acc-header-left">
-            <div class="acc-icon icon-review">📚</div>
-            <div>
-              <div class="acc-title">Literature Review</div>
-              <div class="acc-count">Full academic-quality writeup</div>
-            </div>
-          </div>
-          <div class="acc-header-right">
-            <button class="acc-copy" onclick="copySection(event,'content-review')">Copy</button>
-            <div class="acc-chevron">▾</div>
-          </div>
-        </div>
-        <div class="acc-body">
-          <div class="acc-content" id="content-review">Loading…</div>
-        </div>
-      </div>
-
-      <div class="acc-item" id="acc-roadmap">
-        <div class="acc-header" onclick="toggleAcc('acc-roadmap')">
-          <div class="acc-header-left">
-            <div class="acc-icon icon-roadmap">🗺️</div>
-            <div>
-              <div class="acc-title">Execution Roadmap</div>
-              <div class="acc-count">How to go about this research</div>
-            </div>
-          </div>
-          <div class="acc-header-right">
-            <button class="acc-copy" onclick="copySection(event,'content-roadmap')">Copy</button>
-            <div class="acc-chevron">▾</div>
-          </div>
-        </div>
-        <div class="acc-body">
-          <div class="acc-content" id="content-roadmap">Loading…</div>
-        </div>
-      </div>
-
-      <!-- Raw output fallback — only shown if parsing fails -->
-      <div class="acc-item raw-output hidden" id="acc-raw">
-        <div class="acc-header" onclick="toggleAcc('acc-raw')">
-          <div class="acc-header-left">
-            <div class="acc-icon icon-raw">📋</div>
-            <div>
-              <div class="acc-title">Full Agent Output</div>
-              <div class="acc-count">Raw response — sections could not be parsed automatically</div>
-            </div>
-          </div>
-          <div class="acc-header-right">
-            <button class="acc-copy" onclick="copySection(event,'content-raw')">Copy all</button>
-            <div class="acc-chevron">▾</div>
-          </div>
-        </div>
-        <div class="acc-body">
-          <div class="acc-content" id="content-raw"></div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Citation formatter -->
-    <div class="citation-bar">
-      <label>Reformat paper references as:</label>
-      <select id="citation-style">
-        <option value="APA">APA 7th Edition</option>
-        <option value="Harvard">Harvard</option>
-        <option value="IEEE">IEEE</option>
-        <option value="Chicago">Chicago</option>
+    <div class="field-group">
+      <label class="field-label">Academic Level</label>
+      <select id="su-level">
+        <option value="Masters">Masters (MSc)</option>
+        <option value="PhD">PhD / Doctoral</option>
+        <option value="Undergraduate">Undergraduate</option>
       </select>
-      <button class="btn-reformat" id="btn-reformat" onclick="reformatCitations()">
-        Apply Style
-      </button>
     </div>
+    <button class="btn-gold" onclick="signUp()">Create Account →</button>
+    <div class="link-switch">Already have an account? <a onclick="showSection('login')">Log in</a></div>
+    <p class="back-link" onclick="showSection('hero')">← Back to home</p>
+  </div>
+</section>
 
-    <!-- PDF bar — always visible, no "would you like" needed -->
-    <div class="pdf-bar">
-      <div class="pdf-bar-text">
-        <h4>⬇ Download your full report as PDF</h4>
-        <p>All sections formatted with cover page, headers, and page numbers</p>
+<!-- ══════════════════════════════════════════ -->
+<!-- LOG IN                                    -->
+<!-- ══════════════════════════════════════════ -->
+<section id="section-login" class="auth-wrap hidden">
+  <div class="card">
+    <h2>Welcome back</h2>
+    <p>Log in to continue your research with ScholarBot.</p>
+    <div id="login-error" class="form-error hidden"></div>
+    <div class="field-group">
+      <label class="field-label">Email Address</label>
+      <input type="email" id="li-email" placeholder="ada@example.com"/>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Password</label>
+      <input type="password" id="li-password" placeholder="Your password"/>
+    </div>
+    <button class="btn-gold" onclick="logIn()">Log In →</button>
+    <div class="divider">or</div>
+    <div class="link-switch">Don't have an account? <a onclick="showSection('signup')">Sign up free</a></div>
+    <p class="back-link" onclick="showSection('hero')">← Back to home</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- INPUT                                     -->
+<!-- ══════════════════════════════════════════ -->
+<section id="section-input" class="input-wrap hidden">
+  <div class="card card-wide">
+    <h2>Start your research</h2>
+    <p>Enter your topic below. The more specific you are, the better the output.</p>
+    <div class="field-group">
+      <label class="field-label">Research Topic *</label>
+      <textarea id="topic-input" placeholder="e.g. Federated learning and data privacy in healthcare systems..." maxlength="500"></textarea>
+    </div>
+    <div class="row-2">
+      <div class="field-group">
+        <label class="field-label">Academic Level</label>
+        <select id="level-select">
+          <option value="Masters">Masters (MSc)</option>
+          <option value="PhD">PhD / Doctoral</option>
+          <option value="Undergraduate">Undergraduate</option>
+        </select>
       </div>
-      <div class="pdf-bar-actions">
-        <button class="btn-pdf" onclick="downloadPDF()">Download PDF</button>
-        <button class="btn-new-search" onclick="newSearch()">New Search</button>
+      <div class="field-group">
+        <label class="field-label">Discipline</label>
+        <select id="discipline-select">
+          <option value="Data Science">Data Science</option>
+          <option value="Computer Science">Computer Science</option>
+          <option value="Artificial Intelligence">Artificial Intelligence</option>
+          <option value="Cyber Security">Cyber Security</option>
+          <option value="Big Data">Big Data</option>
+          <option value="Other">Other</option>
+        </select>
       </div>
     </div>
+    <div class="field-group">
+      <label class="field-label">Include in Report</label>
+      <div class="checkboxes">
+        <label class="checkbox-item"><input type="checkbox" id="cb-ideas" checked/>Research ideas and unique angles</label>
+        <label class="checkbox-item"><input type="checkbox" id="cb-gaps" checked/>Research gaps and originality opportunities</label>
+        <label class="checkbox-item"><input type="checkbox" id="cb-review" checked/>Full detailed literature review</label>
+        <label class="checkbox-item"><input type="checkbox" id="cb-roadmap" checked/>Execution roadmap and methodology guide</label>
+      </div>
+    </div>
+    <button class="btn-gold" id="btn-generate" onclick="startGeneration()">Generate Research Report →</button>
+    <p class="back-link" onclick="showSection('hero')">← Back to home</p>
+  </div>
+</section>
 
-  </section>
+<!-- ══════════════════════════════════════════ -->
+<!-- LOADING                                   -->
+<!-- ══════════════════════════════════════════ -->
+<section id="section-loading" class="hidden">
+  <h2 class="loading-title">Agents are working…</h2>
+  <p class="loading-sub">This usually takes 20–40 seconds. Please wait.</p>
+  <div class="agent-pipeline">
+    <div class="agent-box" id="agent1-box">
+      <div class="agent-box-header">
+        <span class="agent-name">🔍 Research Scout</span>
+        <span class="agent-status" id="agent1-status">Waiting</span>
+      </div>
+      <p class="agent-desc">Searching for real papers, identifying themes and gaps</p>
+    </div>
+    <div class="pipeline-arrow"></div>
+    <div class="agent-box" id="agent2-box">
+      <div class="agent-box-header">
+        <span class="agent-name">✍️ Academic Writer</span>
+        <span class="agent-status" id="agent2-status">Waiting</span>
+      </div>
+      <p class="agent-desc">Synthesising findings into a full academic report</p>
+    </div>
+  </div>
+  <div class="spinner"></div>
+  <p class="loading-status-text" id="loading-status">Connecting to AI pipeline…</p>
+</section>
 
-  <footer>
-    ScholarBot &mdash; Built for <a href="#">LD7237 Hackathon</a> &middot;
-    MSc Big Data &amp; Data Science Technologies &middot;
-    University of East London &middot; 2025–2026
-  </footer>
+<!-- ══════════════════════════════════════════ -->
+<!-- RESULTS                                   -->
+<!-- ══════════════════════════════════════════ -->
+<section id="section-results" class="hidden">
+  <div class="results-header">
+    <div class="results-topic-label">Research Report</div>
+    <div class="results-topic-text" id="results-topic-text"></div>
+    <div class="results-meta">
+      <div class="results-meta-item">Level: <span id="meta-level">—</span></div>
+      <div class="results-meta-item">Discipline: <span id="meta-discipline">—</span></div>
+      <div class="results-meta-item">By: <span id="meta-user">—</span></div>
+      <div class="results-meta-item">Generated: <span id="meta-date">—</span></div>
+    </div>
+  </div>
+  <div class="error-box hidden" id="error-box"><strong>Something went wrong.</strong><br/><span id="error-message"></span></div>
+  <div class="results-toolbar">
+    <span class="toolbar-left">5 sections generated</span>
+    <div class="toolbar-right">
+      <button class="btn-sm" onclick="setAllAcc(true)">Expand all</button>
+      <button class="btn-sm" onclick="setAllAcc(false)">Collapse all</button>
+    </div>
+  </div>
+  <div class="accordion" id="results-accordion">
+    <div class="acc-item open" id="acc-ideas">
+      <div class="acc-header" onclick="toggleAcc('acc-ideas')">
+        <div class="acc-header-left"><div class="acc-icon icon-ideas">💡</div><div><div class="acc-title">Research Ideas</div><div class="acc-count">Unique angles to explore</div></div></div>
+        <div class="acc-header-right"><button class="acc-copy" onclick="copySection(event,'content-ideas')">Copy</button><div class="acc-chevron">▾</div></div>
+      </div>
+      <div class="acc-body"><div class="acc-content" id="content-ideas">Loading…</div></div>
+    </div>
+    <div class="acc-item open" id="acc-papers">
+      <div class="acc-header" onclick="toggleAcc('acc-papers')">
+        <div class="acc-header-left"><div class="acc-icon icon-papers">📄</div><div><div class="acc-title">Relevant Papers</div><div class="acc-count">Real, verified academic papers</div></div></div>
+        <div class="acc-header-right"><button class="acc-copy" onclick="copySection(event,'content-papers')">Copy</button><div class="acc-chevron">▾</div></div>
+      </div>
+      <div class="acc-body"><div class="acc-content" id="content-papers">Loading…</div></div>
+    </div>
+    <div class="acc-item" id="acc-gaps">
+      <div class="acc-header" onclick="toggleAcc('acc-gaps')">
+        <div class="acc-header-left"><div class="acc-icon icon-gaps">🔍</div><div><div class="acc-title">Research Gaps</div><div class="acc-count">Where your original contribution can go</div></div></div>
+        <div class="acc-header-right"><button class="acc-copy" onclick="copySection(event,'content-gaps')">Copy</button><div class="acc-chevron">▾</div></div>
+      </div>
+      <div class="acc-body"><div class="acc-content" id="content-gaps">Loading…</div></div>
+    </div>
+    <div class="acc-item" id="acc-review">
+      <div class="acc-header" onclick="toggleAcc('acc-review')">
+        <div class="acc-header-left"><div class="acc-icon icon-review">📚</div><div><div class="acc-title">Literature Review</div><div class="acc-count">Full academic-quality writeup</div></div></div>
+        <div class="acc-header-right"><button class="acc-copy" onclick="copySection(event,'content-review')">Copy</button><div class="acc-chevron">▾</div></div>
+      </div>
+      <div class="acc-body"><div class="acc-content" id="content-review">Loading…</div></div>
+    </div>
+    <div class="acc-item" id="acc-roadmap">
+      <div class="acc-header" onclick="toggleAcc('acc-roadmap')">
+        <div class="acc-header-left"><div class="acc-icon icon-roadmap">🗺️</div><div><div class="acc-title">Execution Roadmap</div><div class="acc-count">How to go about this research</div></div></div>
+        <div class="acc-header-right"><button class="acc-copy" onclick="copySection(event,'content-roadmap')">Copy</button><div class="acc-chevron">▾</div></div>
+      </div>
+      <div class="acc-body"><div class="acc-content" id="content-roadmap">Loading…</div></div>
+    </div>
+    <div class="acc-item raw-output hidden" id="acc-raw">
+      <div class="acc-header" onclick="toggleAcc('acc-raw')">
+        <div class="acc-header-left"><div class="acc-icon icon-raw">📋</div><div><div class="acc-title">Full Agent Output</div><div class="acc-count">Raw response — view if sections above appear empty</div></div></div>
+        <div class="acc-header-right"><button class="acc-copy" onclick="copySection(event,'content-raw')">Copy all</button><div class="acc-chevron">▾</div></div>
+      </div>
+      <div class="acc-body"><div class="acc-content" id="content-raw"></div></div>
+    </div>
+  </div>
 
-  <script>
-    // ══════════════════════════════════════════════════
-    // CONFIG — replace with your Flowise API endpoint
-    // Get it: Flowise → your flow → </> icon → copy URL
-    // ══════════════════════════════════════════════════
-    const FLOWISE_API_URL = 'YOUR_FLOWISE_API_ENDPOINT_HERE';
+  <!-- Citation formatter -->
+  <div class="citation-bar">
+    <label>Reformat paper references as:</label>
+    <select id="citation-style">
+      <option value="APA">APA 7th Edition</option>
+      <option value="Harvard">Harvard</option>
+      <option value="IEEE">IEEE</option>
+      <option value="Chicago">Chicago</option>
+    </select>
+    <button class="btn-reformat" id="btn-reformat" onclick="reformatCitations()">Apply Style</button>
+  </div>
 
-    // ── STATE ─────────────────────────────────────────
-    let currentTopic      = '';
-    let currentLevel      = '';
-    let currentDiscipline = '';
-    let fullReportText    = '';
-    let sessionId         = null;
+  <!-- Download bar -->
+  <div class="download-bar">
+    <div class="download-bar-text">
+      <h4>⬇ Download your full report</h4>
+      <p>All five sections — choose your preferred format</p>
+    </div>
+    <div class="download-actions">
+      <button class="btn-pdf"        onclick="downloadPDF()">PDF</button>
+      <button class="btn-word"       onclick="downloadWord()">Word (.doc)</button>
+      <button class="btn-new-search" onclick="newSearch()">New Search</button>
+    </div>
+  </div>
+</section>
 
-    // ── NAVIGATION ────────────────────────────────────
-    const SECTIONS = ['hero', 'input', 'loading', 'results'];
+<footer>ScholarBot &mdash; Built for <a href="#">LD7237 Hackathon</a> &middot; MSc Big Data &amp; Data Science Technologies &middot; University of East London &middot; 2025–2026</footer>
 
-    function showSection(name) {
-      SECTIONS.forEach(s => {
-        const el = document.getElementById('section-' + s);
-        if (el) el.classList.toggle('hidden', s !== name);
-      });
-      // show/hide nav PDF button
-      document.getElementById('nav-pdf-btn')
-        .classList.toggle('hidden', name !== 'results');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+<script>
+// ════════════════════════════════════════════════════════
+// FLOWISE API — live endpoint
+// ════════════════════════════════════════════════════════
+const FLOWISE_API_URL =
+  'https://cloud.flowiseai.com/api/v1/prediction/2ae796b1-b682-4ad6-9d0d-61e3905dd345';
 
-    function newSearch() {
-      sessionId = null;
-      showSection('input');
-    }
+// ── STATE ─────────────────────────────────────────────
+let currentTopic      = '';
+let currentLevel      = '';
+let currentDiscipline = '';
+let fullReportText    = '';
+let sessionId         = null;
+let currentUser       = null;
 
-    // ── TOAST ─────────────────────────────────────────
-    let toastTimer;
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.remove('hidden');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => t.classList.add('hidden'), 2500);
-    }
+// ── SECTIONS ──────────────────────────────────────────
+const ALL_SECTIONS = ['hero','signup','login','input','loading','results'];
 
-    // ── ACCORDION ─────────────────────────────────────
-    function toggleAcc(id) {
-      document.getElementById(id).classList.toggle('open');
-    }
-    function setAllAcc(open) {
-      document.querySelectorAll('.acc-item').forEach(el => {
-        el.classList.toggle('open', open);
-      });
-    }
+function showSection(name) {
+  ALL_SECTIONS.forEach(s => {
+    const el = document.getElementById('section-' + s);
+    if (el) el.classList.toggle('hidden', s !== name);
+  });
+  document.getElementById('nav-pdf-btn').classList.toggle('hidden', name !== 'results');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-    // ── COPY SECTION ──────────────────────────────────
-    function copySection(e, contentId) {
-      e.stopPropagation();
-      const text = document.getElementById(contentId).textContent;
-      navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard ✓'));
-    }
+// ── TOAST ─────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.remove('hidden');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.add('hidden'), 2800);
+}
 
-    // ── LOADING ANIMATION ─────────────────────────────
-    function setAgent(num, state) {
-      const box    = document.getElementById('agent' + num + '-box');
-      const status = document.getElementById('agent' + num + '-status');
-      box.className = 'agent-box' + (state !== 'waiting' ? ' ' + state : '');
-      const labels = { waiting: 'Waiting', active: 'Working…', done: 'Done ✓' };
-      status.textContent = labels[state] || state;
-    }
-    function setLoadingStatus(msg) {
-      document.getElementById('loading-status').textContent = msg;
-    }
+// ── AUTH HELPERS ──────────────────────────────────────
+function getUsers() {
+  return JSON.parse(localStorage.getItem('sb_users') || '[]');
+}
+function saveUsers(users) {
+  localStorage.setItem('sb_users', JSON.stringify(users));
+}
+function hashPass(p) {
+  // Simple hash for demo — use a proper backend for production
+  let h = 0;
+  for (let i = 0; i < p.length; i++) { h = (Math.imul(31, h) + p.charCodeAt(i)) | 0; }
+  return h.toString(36);
+}
+function updateNavUser(user) {
+  if (!user) {
+    document.getElementById('nav-user').classList.add('hidden');
+    return;
+  }
+  document.getElementById('nav-user').classList.remove('hidden');
+  document.getElementById('nav-username').textContent = user.firstName;
+  document.getElementById('nav-avatar').textContent = user.firstName[0].toUpperCase();
+}
 
-    // ── BUILD PROMPT ──────────────────────────────────
-    function buildPrompt() {
-      const topic      = document.getElementById('topic-input').value.trim();
-      const level      = document.getElementById('level-select').value;
-      const discipline = document.getElementById('discipline-select').value;
-      const sections   = ['RELEVANT PAPERS'];
-      if (document.getElementById('cb-ideas').checked)   sections.push('RESEARCH IDEAS');
-      if (document.getElementById('cb-gaps').checked)    sections.push('RESEARCH GAPS');
-      if (document.getElementById('cb-review').checked)  sections.push('LITERATURE REVIEW');
-      if (document.getElementById('cb-roadmap').checked) sections.push('EXECUTION ROADMAP');
+// ── SIGN UP ───────────────────────────────────────────
+function signUp() {
+  const err   = document.getElementById('signup-error');
+  err.classList.add('hidden');
+  const fn    = document.getElementById('su-firstname').value.trim();
+  const ln    = document.getElementById('su-lastname').value.trim();
+  const email = document.getElementById('su-email').value.trim().toLowerCase();
+  const pass  = document.getElementById('su-password').value;
+  const level = document.getElementById('su-level').value;
 
-      return `Research topic: ${topic}
-Academic level: ${level}
-Discipline: ${discipline}
-Sections to include: ${sections.join(', ')}
+  if (!fn || !ln)    { return showErr(err, 'Please enter your first and last name.'); }
+  if (!email.includes('@')) { return showErr(err, 'Please enter a valid email address.'); }
+  if (pass.length < 6)      { return showErr(err, 'Password must be at least 6 characters.'); }
 
-Please produce a structured academic research report on this topic.`.trim();
-    }
+  const users = getUsers();
+  if (users.find(u => u.email === email)) {
+    return showErr(err, 'An account with this email already exists. Please log in.');
+  }
 
-    // ── PARSE RESPONSE ────────────────────────────────
-    // Flexible parser — handles ##, bold headers, numbered or plain
-    function parseResponse(text) {
-      const out = { ideas:'', papers:'', gaps:'', review:'', roadmap:'' };
+  const user = { firstName: fn, lastName: ln, email, password: hashPass(pass), level, createdAt: Date.now() };
+  users.push(user);
+  saveUsers(users);
+  currentUser = user;
+  localStorage.setItem('sb_session', JSON.stringify(user));
+  updateNavUser(user);
+  // pre-fill level from signup
+  document.getElementById('level-select').value = level;
+  showToast(`Welcome, ${fn}! 🎓`);
+  showSection('input');
+}
 
-      // Normalise markdown bold and extra hashes
-      const t = text.replace(/\*\*/g, '').replace(/#{1,3}\s*/g, '');
+function showErr(el, msg) {
+  el.textContent = msg;
+  el.classList.remove('hidden');
+}
 
-      const patterns = {
-        ideas:   /(?:1[.):]?\s*)?RESEARCH IDEAS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RELEVANT PAPERS?|$)/i,
-        papers:  /(?:2[.):]?\s*)?RELEVANT PAPERS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RESEARCH GAPS?|$)/i,
-        gaps:    /(?:3[.):]?\s*)?RESEARCH GAPS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?LITERATURE REVIEW|$)/i,
-        review:  /(?:4[.):]?\s*)?LITERATURE REVIEW\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?EXECUTION ROADMAP|$)/i,
-        roadmap: /(?:5[.):]?\s*)?EXECUTION ROADMAP\s*\n([\s\S]*?)$/i,
-      };
+// ── LOG IN ────────────────────────────────────────────
+function logIn() {
+  const err   = document.getElementById('login-error');
+  err.classList.add('hidden');
+  const email = document.getElementById('li-email').value.trim().toLowerCase();
+  const pass  = document.getElementById('li-password').value;
 
-      let anyParsed = false;
-      for (const [key, regex] of Object.entries(patterns)) {
-        const m = t.match(regex);
-        if (m && m[1].trim().length > 10) {
-          out[key] = m[1].trim();
-          anyParsed = true;
-        }
-      }
-      return { sections: out, anyParsed };
-    }
+  const users = getUsers();
+  const user  = users.find(u => u.email === email && u.password === hashPass(pass));
+  if (!user) return showErr(err, 'Email or password is incorrect. Please try again.');
 
-    // ── CALL FLOWISE ──────────────────────────────────
-    async function callFlowise(prompt) {
-      const body = { question: prompt };
-      if (sessionId) body.sessionId = sessionId;
+  currentUser = user;
+  localStorage.setItem('sb_session', JSON.stringify(user));
+  updateNavUser(user);
+  document.getElementById('level-select').value = user.level || 'Masters';
+  showToast(`Welcome back, ${user.firstName}!`);
+  showSection('input');
+}
 
-      const res = await fetch(FLOWISE_API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
+// ── LOG OUT ───────────────────────────────────────────
+function logout() {
+  currentUser = null;
+  sessionId   = null;
+  localStorage.removeItem('sb_session');
+  updateNavUser(null);
+  showToast('Logged out successfully.');
+  showSection('hero');
+}
 
-      if (!res.ok) {
-        const err = await res.text();
-        throw new Error(`API ${res.status}: ${err}`);
-      }
+// ── HANDLE START CLICK ────────────────────────────────
+function handleStartClick() {
+  if (currentUser) {
+    showSection('input');
+  } else {
+    showSection('signup');
+  }
+}
 
-      const data = await res.json();
-      if (data.sessionId) sessionId = data.sessionId;
-      return data.text || data.answer || data.output || JSON.stringify(data);
-    }
+function goHome() {
+  showSection('hero');
+}
 
-    // ── MAIN GENERATION ───────────────────────────────
-    async function startGeneration() {
-      const topic = document.getElementById('topic-input').value.trim();
-      if (!topic) { alert('Please enter a research topic.'); return; }
+function newSearch() {
+  sessionId = null;
+  showSection('input');
+}
 
-      currentTopic      = topic;
-      currentLevel      = document.getElementById('level-select').value;
-      currentDiscipline = document.getElementById('discipline-select').value;
+// ── ACCORDION ─────────────────────────────────────────
+function toggleAcc(id) { document.getElementById(id).classList.toggle('open'); }
+function setAllAcc(open) { document.querySelectorAll('.acc-item').forEach(el => el.classList.toggle('open', open)); }
 
-      showSection('loading');
-      setAgent(1, 'waiting');
-      setAgent(2, 'waiting');
-      setLoadingStatus('Connecting to AI pipeline…');
+// ── COPY SECTION ──────────────────────────────────────
+function copySection(e, id) {
+  e.stopPropagation();
+  navigator.clipboard.writeText(document.getElementById(id).textContent)
+    .then(() => showToast('Copied to clipboard ✓'));
+}
 
-      try {
-        // Agent 1 phase
-        setAgent(1, 'active');
-        setLoadingStatus('Research Scout is searching for papers…');
+// ── LOADING HELPERS ───────────────────────────────────
+function setAgent(num, state) {
+  const box    = document.getElementById('agent' + num + '-box');
+  const status = document.getElementById('agent' + num + '-status');
+  box.className = 'agent-box' + (state !== 'waiting' ? ' ' + state : '');
+  status.textContent = { waiting:'Waiting', active:'Working…', done:'Done ✓' }[state] || state;
+}
+function setLoadingStatus(msg) { document.getElementById('loading-status').textContent = msg; }
 
-        const rawResponse = await callFlowise(buildPrompt());
+// ── BUILD PROMPT ──────────────────────────────────────
+function buildPrompt() {
+  const topic      = document.getElementById('topic-input').value.trim();
+  const level      = document.getElementById('level-select').value;
+  const discipline = document.getElementById('discipline-select').value;
+  const secs       = ['RELEVANT PAPERS'];
+  if (document.getElementById('cb-ideas').checked)   secs.push('RESEARCH IDEAS');
+  if (document.getElementById('cb-gaps').checked)    secs.push('RESEARCH GAPS');
+  if (document.getElementById('cb-review').checked)  secs.push('LITERATURE REVIEW');
+  if (document.getElementById('cb-roadmap').checked) secs.push('EXECUTION ROADMAP');
+  return `Research topic: ${topic}\nAcademic level: ${level}\nDiscipline: ${discipline}\nSections to include: ${secs.join(', ')}\n\nPlease produce a structured academic research report on this topic.`;
+}
 
-        // Agent handoff visual
-        setAgent(1, 'done');
-        setAgent(2, 'active');
-        setLoadingStatus('Academic Writer is synthesising your report…');
-        await new Promise(r => setTimeout(r, 1000));
-        setAgent(2, 'done');
-        setLoadingStatus('Report ready!');
+// ── PARSE RESPONSE ────────────────────────────────────
+function parseResponse(text) {
+  const out = { ideas:'', papers:'', gaps:'', review:'', roadmap:'' };
+  const t   = text.replace(/\*\*/g,'').replace(/#{1,3}\s*/g,'');
+  const pats = {
+    ideas:   /(?:\d[.):]?\s*)?RESEARCH IDEAS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RELEVANT PAPERS?|$)/i,
+    papers:  /(?:\d[.):]?\s*)?RELEVANT PAPERS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RESEARCH GAPS?|$)/i,
+    gaps:    /(?:\d[.):]?\s*)?RESEARCH GAPS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?LITERATURE REVIEW|$)/i,
+    review:  /(?:\d[.):]?\s*)?LITERATURE REVIEW\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?EXECUTION ROADMAP|$)/i,
+    roadmap: /(?:\d[.):]?\s*)?EXECUTION ROADMAP\s*\n([\s\S]*?)$/i,
+  };
+  let anyParsed = false;
+  for (const [k, r] of Object.entries(pats)) {
+    const m = t.match(r);
+    if (m && m[1].trim().length > 10) { out[k] = m[1].trim(); anyParsed = true; }
+  }
+  return { sections: out, anyParsed };
+}
 
-        fullReportText = rawResponse;
-        const { sections, anyParsed } = parseResponse(rawResponse);
-        populateResults(sections, anyParsed, rawResponse);
-        showSection('results');
+// ── CALL FLOWISE ──────────────────────────────────────
+async function callFlowise(prompt) {
+  const body = { question: prompt };
+  if (sessionId) body.sessionId = sessionId;
+  const res = await fetch(FLOWISE_API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) { const e = await res.text(); throw new Error(`API ${res.status}: ${e}`); }
+  const data = await res.json();
+  if (data.sessionId) sessionId = data.sessionId;
+  return data.text || data.answer || data.output || JSON.stringify(data);
+}
 
-      } catch (err) {
-        showSection('results');
-        document.getElementById('error-box').classList.remove('hidden');
-        document.getElementById('error-message').textContent =
-          err.message + '. Check your Flowise API URL in index.html and try again.';
-      }
-    }
+// ── MAIN GENERATION ───────────────────────────────────
+async function startGeneration() {
+  const topic = document.getElementById('topic-input').value.trim();
+  if (!topic) { alert('Please enter a research topic.'); return; }
 
-    // ── POPULATE RESULTS ──────────────────────────────
-    function populateResults(sections, anyParsed, rawText) {
-      document.getElementById('results-topic-text').textContent = currentTopic;
-      document.getElementById('meta-level').textContent         = currentLevel;
-      document.getElementById('meta-discipline').textContent    = currentDiscipline;
-      document.getElementById('meta-date').textContent          =
-        new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+  currentTopic      = topic;
+  currentLevel      = document.getElementById('level-select').value;
+  currentDiscipline = document.getElementById('discipline-select').value;
 
-      document.getElementById('content-ideas').textContent   = sections.ideas   || 'Not included.';
-      document.getElementById('content-papers').textContent  = sections.papers  || 'Not included.';
-      document.getElementById('content-gaps').textContent    = sections.gaps    || 'Not included.';
-      document.getElementById('content-review').textContent  = sections.review  || 'Not included.';
-      document.getElementById('content-roadmap').textContent = sections.roadmap || 'Not included.';
-      document.getElementById('error-box').classList.add('hidden');
+  showSection('loading');
+  setAgent(1,'waiting'); setAgent(2,'waiting');
+  setLoadingStatus('Connecting to AI pipeline…');
 
-      // If sections couldn't be parsed, show raw output as fallback
-      if (!anyParsed && rawText) {
-        document.getElementById('content-raw').textContent = rawText;
-        document.getElementById('acc-raw').classList.remove('hidden');
-        document.getElementById('acc-raw').classList.add('open');
-      } else {
-        document.getElementById('acc-raw').classList.add('hidden');
-      }
-    }
+  try {
+    setAgent(1,'active');
+    setLoadingStatus('Research Scout is searching for papers…');
+    const raw = await callFlowise(buildPrompt());
 
-    // ── CITATION REFORMATTER ──────────────────────────
-    async function reformatCitations() {
-      const style = document.getElementById('citation-style').value;
-      const btn   = document.getElementById('btn-reformat');
-      btn.textContent = 'Reformatting…';
-      btn.disabled    = true;
+    setAgent(1,'done'); setAgent(2,'active');
+    setLoadingStatus('Academic Writer is synthesising your report…');
+    await new Promise(r => setTimeout(r, 1000));
+    setAgent(2,'done');
+    setLoadingStatus('Report ready!');
 
-      try {
-        const prompt =
-          `Reformat all paper references from the report on "${currentTopic}" ` +
-          `into ${style} citation style. Return only the formatted reference list, nothing else.`;
-        const result = await callFlowise(prompt);
-        document.getElementById('content-papers').textContent = result;
-        document.getElementById('acc-papers').classList.add('open');
-        showToast(`References reformatted to ${style} ✓`);
-      } catch (err) {
-        showToast('Could not reformat: ' + err.message);
-      } finally {
-        btn.textContent = 'Apply Style';
-        btn.disabled    = false;
-      }
-    }
+    fullReportText = raw;
+    const { sections, anyParsed } = parseResponse(raw);
+    populateResults(sections, anyParsed, raw);
+    showSection('results');
 
-    // ── PDF DOWNLOAD ──────────────────────────────────
-    function downloadPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc    = new jsPDF({ unit: 'mm', format: 'a4' });
-      const W      = doc.internal.pageSize.getWidth();
-      const H      = doc.internal.pageSize.getHeight();
-      const margin = 18;
-      const maxW   = W - margin * 2;
-      let y        = margin;
+  } catch(err) {
+    showSection('results');
+    document.getElementById('error-box').classList.remove('hidden');
+    document.getElementById('error-message').textContent = err.message;
+  }
+}
 
-      const nl = (size) => size * 0.42;
+// ── POPULATE RESULTS ──────────────────────────────────
+function populateResults(sections, anyParsed, rawText) {
+  document.getElementById('results-topic-text').textContent = currentTopic;
+  document.getElementById('meta-level').textContent         = currentLevel;
+  document.getElementById('meta-discipline').textContent    = currentDiscipline;
+  document.getElementById('meta-user').textContent          = currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : 'Guest';
+  document.getElementById('meta-date').textContent          = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('content-ideas').textContent   = sections.ideas   || 'Not included.';
+  document.getElementById('content-papers').textContent  = sections.papers  || 'Not included.';
+  document.getElementById('content-gaps').textContent    = sections.gaps    || 'Not included.';
+  document.getElementById('content-review').textContent  = sections.review  || 'Not included.';
+  document.getElementById('content-roadmap').textContent = sections.roadmap || 'Not included.';
+  document.getElementById('error-box').classList.add('hidden');
+  const rawAcc = document.getElementById('acc-raw');
+  if (!anyParsed && rawText) {
+    document.getElementById('content-raw').textContent = rawText;
+    rawAcc.classList.remove('hidden'); rawAcc.classList.add('open');
+  } else { rawAcc.classList.add('hidden'); }
+}
 
-      const addText = (text, size, style, color) => {
-        doc.setFontSize(size);
-        doc.setFont('helvetica', style || 'normal');
-        doc.setTextColor(...(color || [30, 30, 30]));
-        doc.splitTextToSize(String(text), maxW).forEach(line => {
-          if (y > H - margin - 10) { doc.addPage(); y = margin; }
-          doc.text(line, margin, y);
-          y += nl(size);
-        });
-        y += 3;
-      };
+// ── CITATION REFORMATTER ──────────────────────────────
+async function reformatCitations() {
+  const style = document.getElementById('citation-style').value;
+  const btn   = document.getElementById('btn-reformat');
+  btn.textContent = 'Reformatting…'; btn.disabled = true;
+  try {
+    const r = await callFlowise(`Reformat all paper references from the report on "${currentTopic}" into ${style} citation style. Return only the formatted reference list.`);
+    document.getElementById('content-papers').textContent = r;
+    document.getElementById('acc-papers').classList.add('open');
+    showToast(`References reformatted to ${style} ✓`);
+  } catch(e) { showToast('Could not reformat: ' + e.message); }
+  finally { btn.textContent = 'Apply Style'; btn.disabled = false; }
+}
 
-      const addDivider = (r=201,g=168,b=76) => {
-        if (y > H - margin - 12) { doc.addPage(); y = margin; }
-        doc.setDrawColor(r,g,b);
-        doc.setLineWidth(0.4);
-        doc.line(margin, y, W - margin, y);
-        y += 5;
-      };
+// ── PDF DOWNLOAD ──────────────────────────────────────
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc  = new jsPDF({ unit:'mm', format:'a4' });
+  const W    = doc.internal.pageSize.getWidth();
+  const H    = doc.internal.pageSize.getHeight();
+  const mg   = 18;
+  const maxW = W - mg * 2;
+  let y      = mg;
 
-      // ── Cover ──
-      doc.setFillColor(13, 27, 42);
-      doc.rect(0, 0, W, H, 'F');
-      doc.setFillColor(201, 168, 76);
-      doc.rect(0, H * 0.55, W, H * 0.45, 'F');
+  const addTxt = (text, size, style, col) => {
+    doc.setFontSize(size); doc.setFont('helvetica', style||'normal');
+    doc.setTextColor(...(col||[40,40,40]));
+    doc.splitTextToSize(String(text), maxW).forEach(l => {
+      if (y > H - mg - 10) { doc.addPage(); y = mg; }
+      doc.text(l, mg, y); y += size * 0.42;
+    }); y += 3;
+  };
+  const addLine = () => {
+    if (y > H - mg - 12) { doc.addPage(); y = mg; }
+    doc.setDrawColor(201,168,76); doc.setLineWidth(.4);
+    doc.line(mg, y, W-mg, y); y += 5;
+  };
 
-      doc.setFontSize(32); doc.setFont('helvetica','bold');
-      doc.setTextColor(201,168,76);
-      doc.text('ScholarBot', W/2, 70, { align:'center' });
+  // Cover
+  doc.setFillColor(13,27,42); doc.rect(0,0,W,H,'F');
+  doc.setFillColor(201,168,76); doc.rect(0,H*.55,W,H*.45,'F');
+  doc.setFontSize(34); doc.setFont('helvetica','bold'); doc.setTextColor(201,168,76);
+  doc.text('ScholarBot', W/2, 68, {align:'center'});
+  doc.setFontSize(12); doc.setFont('helvetica','normal'); doc.setTextColor(200,210,220);
+  doc.text('AI-Powered Academic Research Report', W/2, 81, {align:'center'});
+  doc.setFontSize(13); doc.setFont('helvetica','bold'); doc.setTextColor(255,255,255);
+  doc.splitTextToSize(currentTopic, maxW).forEach((l,i)=>doc.text(l,W/2,100+i*7,{align:'center'}));
+  const cy = H*.58;
+  doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(13,27,42);
+  doc.text(`Level: ${currentLevel}`,      mg, cy+10);
+  doc.text(`Discipline: ${currentDiscipline}`, mg, cy+18);
+  doc.text(`By: ${currentUser ? currentUser.firstName+' '+currentUser.lastName : 'Guest'}`, mg, cy+26);
+  doc.text(`Date: ${document.getElementById('meta-date').textContent}`, mg, cy+34);
+  doc.setFontSize(8); doc.setTextColor(13,27,42);
+  doc.text('ScholarBot — LD7237 Hackathon | University of East London', W/2, H-8, {align:'center'});
 
-      doc.setFontSize(12); doc.setFont('helvetica','normal');
-      doc.setTextColor(200,210,220);
-      doc.text('AI-Powered Academic Research Report', W/2, 83, { align:'center' });
+  doc.addPage(); y = mg;
+  addTxt('Research Topic', 9, 'normal', [120,120,120]);
+  addTxt(currentTopic, 17, 'bold', [13,27,42]); y+=2; addLine();
 
-      doc.setFontSize(10); doc.setTextColor(150,165,180);
-      doc.text('Topic:', W/2, 102, { align:'center' });
-      doc.setFontSize(13); doc.setFont('helvetica','bold'); doc.setTextColor(255,255,255);
-      doc.splitTextToSize(currentTopic, maxW).forEach((l, i) => {
-        doc.text(l, W/2, 110 + i*6, { align:'center' });
-      });
+  [
+    {label:'1.  RESEARCH IDEAS',    id:'content-ideas'},
+    {label:'2.  RELEVANT PAPERS',   id:'content-papers'},
+    {label:'3.  RESEARCH GAPS',     id:'content-gaps'},
+    {label:'4.  LITERATURE REVIEW', id:'content-review'},
+    {label:'5.  EXECUTION ROADMAP', id:'content-roadmap'},
+  ].forEach(({label,id}) => {
+    const c = document.getElementById(id).textContent;
+    if (!c || c==='Not included.') return;
+    y += 5; if (y > H-mg-20){doc.addPage();y=mg;}
+    addTxt(label, 13, 'bold', [13,27,42]); addLine();
+    addTxt(c, 10, 'normal', [40,40,40]); y += 4;
+  });
 
-      const coverY = H * 0.58;
-      doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(13,27,42);
-      doc.text('Level:', margin, coverY + 10);
-      doc.text('Discipline:', margin, coverY + 18);
-      doc.text('Generated:', margin, coverY + 26);
-      doc.setFont('helvetica','normal');
-      doc.text(currentLevel,      margin + 28, coverY + 10);
-      doc.text(currentDiscipline, margin + 36, coverY + 18);
-      doc.text(document.getElementById('meta-date').textContent, margin + 30, coverY + 26);
+  const pages = doc.internal.getNumberOfPages();
+  for (let i=2;i<=pages;i++) {
+    doc.setPage(i); doc.setFontSize(8); doc.setTextColor(160,160,160);
+    doc.text('ScholarBot — LD7237 Hackathon | University of East London', mg, H-8);
+    doc.text(`Page ${i-1} of ${pages-1}`, W-mg, H-8, {align:'right'});
+  }
+  doc.save('ScholarBot-' + currentTopic.slice(0,40).replace(/\s+/g,'-') + '.pdf');
+  showToast('PDF downloaded ✓');
+}
 
-      doc.setFontSize(9); doc.setTextColor(13,27,42);
-      doc.text('ScholarBot — LD7237 Hackathon | University of East London', W/2, H-10, {align:'center'});
+// ── WORD DOC DOWNLOAD ─────────────────────────────────
+function downloadWord() {
+  const userName = currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : 'Guest';
+  const dateStr  = document.getElementById('meta-date').textContent;
 
-      // ── Content pages ──
-      doc.addPage(); y = margin;
-      addText('Research Topic', 9, 'normal', [120,120,120]);
-      addText(currentTopic, 17, 'bold', [13,27,42]);
-      y += 2; addDivider();
+  const getSection = id => {
+    const t = document.getElementById(id).textContent;
+    return (!t || t === 'Not included.') ? '' : t;
+  };
 
-      const sectionDefs = [
-        { label:'1.  RESEARCH IDEAS',    id:'content-ideas'   },
-        { label:'2.  RELEVANT PAPERS',   id:'content-papers'  },
-        { label:'3.  RESEARCH GAPS',     id:'content-gaps'    },
-        { label:'4.  LITERATURE REVIEW', id:'content-review'  },
-        { label:'5.  EXECUTION ROADMAP', id:'content-roadmap' },
-      ];
+  const secHtml = (title, content) => {
+    if (!content) return '';
+    const paragraphs = content.split('\n').filter(l=>l.trim()).map(l=>`<p>${l}</p>`).join('');
+    return `<h2 style="color:#0D1B2A;border-bottom:2px solid #C9A84C;padding-bottom:6px;margin-top:28px">${title}</h2>${paragraphs}`;
+  };
 
-      sectionDefs.forEach(({ label, id }) => {
-        const content = document.getElementById(id).textContent;
-        if (!content || content === 'Not included.') return;
-        y += 6;
-        if (y > H - margin - 20) { doc.addPage(); y = margin; }
-        addText(label, 13, 'bold', [13,27,42]);
-        addDivider();
-        addText(content, 10, 'normal', [40,40,40]);
-        y += 4;
-      });
+  const html = `
+    <html xmlns:o="urn:schemas-microsoft-com:office:office"
+          xmlns:w="urn:schemas-microsoft-com:office:word"
+          xmlns="http://www.w3.org/TR/REC-html40">
+    <head>
+      <meta charset="utf-8"/>
+      <title>ScholarBot Report — ${currentTopic}</title>
+      <!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->
+      <style>
+        body { font-family: Calibri, 'Segoe UI', sans-serif; font-size: 11pt; color: #222; margin: 2.5cm; line-height: 1.6; }
+        h1   { font-family: 'Times New Roman', serif; font-size: 20pt; color: #0D1B2A; margin-bottom: 4pt; }
+        h2   { font-family: Calibri, sans-serif; font-size: 13pt; color: #0D1B2A; margin-top: 22pt; margin-bottom: 8pt; border-bottom: 1pt solid #C9A84C; padding-bottom: 4pt; }
+        p    { margin: 4pt 0; font-size: 11pt; }
+        .cover { text-align: center; padding: 60pt 0 40pt; border-bottom: 2pt solid #C9A84C; margin-bottom: 30pt; }
+        .cover h1 { font-size: 28pt; color: #C9A84C; letter-spacing: 2pt; }
+        .cover .subtitle { font-size: 13pt; color: #555; margin: 8pt 0 20pt; }
+        .cover .topic { font-size: 15pt; font-weight: bold; color: #0D1B2A; margin: 16pt 0 8pt; }
+        .meta-table { border-collapse: collapse; width: 100%; margin: 16pt 0; }
+        .meta-table td { padding: 5pt 8pt; font-size: 10pt; color: #555; border: 1pt solid #E0E0E0; }
+        .meta-table td:first-child { font-weight: bold; background: #F5F5F5; width: 30%; color: #333; }
+        .footer-note { margin-top: 40pt; padding-top: 8pt; border-top: 1pt solid #DDD; font-size: 9pt; color: #999; text-align: center; }
+      </style>
+    </head>
+    <body>
+      <div class="cover">
+        <h1>ScholarBot</h1>
+        <div class="subtitle">AI-Powered Academic Research Report</div>
+        <div class="topic">${currentTopic}</div>
+        <table class="meta-table">
+          <tr><td>Academic Level</td><td>${currentLevel}</td></tr>
+          <tr><td>Discipline</td><td>${currentDiscipline}</td></tr>
+          <tr><td>Researcher</td><td>${userName}</td></tr>
+          <tr><td>Generated</td><td>${dateStr}</td></tr>
+        </table>
+      </div>
+      ${secHtml('1. Research Ideas',    getSection('content-ideas'))}
+      ${secHtml('2. Relevant Papers',   getSection('content-papers'))}
+      ${secHtml('3. Research Gaps',     getSection('content-gaps'))}
+      ${secHtml('4. Literature Review', getSection('content-review'))}
+      ${secHtml('5. Execution Roadmap', getSection('content-roadmap'))}
+      <div class="footer-note">Generated by ScholarBot — LD7237 Hackathon | MSc Big Data &amp; Data Science Technologies | University of East London</div>
+    </body>
+    </html>`;
 
-      // ── Footers ──
-      const pages = doc.internal.getNumberOfPages();
-      for (let i = 2; i <= pages; i++) {
-        doc.setPage(i);
-        doc.setFontSize(8); doc.setTextColor(160,160,160);
-        doc.text('ScholarBot — LD7237 Hackathon | University of East London', margin, H - 8);
-        doc.text(`Page ${i-1} of ${pages-1}`, W - margin, H - 8, { align:'right' });
-      }
+  const blob     = new Blob([html], { type: 'application/msword' });
+  const url      = URL.createObjectURL(blob);
+  const a        = document.createElement('a');
+  a.href         = url;
+  a.download     = 'ScholarBot-' + currentTopic.slice(0,40).replace(/\s+/g,'-') + '.doc';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('Word document downloaded ✓');
+}
 
-      doc.save('ScholarBot-' + currentTopic.slice(0,40).replace(/\s+/g,'-') + '.pdf');
-      showToast('PDF downloaded ✓');
-    }
-  </script>
+// ── INIT — restore session on page load ───────────────
+(function init() {
+  const saved = localStorage.getItem('sb_session');
+  if (saved) {
+    try {
+      currentUser = JSON.parse(saved);
+      updateNavUser(currentUser);
+    } catch(e) { localStorage.removeItem('sb_session'); }
+  }
+  // Allow Enter key on login/signup
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    const active = ALL_SECTIONS.find(s => !document.getElementById('section-'+s).classList.contains('hidden'));
+    if (active === 'login')  logIn();
+    if (active === 'signup') signUp();
+  });
+})();
+</script>
 </body>
 </html>
