@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ScholarBot · Research Intelligence</title>
-  <meta name="description" content="ScholarBot — AI-powered research intelligence. Turn any topic into a full literature review, real paper references, research gaps, and an execution roadmap in seconds."/>
+  <meta name="description" content="ScholarBot — AI-powered research intelligence."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
@@ -12,24 +12,12 @@
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
-      --ink:       #080B1A;
-      --ink-card:  #0D1124;
-      --ink-mid:   #141830;
-      --ink-edge:  #1C2140;
-      --indigo:    #4F46E5;
-      --indigo-lt: #6366F1;
-      --cyan:      #06B6D4;
-      --cyan-lt:   #22D3EE;
-      --gradient:  linear-gradient(135deg,#4F46E5,#06B6D4);
-      --grad-rev:  linear-gradient(135deg,#06B6D4,#4F46E5);
-      --white:     #EEF2FF;
-      --grey-200:  #C7D2E8;
-      --grey-400:  #64748B;
-      --grey-600:  #334155;
-      --green:     #10B981;
-      --red:       #EF4444;
-      --radius:    14px;
-      --shadow:    0 8px 40px rgba(0,0,0,0.5);
+      --ink:#080B1A;--ink-card:#0D1124;--ink-mid:#141830;
+      --indigo:#4F46E5;--indigo-lt:#6366F1;--cyan:#06B6D4;--cyan-lt:#22D3EE;
+      --gradient:linear-gradient(135deg,#4F46E5,#06B6D4);
+      --white:#EEF2FF;--grey-200:#C7D2E8;--grey-400:#64748B;--grey-600:#334155;
+      --green:#10B981;--red:#EF4444;--amber:#F59E0B;--purple:#7C3AED;
+      --radius:14px;--shadow:0 8px 40px rgba(0,0,0,0.5);
     }
     html{scroll-behavior:smooth}
     body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--white);min-height:100vh;overflow-x:hidden}
@@ -39,30 +27,28 @@
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
     @keyframes spin{to{transform:rotate(360deg)}}
     @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(79,70,229,0)}50%{box-shadow:0 0 0 10px rgba(79,70,229,.2)}}
-    @keyframes nodeOn{0%{opacity:.2;transform:scale(.8)}100%{opacity:1;transform:scale(1)}}
-    @keyframes flowLine{0%{stroke-dashoffset:60}100%{stroke-dashoffset:0}}
     @keyframes toastIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
-    @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+    @keyframes typeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-    /* ── NAV ── */
+    /* NAV */
     nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:60px;background:rgba(8,11,26,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(79,70,229,.18)}
-    .nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
+    .nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer}
     .nav-logo-mark{width:32px;height:32px;flex-shrink:0}
-    .nav-logo-text{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--white);letter-spacing:-.3px}
+    .nav-logo-text{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--white)}
     .nav-logo-text span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .nav-right{display:flex;align-items:center;gap:10px}
-    .nav-tag{font-size:10px;font-weight:600;color:var(--indigo-lt);letter-spacing:.6px;text-transform:uppercase;background:rgba(79,70,229,.12);border:1px solid rgba(79,70,229,.25);padding:3px 10px;border-radius:100px}
+    .nav-tag{font-size:10px;font-weight:600;color:var(--indigo-lt);background:rgba(79,70,229,.12);border:1px solid rgba(79,70,229,.25);padding:3px 10px;border-radius:100px;letter-spacing:.6px;text-transform:uppercase}
     .nav-user{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--grey-200)}
-    .nav-avatar{width:28px;height:28px;background:var(--gradient);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+    .nav-avatar{width:28px;height:28px;background:var(--gradient);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
     .btn-nav-out{background:transparent;border:1px solid rgba(203,213,225,.1);color:var(--grey-400);font-size:11px;padding:4px 12px;border-radius:100px;cursor:pointer;transition:color .15s,border-color .15s}
     .btn-nav-out:hover{color:var(--red);border-color:rgba(239,68,68,.35)}
     .nav-dl-btn{background:var(--gradient);color:#fff;border:none;padding:6px 16px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;transition:opacity .15s,transform .15s}
     .nav-dl-btn:hover{opacity:.88;transform:translateY(-1px)}
 
-    /* ── TOAST ── */
+    /* TOAST */
     #toast{position:fixed;bottom:24px;right:24px;z-index:999;background:var(--ink-card);border:1px solid rgba(79,70,229,.3);border-radius:10px;padding:10px 18px;font-size:13px;color:var(--white);animation:toastIn .25s ease;pointer-events:none}
 
-    /* ── HERO ── */
+    /* HERO */
     #section-hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 24px 80px;position:relative;overflow:hidden;text-align:center}
     .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(79,70,229,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(79,70,229,.04) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
     .hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(79,70,229,.12) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-60%);pointer-events:none}
@@ -83,11 +69,11 @@
     .a-arrow{color:var(--indigo-lt);font-size:14px;opacity:.5}
     .process-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;max-width:800px;width:100%}
     .p-card{background:var(--ink-card);border:1px solid rgba(79,70,229,.1);border-radius:var(--radius);padding:20px;text-align:left}
-    .p-card-num{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--indigo-lt);letter-spacing:1px;margin-bottom:8px}
-    .p-card-title{font-size:13px;font-weight:600;color:var(--white);margin-bottom:4px}
-    .p-card-desc{font-size:11px;color:var(--grey-400);line-height:1.5}
+    .p-num{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--indigo-lt);letter-spacing:1px;margin-bottom:8px}
+    .p-title{font-size:13px;font-weight:600;color:var(--white);margin-bottom:4px}
+    .p-desc{font-size:11px;color:var(--grey-400);line-height:1.5}
 
-    /* ── SHARED FORM CARD ── */
+    /* SHARED FORM */
     .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px 60px}
     .card{background:var(--ink-card);border:1px solid rgba(79,70,229,.18);border-radius:20px;padding:40px;width:100%;max-width:480px;box-shadow:var(--shadow);animation:fadeUp .35s ease}
     .card-wide{max-width:700px}
@@ -100,15 +86,13 @@
     textarea{min-height:96px;line-height:1.6}
     select option{background:var(--ink-mid)}
     .r2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .btn-action{width:100%;background:var(--gradient);color:#fff;border:none;padding:14px;border-radius:100px;font-size:15px;font-weight:600;cursor:pointer;transition:transform .15s,box-shadow .15s;margin-top:6px;font-family:'Space Grotesk',sans-serif;letter-spacing:-.2px}
+    .btn-action{width:100%;background:var(--gradient);color:#fff;border:none;padding:14px;border-radius:100px;font-size:15px;font-weight:600;cursor:pointer;transition:transform .15s,box-shadow .15s;margin-top:6px;font-family:'Space Grotesk',sans-serif}
     .btn-action:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(79,70,229,.4)}
     .btn-action:disabled{opacity:.45;cursor:not-allowed}
     .sw{text-align:center;font-size:13px;color:var(--grey-400);margin-top:16px}
-    .sw a{color:var(--cyan);cursor:pointer;font-weight:500;text-decoration:none}
-    .sw a:hover{text-decoration:underline}
+    .sw a{color:var(--cyan);cursor:pointer;font-weight:500}
     .back{text-align:center;font-size:13px;color:var(--grey-400);cursor:pointer;margin-top:12px;transition:color .15s}
     .back:hover{color:var(--cyan)}
-    .ferr{font-size:11px;color:#FCA5A5;margin-top:5px}
     .form-err{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.25);border-radius:8px;padding:10px 14px;font-size:13px;color:#FCA5A5;margin-bottom:14px}
     .divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:var(--grey-600);font-size:12px}
     .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06)}
@@ -116,33 +100,96 @@
     .ch{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--grey-200);cursor:pointer}
     .ch input[type=checkbox]{width:15px;height:15px;accent-color:var(--indigo-lt);cursor:pointer}
 
-    /* ── LOADING ── */
+    /* MINI LOADING (Orchestrator check) */
+    #section-checking{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
+    .checking-icon{font-size:48px;margin-bottom:20px;animation:pulse 1.5s ease-in-out infinite}
+    .checking-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
+    .checking-sub{font-size:14px;color:var(--grey-400);margin-bottom:32px}
+    .mini-spinner{width:32px;height:32px;border:2.5px solid rgba(79,70,229,.15);border-top-color:var(--indigo-lt);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 12px}
+    .checking-status{font-size:13px;color:var(--grey-400)}
+
+    /* REVIEW SECTION */
+    #section-review{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:80px 24px 60px}
+    .review-wrap{width:100%;max-width:760px;animation:fadeUp .4s ease}
+
+    /* Orchestrator summary display */
+    .orc-summary{background:var(--ink-card);border:1px solid rgba(79,70,229,.2);border-radius:20px;padding:32px;margin-bottom:20px}
+    .orc-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.06)}
+    .orc-avatar{width:42px;height:42px;background:var(--gradient);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+    .orc-header-text h3{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:var(--white)}
+    .orc-header-text p{font-size:12px;color:var(--grey-400);margin-top:2px}
+    .orc-body{font-size:14px;color:var(--grey-200);line-height:1.85;white-space:pre-wrap;word-break:break-word}
+
+    /* Amendment box */
+    .amend-card{background:var(--ink-card);border:1px solid rgba(79,70,229,.18);border-radius:20px;padding:28px;margin-bottom:16px}
+    .amend-label{font-size:11px;font-weight:700;color:var(--cyan);letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+    .amend-label::after{content:'Optional';font-size:9px;color:var(--grey-400);font-weight:400;letter-spacing:0;text-transform:none;background:rgba(255,255,255,.06);padding:2px 8px;border-radius:100px}
+    .amend-textarea{width:100%;background:rgba(8,11,26,.6);border:1px solid rgba(199,210,232,.1);border-radius:12px;color:var(--white);font-family:'Inter',sans-serif;font-size:14px;padding:14px 16px;outline:none;transition:border-color .2s;resize:none;min-height:80px;line-height:1.6}
+    .amend-textarea:focus{border-color:var(--indigo-lt)}
+    .amend-textarea::placeholder{color:var(--grey-400)}
+    .amend-hint{font-size:11px;color:var(--grey-400);margin-top:8px;line-height:1.5}
+
+    /* Action buttons */
+    .review-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+    .btn-proceed{background:var(--gradient);color:#fff;border:none;padding:15px;border-radius:100px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:transform .15s,box-shadow .15s;display:flex;align-items:center;justify-content:center;gap:8px}
+    .btn-proceed:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(79,70,229,.4)}
+    .btn-proceed:disabled{opacity:.45;cursor:not-allowed}
+    .btn-reject{background:transparent;color:#FCA5A5;border:1px solid rgba(239,68,68,.3);padding:15px;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background .15s,border-color .15s;display:flex;align-items:center;justify-content:center;gap:8px}
+    .btn-reject:hover{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.5)}
+    .btn-amend{width:100%;background:rgba(6,182,212,.1);color:var(--cyan-lt);border:1px solid rgba(6,182,212,.3);padding:13px;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:8px}
+    .btn-amend:hover:not(:disabled){background:rgba(6,182,212,.18)}
+    .btn-amend:disabled{opacity:.45;cursor:not-allowed}
+
+    /* End screen */
+    .end-card{background:var(--ink-card);border:1px solid rgba(239,68,68,.18);border-radius:20px;padding:40px;text-align:center;width:100%;max-width:500px;animation:fadeUp .35s ease}
+    .end-icon{font-size:40px;margin-bottom:16px}
+    .end-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
+    .end-sub{font-size:14px;color:var(--grey-400);line-height:1.6;margin-bottom:24px}
+    .btn-restart{background:var(--gradient);color:#fff;border:none;padding:14px 32px;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif}
+
+    /* MAIN LOADING */
     #section-loading{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
     .ld-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin-bottom:10px;letter-spacing:-.4px}
     .ld-sub{font-size:14px;color:var(--grey-200);margin-bottom:52px}
-    /* neural animation */
-    .neural-wrap{margin-bottom:48px}
-    .neural-svg{overflow:visible}
-    .n-node{fill:var(--ink-card);stroke-width:1.5;transition:stroke .3s}
-    .n-node.waiting{stroke:rgba(199,210,232,.15)}
-    .n-node.active{stroke:var(--indigo);filter:drop-shadow(0 0 6px rgba(79,70,229,.6));animation:glow 1.4s ease-in-out infinite}
-    .n-node.done{stroke:var(--green)}
-    .n-label{fill:var(--white);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:middle}
-    .n-sub{fill:var(--grey-400);font-family:'Inter',sans-serif;font-size:9px;text-anchor:middle;dominant-baseline:middle}
-    .n-status{font-family:'Space Grotesk',sans-serif;font-size:9px;font-weight:700;text-anchor:middle;dominant-baseline:middle;transition:fill .3s}
-    .n-line{stroke:rgba(79,70,229,.25);stroke-width:1.5;stroke-dasharray:4 3;fill:none}
-    .n-line.active{stroke:var(--indigo);stroke-dasharray:60;stroke-dashoffset:60;animation:flowLine .8s linear forwards}
+    .agent-pipeline{display:flex;flex-direction:column;gap:0;align-items:center;margin-bottom:48px}
+    .agent-box{background:var(--ink-card);border:1px solid rgba(199,210,232,.1);border-radius:14px;padding:18px 26px;width:300px;text-align:left;transition:border-color .3s,box-shadow .3s}
+    .agent-box.active{border-color:var(--indigo);animation:glow 1.4s ease-in-out infinite}
+    .agent-box.done{border-color:var(--green)}
+    .agent-box-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+    .agent-name{font-size:13px;font-weight:700;color:var(--white)}
+    .agent-status{font-size:11px;font-weight:600;padding:2px 8px;border-radius:100px;background:rgba(100,116,139,.2);color:var(--grey-400)}
+    .agent-box.active .agent-status{background:rgba(79,70,229,.15);color:var(--indigo-lt)}
+    .agent-box.done .agent-status{background:rgba(16,185,129,.15);color:var(--green)}
+    .agent-desc{font-size:12px;color:var(--grey-400);line-height:1.5}
+    .agent-box.active .agent-desc{color:var(--grey-200)}
+    .pipeline-arrow{width:2px;height:26px;background:linear-gradient(to bottom,rgba(79,70,229,.4),rgba(79,70,229,.1));margin:0 auto}
     .spinner{width:36px;height:36px;border:2.5px solid rgba(79,70,229,.15);border-top-color:var(--indigo-lt);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 12px}
     .ld-status{font-size:13px;color:var(--grey-400);min-height:20px}
 
-    /* ── RESULTS ── */
-    #section-results{padding:88px 24px 100px;max-width:860px;margin:0 auto}
-    .r-header{margin-bottom:28px;animation:fadeUp .4s ease}
+    /* RESULTS */
+    #section-results{padding:88px 24px 100px;max-width:900px;margin:0 auto}
+    .r-header{margin-bottom:20px;animation:fadeUp .4s ease}
     .r-tag{font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
     .r-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;line-height:1.2;margin-bottom:14px;letter-spacing:-.4px}
-    .r-meta{display:flex;gap:16px;flex-wrap:wrap}
+    .r-meta{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:18px}
     .r-meta-i{font-size:12px;color:var(--grey-400);display:flex;align-items:center;gap:4px}
     .r-meta-i span{color:var(--grey-200);font-weight:500}
+    .score-card{background:var(--ink-card);border:1px solid rgba(79,70,229,.2);border-radius:var(--radius);padding:18px 22px;margin-bottom:14px}
+    .score-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+    .score-label{font-size:12px;font-weight:700;color:var(--cyan);letter-spacing:1px;text-transform:uppercase}
+    .score-badge{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--white)}
+    .score-badge span{font-size:13px;color:var(--grey-400);font-weight:400}
+    .score-bar-wrap{background:rgba(255,255,255,.06);border-radius:100px;height:8px;overflow:hidden;margin-bottom:8px}
+    .score-bar{height:8px;border-radius:100px;background:var(--gradient);transition:width 1s ease}
+    .score-breakdown{display:flex;gap:16px;flex-wrap:wrap}
+    .score-item{font-size:11px;color:var(--grey-400)}
+    .score-item strong{color:var(--grey-200)}
+    .score-assessment{font-size:12px;color:var(--grey-200);margin-top:8px;font-style:italic}
+    .score-rating{display:inline-block;font-size:11px;font-weight:700;padding:2px 10px;border-radius:100px;margin-top:6px}
+    .rating-excellent{background:rgba(16,185,129,.15);color:var(--green)}
+    .rating-good{background:rgba(79,70,229,.15);color:var(--indigo-lt)}
+    .rating-acceptable{background:rgba(245,158,11,.15);color:var(--amber)}
+    .rating-needs{background:rgba(239,68,68,.1);color:#FCA5A5}
     .r-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
     .r-toolbar-l{font-size:13px;color:var(--grey-400)}
     .r-toolbar-r{display:flex;gap:7px}
@@ -152,17 +199,21 @@
     .acc-item{background:var(--ink-card);border:1px solid rgba(79,70,229,.1);border-radius:var(--radius);overflow:hidden;transition:border-color .2s;animation:fadeUp .4s ease both}
     .acc-item:nth-child(1){animation-delay:.04s}.acc-item:nth-child(2){animation-delay:.08s}
     .acc-item:nth-child(3){animation-delay:.12s}.acc-item:nth-child(4){animation-delay:.16s}
-    .acc-item:nth-child(5){animation-delay:.20s}
+    .acc-item:nth-child(5){animation-delay:.20s}.acc-item:nth-child(6){animation-delay:.24s}
+    .acc-item:nth-child(7){animation-delay:.28s}.acc-item:nth-child(8){animation-delay:.32s}
     .acc-item:hover{border-color:rgba(79,70,229,.3)}
     .acc-h{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;cursor:pointer;user-select:none}
     .acc-hl{display:flex;align-items:center;gap:12px}
     .acc-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
     .i-ideas{background:rgba(99,102,241,.15)}.i-papers{background:rgba(6,182,212,.12)}
     .i-gaps{background:rgba(124,58,237,.12)}.i-review{background:rgba(16,185,129,.1)}
-    .i-roadmap{background:rgba(245,158,11,.1)}.i-raw{background:rgba(100,116,139,.08)}
+    .i-roadmap{background:rgba(245,158,11,.1)}.i-abstract{background:rgba(236,72,153,.12)}
+    .i-journals{background:rgba(6,182,212,.1)}.i-datasets{background:rgba(16,185,129,.08)}
+    .i-raw{background:rgba(100,116,139,.08)}
     .acc-title{font-size:14px;font-weight:600;font-family:'Space Grotesk',sans-serif}
     .acc-sub{font-size:11px;color:var(--grey-400);margin-top:2px}
     .acc-hr{display:flex;align-items:center;gap:8px}
+    .acc-new{font-size:9px;font-weight:700;background:rgba(79,70,229,.2);color:var(--indigo-lt);padding:2px 7px;border-radius:100px;letter-spacing:.5px}
     .acc-copy{background:transparent;border:1px solid rgba(199,210,232,.1);color:var(--grey-400);font-size:11px;padding:3px 9px;border-radius:100px;cursor:pointer;transition:border-color .15s,color .15s}
     .acc-copy:hover{border-color:var(--cyan);color:var(--cyan)}
     .acc-chev{color:var(--grey-400);font-size:13px;transition:transform .25s}
@@ -188,18 +239,16 @@
     .err-box{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.25);border-radius:var(--radius);padding:16px 20px;color:#FCA5A5;font-size:14px;line-height:1.6;margin-top:20px}
 
     footer{text-align:center;padding:36px 24px;font-size:12px;color:var(--grey-600);border-top:1px solid rgba(255,255,255,.04)}
-    footer strong{color:var(--grey-400)}
     footer a{color:var(--indigo-lt);text-decoration:none}
-    footer a:hover{text-decoration:underline}
 
     @media(max-width:640px){
       nav{padding:0 16px}
       .card{padding:26px 16px}
       .r2{grid-template-columns:1fr}
+      .review-actions{grid-template-columns:1fr}
       .dl-bar{flex-direction:column}
       .dl-actions{width:100%}
       .btn-pdf,.btn-word,.btn-new{flex:1;text-align:center}
-      .hero-title{letter-spacing:-1px}
     }
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
   </style>
@@ -208,17 +257,11 @@
 
 <div id="toast" class="hidden"></div>
 
-<!-- ══ NAV ══ -->
+<!-- NAV -->
 <nav>
   <div class="nav-logo" onclick="goHome()">
-    <!-- Hexagonal SVG logo mark -->
-    <svg class="nav-logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="lg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stop-color="#4F46E5"/>
-          <stop offset="100%" stop-color="#06B6D4"/>
-        </linearGradient>
-      </defs>
+    <svg class="nav-logo-mark" viewBox="0 0 32 32" fill="none">
+      <defs><linearGradient id="lg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#4F46E5"/><stop offset="100%" stop-color="#06B6D4"/></linearGradient></defs>
       <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="url(#lg)" opacity=".9"/>
       <circle cx="16" cy="14" r="5" fill="none" stroke="white" stroke-width="1.8"/>
       <line x1="19.5" y1="17.5" x2="23" y2="21" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
@@ -237,37 +280,37 @@
   </div>
 </nav>
 
-<!-- ══ HERO ══ -->
+<!-- HERO -->
 <section id="section-hero">
-  <div class="hero-grid"></div>
-  <div class="hero-glow"></div>
+  <div class="hero-grid"></div><div class="hero-glow"></div>
   <div class="hero-pill"><div class="hero-pill-dot"></div>Powered by Multi-Agent AI</div>
   <h1 class="hero-title">Research,<br/><span class="grad">Reimagined.</span></h1>
-  <p class="hero-sub">Enter any topic. ScholarBot's two-agent pipeline finds real papers, surfaces research gaps, and writes a full literature review — ready to download in seconds.</p>
+  <p class="hero-sub">Enter any topic. ScholarBot verifies papers exist, confirms your direction, then builds a full academic report with abstract, journals, and datasets — in seconds.</p>
   <div class="hero-cta">
     <button class="btn-primary" onclick="handleStart()">Start Researching →</button>
     <button class="btn-secondary" onclick="document.getElementById('process').scrollIntoView({behavior:'smooth'})">How it works</button>
   </div>
   <div class="agent-strip">
+    <div class="a-chip"><div class="dot dot-i"></div>Orchestrator</div>
+    <div class="a-arrow">→</div>
     <div class="a-chip"><div class="dot dot-i"></div>Research Scout</div>
     <div class="a-arrow">→</div>
-    <div class="a-chip"><div class="dot dot-c"></div>Academic Writer</div>
+    <div class="a-chip"><div class="dot dot-c"></div>Evaluator</div>
     <div class="a-arrow">→</div>
-    <div class="a-chip"><div class="dot dot-g"></div>Your Report</div>
+    <div class="a-chip"><div class="dot dot-g"></div>Academic Writer</div>
   </div>
   <div class="process-row" id="process">
-    <div class="p-card"><div class="p-card-num">STEP 01</div><div class="p-card-title">Enter a topic</div><div class="p-card-desc">Type any research area, broad or specific</div></div>
-    <div class="p-card"><div class="p-card-num">STEP 02</div><div class="p-card-title">Scout searches</div><div class="p-card-desc">Agent 1 finds and verifies real academic papers</div></div>
-    <div class="p-card"><div class="p-card-num">STEP 03</div><div class="p-card-title">Writer synthesises</div><div class="p-card-desc">Agent 2 produces a full structured report</div></div>
-    <div class="p-card"><div class="p-card-num">STEP 04</div><div class="p-card-title">Download</div><div class="p-card-desc">Save as PDF or Word — formatted and ready</div></div>
+    <div class="p-card"><div class="p-num">STEP 01</div><div class="p-title">Enter your topic</div><div class="p-desc">Any research area — broad or specific</div></div>
+    <div class="p-card"><div class="p-num">STEP 02</div><div class="p-title">Orchestrator checks</div><div class="p-desc">Scans for papers, summarises, asks you to confirm or refine</div></div>
+    <div class="p-card"><div class="p-num">STEP 03</div><div class="p-title">Agents research</div><div class="p-desc">Scout finds papers, Evaluator scores, Writer synthesises</div></div>
+    <div class="p-card"><div class="p-num">STEP 04</div><div class="p-title">Download report</div><div class="p-desc">8 sections including abstract, journals, and datasets</div></div>
   </div>
 </section>
 
-<!-- ══ SIGN UP ══ -->
+<!-- SIGN UP -->
 <section id="section-signup" class="wrap hidden">
   <div class="card">
-    <h2>Create your account</h2>
-    <p>Free to use. No credit card required.</p>
+    <h2>Create your account</h2><p>Free to use. No credit card required.</p>
     <div id="su-err" class="form-err hidden"></div>
     <div class="r2">
       <div class="fg"><label class="fl">First Name</label><input type="text" id="su-fn" placeholder="Ada"/></div>
@@ -275,14 +318,9 @@
     </div>
     <div class="fg"><label class="fl">Email</label><input type="email" id="su-em" placeholder="ada@example.com"/></div>
     <div class="fg"><label class="fl">Password</label><input type="password" id="su-pw" placeholder="At least 6 characters"/></div>
-    <div class="fg"><label class="fl">Institution / University <span style="color:var(--grey-400);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label><input type="text" id="su-inst" placeholder="e.g. University of Manchester"/></div>
+    <div class="fg"><label class="fl">Institution <span style="color:var(--grey-400);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label><input type="text" id="su-inst" placeholder="e.g. University of Manchester"/></div>
     <div class="fg"><label class="fl">Academic Level</label>
-      <select id="su-lv">
-        <option value="Masters">Masters (MSc)</option>
-        <option value="PhD">PhD / Doctoral</option>
-        <option value="Undergraduate">Undergraduate</option>
-        <option value="Researcher">Researcher</option>
-      </select>
+      <select id="su-lv"><option value="Masters">Masters (MSc)</option><option value="PhD">PhD / Doctoral</option><option value="Undergraduate">Undergraduate</option><option value="Researcher">Researcher</option></select>
     </div>
     <button class="btn-action" onclick="signUp()">Create Account →</button>
     <div class="sw">Already have an account? <a onclick="showSection('login')">Log in</a></div>
@@ -290,11 +328,10 @@
   </div>
 </section>
 
-<!-- ══ LOG IN ══ -->
+<!-- LOG IN -->
 <section id="section-login" class="wrap hidden">
   <div class="card">
-    <h2>Welcome back</h2>
-    <p>Log in to continue your research.</p>
+    <h2>Welcome back</h2><p>Log in to continue your research.</p>
     <div id="li-err" class="form-err hidden"></div>
     <div class="fg"><label class="fl">Email</label><input type="email" id="li-em" placeholder="ada@example.com"/></div>
     <div class="fg"><label class="fl">Password</label><input type="password" id="li-pw" placeholder="Your password"/></div>
@@ -305,22 +342,16 @@
   </div>
 </section>
 
-<!-- ══ INPUT ══ -->
+<!-- INPUT -->
 <section id="section-input" class="wrap hidden">
   <div class="card card-wide">
-    <h2>Start your research</h2>
-    <p>The more specific your topic, the sharper the output.</p>
+    <h2>Start your research</h2><p>The more specific your topic, the sharper the output.</p>
     <div class="fg"><label class="fl">Research Topic *</label>
       <textarea id="topic-input" placeholder="e.g. Federated learning and data privacy in healthcare systems..." maxlength="500"></textarea>
     </div>
     <div class="r2">
       <div class="fg"><label class="fl">Academic Level</label>
-        <select id="lv-sel">
-          <option value="Masters">Masters (MSc)</option>
-          <option value="PhD">PhD / Doctoral</option>
-          <option value="Undergraduate">Undergraduate</option>
-          <option value="Researcher">Researcher</option>
-        </select>
+        <select id="lv-sel"><option value="Masters">Masters (MSc)</option><option value="PhD">PhD / Doctoral</option><option value="Undergraduate">Undergraduate</option><option value="Researcher">Researcher</option></select>
       </div>
       <div class="fg"><label class="fl">Discipline</label>
         <select id="di-sel">
@@ -339,9 +370,12 @@
     <div class="fg"><label class="fl">Include in Report</label>
       <div class="checks">
         <label class="ch"><input type="checkbox" id="cb-ideas" checked/>Research ideas and unique angles</label>
-        <label class="ch"><input type="checkbox" id="cb-gaps"  checked/>Research gaps and originality opportunities</label>
-        <label class="ch"><input type="checkbox" id="cb-rev"   checked/>Full detailed literature review</label>
-        <label class="ch"><input type="checkbox" id="cb-road"  checked/>Execution roadmap and methodology guide</label>
+        <label class="ch"><input type="checkbox" id="cb-gaps" checked/>Research gaps and originality opportunities</label>
+        <label class="ch"><input type="checkbox" id="cb-rev" checked/>Full detailed literature review</label>
+        <label class="ch"><input type="checkbox" id="cb-road" checked/>Execution roadmap and methodology guide</label>
+        <label class="ch"><input type="checkbox" id="cb-abstract" checked/>Draft abstract (150 words)</label>
+        <label class="ch"><input type="checkbox" id="cb-journals" checked/>Recommended journals and conferences</label>
+        <label class="ch"><input type="checkbox" id="cb-datasets" checked/>Recommended datasets</label>
       </div>
     </div>
     <button class="btn-action" id="btn-gen" onclick="startGen()">Generate Report →</button>
@@ -349,36 +383,98 @@
   </div>
 </section>
 
-<!-- ══ LOADING ══ -->
-<section id="section-loading" class="hidden">
-  <h2 class="ld-title">Agents are working…</h2>
-  <p class="ld-sub">This usually takes 20–40 seconds.</p>
-
-  <!-- Neural SVG pipeline animation -->
-  <div class="neural-wrap">
-    <svg class="neural-svg" width="320" height="160" viewBox="0 0 320 160">
-      <!-- connecting line -->
-      <path id="n-conn" class="n-line" d="M 110 80 Q 160 80 210 80"/>
-      <!-- Agent 1 node -->
-      <rect id="n1-rect" class="n-node waiting" x="10" y="40" width="100" height="80" rx="12"/>
-      <text class="n-label" x="60" y="70">🔍</text>
-      <text class="n-label" x="60" y="86" style="font-size:10px">Research</text>
-      <text class="n-label" x="60" y="98" style="font-size:10px">Scout</text>
-      <text id="n1-status" class="n-status" x="60" y="112" style="fill:#475569">Waiting</text>
-      <!-- Agent 2 node -->
-      <rect id="n2-rect" class="n-node waiting" x="210" y="40" width="100" height="80" rx="12"/>
-      <text class="n-label" x="260" y="70">✍️</text>
-      <text class="n-label" x="260" y="86" style="font-size:10px">Academic</text>
-      <text class="n-label" x="260" y="98" style="font-size:10px">Writer</text>
-      <text id="n2-status" class="n-status" x="260" y="112" style="fill:#475569">Waiting</text>
-    </svg>
-  </div>
-
-  <div class="spinner"></div>
-  <p class="ld-status" id="ld-txt">Connecting to AI pipeline…</p>
+<!-- CHECKING (Orchestrator mini loader) -->
+<section id="section-checking" class="hidden">
+  <div class="checking-icon">🎯</div>
+  <h2 class="checking-title">Orchestrator is checking your topic…</h2>
+  <p class="checking-sub">Quick scan for academic papers — usually 10–15 seconds</p>
+  <div class="mini-spinner"></div>
+  <p class="checking-status" id="checking-txt">Scanning academic databases…</p>
 </section>
 
-<!-- ══ RESULTS ══ -->
+<!-- REVIEW (Orchestrator summary + user response) -->
+<section id="section-review" class="hidden">
+  <div class="review-wrap">
+
+    <!-- Orchestrator Summary Card -->
+    <div class="orc-summary">
+      <div class="orc-header">
+        <div class="orc-avatar">🎯</div>
+        <div class="orc-header-text">
+          <h3>Orchestrator Agent</h3>
+          <p>Topic analysis complete — please review before proceeding</p>
+        </div>
+      </div>
+      <div class="orc-body" id="orc-body">Loading summary…</div>
+    </div>
+
+    <!-- Amendment Box -->
+    <div class="amend-card">
+      <div class="amend-label">Refine or amend your topic</div>
+      <textarea
+        class="amend-textarea"
+        id="amend-input"
+        placeholder="Type a new topic, ask for a suggestion, or tweak the current one…&#10;&#10;Examples:&#10;• 'Change it to: machine learning in diabetes prediction'&#10;• 'Make it more specific around deep learning'&#10;• 'What would you suggest instead?'&#10;• 'Use one of your recommendations above'"
+      ></textarea>
+      <p class="amend-hint">💡 Leave blank and click Proceed if you're happy with your current topic. Type here only if you want to change or refine it.</p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="review-actions">
+      <button class="btn-proceed" id="btn-proceed" onclick="proceedResearch()">
+        ✓ Proceed with Research
+      </button>
+      <button class="btn-reject" onclick="rejectResearch()">
+        ✕ End Session
+      </button>
+    </div>
+    <button class="btn-amend" id="btn-amend" onclick="submitAmendment()">
+      ↺ Submit Amendment &amp; Re-analyse
+    </button>
+
+  </div>
+</section>
+
+<!-- END SCREEN (after reject) -->
+<section id="section-end" class="wrap hidden">
+  <div class="end-card">
+    <div class="end-icon">📚</div>
+    <h2 class="end-title">Session Ended</h2>
+    <p class="end-sub" id="end-msg">No problem at all. Come back anytime with a refined topic — ScholarBot will be ready.</p>
+    <button class="btn-restart" onclick="newSearch()">Start New Research →</button>
+  </div>
+</section>
+
+<!-- LOADING (full pipeline) -->
+<section id="section-loading" class="hidden">
+  <h2 class="ld-title">Agents are working…</h2>
+  <p class="ld-sub">This usually takes 30–60 seconds. Please wait.</p>
+  <div class="agent-pipeline">
+    <div class="agent-box done" id="ag1-box">
+      <div class="agent-box-header"><span class="agent-name">🎯 Orchestrator</span><span class="agent-status" id="ag1-st" style="color:#10B981">Done ✓</span></div>
+      <p class="agent-desc">Verified topic and confirmed research direction</p>
+    </div>
+    <div class="pipeline-arrow"></div>
+    <div class="agent-box" id="ag2-box">
+      <div class="agent-box-header"><span class="agent-name">🔍 Research Scout</span><span class="agent-status" id="ag2-st">Waiting</span></div>
+      <p class="agent-desc">Searching for real papers, identifying themes and gaps</p>
+    </div>
+    <div class="pipeline-arrow"></div>
+    <div class="agent-box" id="ag3-box">
+      <div class="agent-box-header"><span class="agent-name">📊 Evaluator</span><span class="agent-status" id="ag3-st">Waiting</span></div>
+      <p class="agent-desc">Scoring paper quality and calculating confidence</p>
+    </div>
+    <div class="pipeline-arrow"></div>
+    <div class="agent-box" id="ag4-box">
+      <div class="agent-box-header"><span class="agent-name">✍️ Academic Writer</span><span class="agent-status" id="ag4-st">Waiting</span></div>
+      <p class="agent-desc">Writing full report with abstract, journals and datasets</p>
+    </div>
+  </div>
+  <div class="spinner"></div>
+  <p class="ld-status" id="ld-txt">Research pipeline running…</p>
+</section>
+
+<!-- RESULTS -->
 <section id="section-results" class="hidden">
   <div class="r-header">
     <div class="r-tag">Research Report</div>
@@ -392,10 +488,20 @@
     </div>
   </div>
 
+  <div class="score-card" id="score-card">
+    <div class="score-header">
+      <span class="score-label">📊 Research Confidence Score</span>
+      <div><span class="score-badge" id="score-num">—<span>/10</span></span><span class="score-rating" id="score-rating"></span></div>
+    </div>
+    <div class="score-bar-wrap"><div class="score-bar" id="score-bar" style="width:0%"></div></div>
+    <div class="score-breakdown" id="score-breakdown"></div>
+    <div class="score-assessment" id="score-assessment"></div>
+  </div>
+
   <div class="err-box hidden" id="err-box"><strong>Something went wrong.</strong><br/><span id="err-msg"></span></div>
 
   <div class="r-toolbar">
-    <span class="r-toolbar-l">5 sections generated</span>
+    <span class="r-toolbar-l">8 sections generated</span>
     <div class="r-toolbar-r">
       <button class="btn-sm" onclick="setAll(true)">Expand all</button>
       <button class="btn-sm" onclick="setAll(false)">Collapse all</button>
@@ -403,70 +509,29 @@
   </div>
 
   <div class="accordion">
-    <div class="acc-item open" id="acc-ideas">
-      <div class="acc-h" onclick="tog('acc-ideas')">
-        <div class="acc-hl"><div class="acc-icon i-ideas">💡</div><div><div class="acc-title">Research Ideas</div><div class="acc-sub">Unique angles to explore</div></div></div>
-        <div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-ideas')">Copy</button><div class="acc-chev">▾</div></div>
-      </div>
-      <div class="acc-body"><div class="acc-content" id="c-ideas">Loading…</div></div>
-    </div>
-    <div class="acc-item open" id="acc-papers">
-      <div class="acc-h" onclick="tog('acc-papers')">
-        <div class="acc-hl"><div class="acc-icon i-papers">📄</div><div><div class="acc-title">Relevant Papers</div><div class="acc-sub">Real, verified academic papers</div></div></div>
-        <div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-papers')">Copy</button><div class="acc-chev">▾</div></div>
-      </div>
-      <div class="acc-body"><div class="acc-content" id="c-papers">Loading…</div></div>
-    </div>
-    <div class="acc-item" id="acc-gaps">
-      <div class="acc-h" onclick="tog('acc-gaps')">
-        <div class="acc-hl"><div class="acc-icon i-gaps">🔍</div><div><div class="acc-title">Research Gaps</div><div class="acc-sub">Where your original contribution can go</div></div></div>
-        <div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-gaps')">Copy</button><div class="acc-chev">▾</div></div>
-      </div>
-      <div class="acc-body"><div class="acc-content" id="c-gaps">Loading…</div></div>
-    </div>
-    <div class="acc-item" id="acc-rev">
-      <div class="acc-h" onclick="tog('acc-rev')">
-        <div class="acc-hl"><div class="acc-icon i-review">📚</div><div><div class="acc-title">Literature Review</div><div class="acc-sub">Full academic-quality writeup</div></div></div>
-        <div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-rev')">Copy</button><div class="acc-chev">▾</div></div>
-      </div>
-      <div class="acc-body"><div class="acc-content" id="c-rev">Loading…</div></div>
-    </div>
-    <div class="acc-item" id="acc-road">
-      <div class="acc-h" onclick="tog('acc-road')">
-        <div class="acc-hl"><div class="acc-icon i-roadmap">🗺️</div><div><div class="acc-title">Execution Roadmap</div><div class="acc-sub">How to go about this research</div></div></div>
-        <div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-road')">Copy</button><div class="acc-chev">▾</div></div>
-      </div>
-      <div class="acc-body"><div class="acc-content" id="c-road">Loading…</div></div>
-    </div>
-    <div class="acc-item hidden" id="acc-raw">
-      <div class="acc-h" onclick="tog('acc-raw')">
-        <div class="acc-hl"><div class="acc-icon i-raw">📋</div><div><div class="acc-title">Full Agent Output</div><div class="acc-sub">Raw response — view if sections above appear empty</div></div></div>
-        <div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-raw')">Copy all</button><div class="acc-chev">▾</div></div>
-      </div>
-      <div class="acc-body"><div class="acc-content" id="c-raw"></div></div>
-    </div>
+    <div class="acc-item open" id="acc-ideas"><div class="acc-h" onclick="tog('acc-ideas')"><div class="acc-hl"><div class="acc-icon i-ideas">💡</div><div><div class="acc-title">Research Ideas</div><div class="acc-sub">Unique angles to explore</div></div></div><div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-ideas')">Copy</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-ideas">Loading…</div></div></div>
+    <div class="acc-item open" id="acc-papers"><div class="acc-h" onclick="tog('acc-papers')"><div class="acc-hl"><div class="acc-icon i-papers">📄</div><div><div class="acc-title">Relevant Papers</div><div class="acc-sub">Real, verified academic papers</div></div></div><div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-papers')">Copy</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-papers">Loading…</div></div></div>
+    <div class="acc-item" id="acc-gaps"><div class="acc-h" onclick="tog('acc-gaps')"><div class="acc-hl"><div class="acc-icon i-gaps">🔍</div><div><div class="acc-title">Research Gaps</div><div class="acc-sub">Where your original contribution can go</div></div></div><div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-gaps')">Copy</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-gaps">Loading…</div></div></div>
+    <div class="acc-item" id="acc-rev"><div class="acc-h" onclick="tog('acc-rev')"><div class="acc-hl"><div class="acc-icon i-review">📚</div><div><div class="acc-title">Literature Review</div><div class="acc-sub">Full academic-quality writeup</div></div></div><div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-rev')">Copy</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-rev">Loading…</div></div></div>
+    <div class="acc-item" id="acc-road"><div class="acc-h" onclick="tog('acc-road')"><div class="acc-hl"><div class="acc-icon i-roadmap">🗺️</div><div><div class="acc-title">Execution Roadmap</div><div class="acc-sub">How to go about this research</div></div></div><div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-road')">Copy</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-road">Loading…</div></div></div>
+    <div class="acc-item" id="acc-abstract"><div class="acc-h" onclick="tog('acc-abstract')"><div class="acc-hl"><div class="acc-icon i-abstract">📝</div><div><div class="acc-title">Draft Abstract</div><div class="acc-sub">150-word draft — review before using</div></div></div><div class="acc-hr"><span class="acc-new">NEW</span><button class="acc-copy" onclick="cp(event,'c-abstract')">Copy</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-abstract">Loading…</div></div></div>
+    <div class="acc-item" id="acc-journals"><div class="acc-h" onclick="tog('acc-journals')"><div class="acc-hl"><div class="acc-icon i-journals">🎓</div><div><div class="acc-title">Recommended Journals & Conferences</div><div class="acc-sub">Where to publish your research</div></div></div><div class="acc-hr"><span class="acc-new">NEW</span><button class="acc-copy" onclick="cp(event,'c-journals')">Copy</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-journals">Loading…</div></div></div>
+    <div class="acc-item" id="acc-datasets"><div class="acc-h" onclick="tog('acc-datasets')"><div class="acc-hl"><div class="acc-icon i-datasets">🗄️</div><div><div class="acc-title">Recommended Datasets</div><div class="acc-sub">Publicly available data for your research</div></div></div><div class="acc-hr"><span class="acc-new">NEW</span><button class="acc-copy" onclick="cp(event,'c-datasets')">Copy</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-datasets">Loading…</div></div></div>
+    <div class="acc-item hidden" id="acc-raw"><div class="acc-h" onclick="tog('acc-raw')"><div class="acc-hl"><div class="acc-icon i-raw">📋</div><div><div class="acc-title">Full Agent Output</div><div class="acc-sub">Raw response — view if sections above appear empty</div></div></div><div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-raw')">Copy all</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-raw"></div></div></div>
   </div>
 
   <div class="cite-bar">
     <label>Reformat references as:</label>
-    <select id="cite-sty">
-      <option value="APA">APA 7th Edition</option>
-      <option value="Harvard">Harvard</option>
-      <option value="IEEE">IEEE</option>
-      <option value="Chicago">Chicago</option>
-    </select>
+    <select id="cite-sty"><option value="APA">APA 7th Edition</option><option value="Harvard">Harvard</option><option value="IEEE">IEEE</option><option value="Chicago">Chicago</option></select>
     <button class="btn-ref" id="btn-ref" onclick="reformat()">Apply Style</button>
   </div>
 
   <div class="dl-bar">
-    <div class="dl-bar-text">
-      <h4>⬇ Download your full report</h4>
-      <p>All five sections — choose your preferred format</p>
-    </div>
+    <div class="dl-bar-text"><h4>⬇ Download your full report</h4><p>All 8 sections including abstract, journals and datasets</p></div>
     <div class="dl-actions">
-      <button class="btn-pdf"  onclick="downloadPDF()">PDF</button>
+      <button class="btn-pdf" onclick="downloadPDF()">PDF</button>
       <button class="btn-word" onclick="downloadWord()">Word (.doc)</button>
-      <button class="btn-new"  onclick="newSearch()">New Search</button>
+      <button class="btn-new" onclick="newSearch()">New Search</button>
     </div>
   </div>
 </section>
@@ -481,21 +546,28 @@
 
 <script>
 // ══ CONFIG ══
-const API = 'https://cloud.flowiseai.com/api/v1/prediction/2ae796b1-b682-4ad6-9d0d-61e3905dd345';
+const API='https://cloud.flowiseai.com/api/v1/prediction/2ae796b1-b682-4ad6-9d0d-61e3905dd345';
 
 // ══ STATE ══
-let topic='', level='', discipline='', institution='', fullText='', sessionId=null, user=null;
+let topic='',level='',discipline='',institution='',fullText='',sessionId=null,user=null;
 
-// ══ SECTIONS ══
-const SECS=['hero','signup','login','input','loading','results'];
+// ══ ALL SECTIONS ══
+// 'checking' = orchestrator mini loader
+// 'review'   = orchestrator summary + user input
+// 'end'      = session ended gracefully
+const SECS=['hero','signup','login','input','checking','review','end','loading','results'];
+
 function showSection(n){
-  SECS.forEach(s=>{const e=document.getElementById('section-'+s);if(e)e.classList.toggle('hidden',s!==n)});
+  SECS.forEach(s=>{
+    const e=document.getElementById('section-'+s);
+    if(e)e.classList.toggle('hidden',s!==n);
+  });
   document.getElementById('nav-dl').classList.toggle('hidden',n!=='results');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function goHome(){showSection('hero')}
 function handleStart(){showSection(user?'input':'signup')}
-function newSearch(){sessionId=null;showSection('input')}
+function newSearch(){sessionId=null;document.getElementById('amend-input').value='';showSection('input')}
 
 // ══ TOAST ══
 let _tt;
@@ -525,12 +597,11 @@ function signUp(){
   if(!em.includes('@'))return showErr('su-err','Please enter a valid email address.');
   if(pw.length<6)return showErr('su-err','Password must be at least 6 characters.');
   const users=getUsers();
-  if(users.find(u=>u.em===em))return showErr('su-err','An account with this email already exists. Log in instead.');
+  if(users.find(u=>u.em===em))return showErr('su-err','An account with this email already exists.');
   const u={fn,ln,em,pw:hp(pw),inst,lv,at:Date.now()};
   users.push(u);saveUsers(users);
   user=u;localStorage.setItem('sb_s',JSON.stringify(u));
-  setNavUser(u);
-  document.getElementById('lv-sel').value=lv;
+  setNavUser(u);document.getElementById('lv-sel').value=lv;
   toast(`Welcome, ${fn}! 🎉`);showSection('input');
 }
 
@@ -541,14 +612,12 @@ function logIn(){
   const u=getUsers().find(u=>u.em===em&&u.pw===hp(pw));
   if(!u)return showErr('li-err','Email or password is incorrect.');
   user=u;localStorage.setItem('sb_s',JSON.stringify(u));
-  setNavUser(u);
-  document.getElementById('lv-sel').value=u.lv||'Masters';
+  setNavUser(u);document.getElementById('lv-sel').value=u.lv||'Masters';
   toast(`Welcome back, ${u.fn}!`);showSection('input');
 }
 
 function logout(){
-  user=null;sessionId=null;
-  localStorage.removeItem('sb_s');
+  user=null;sessionId=null;localStorage.removeItem('sb_s');
   setNavUser(null);toast('Logged out.');showSection('hero');
 }
 
@@ -559,18 +628,44 @@ function cp(e,id){e.stopPropagation();navigator.clipboard.writeText(document.get
 
 // ══ AGENT ANIMATION ══
 function setAgent(n,state){
-  const rect=document.getElementById('n'+n+'-rect');
-  const stat=document.getElementById('n'+n+'-status');
-  rect.className.baseVal='n-node '+state;
+  const box=document.getElementById('ag'+n+'-box');
+  const st=document.getElementById('ag'+n+'-st');
+  if(!box)return;
+  box.className='agent-box'+(state!=='waiting'?' '+state:'');
   const labels={waiting:'Waiting',active:'Working…',done:'Done ✓'};
-  stat.textContent=labels[state]||state;
-  stat.style.fill=state==='active'?'#6366F1':state==='done'?'#10B981':'#475569';
-  if(state==='active'&&n===2){
-    const line=document.getElementById('n-conn');
-    line.classList.add('active');
-  }
+  st.textContent=labels[state]||state;
+  st.style.color=state==='active'?'#6366F1':state==='done'?'#10B981':'#64748B';
 }
-function setLdTxt(m){document.getElementById('ld-txt').textContent=m}
+function setLdTxt(m){const e=document.getElementById('ld-txt');if(e)e.textContent=m}
+
+// ══ DETECT ORCHESTRATOR RESPONSE ══
+// The key function — determines if what came back is the
+// Orchestrator's summary (needs user input) or the full report
+function isOrchestratorResponse(text){
+  const markers=[
+    'Click PROCEED',
+    'TOPIC UNDERSTOOD',
+    'PAPERS FOUND',
+    'RESEARCH LANDSCAPE',
+    'ScholarBot is waiting',
+    'Shall I go ahead',
+    'SCOPE ASSESSMENT',
+    'Click REJECT',
+  ];
+  return markers.some(m=>text.includes(m));
+}
+
+// ══ DETECT END/REJECT RESPONSE ══
+function isEndResponse(text){
+  const markers=[
+    'session has been ended',
+    'Come back anytime',
+    'No problem at all',
+    'ScholarBot session',
+    'ready when you are',
+  ];
+  return markers.some(m=>text.toLowerCase().includes(m.toLowerCase()));
+}
 
 // ══ PROMPT ══
 function buildPrompt(){
@@ -582,82 +677,245 @@ function buildPrompt(){
   if(document.getElementById('cb-gaps').checked)secs.push('RESEARCH GAPS');
   if(document.getElementById('cb-rev').checked)secs.push('LITERATURE REVIEW');
   if(document.getElementById('cb-road').checked)secs.push('EXECUTION ROADMAP');
+  if(document.getElementById('cb-abstract').checked)secs.push('DRAFT ABSTRACT');
+  if(document.getElementById('cb-journals').checked)secs.push('RECOMMENDED JOURNALS AND CONFERENCES');
+  if(document.getElementById('cb-datasets').checked)secs.push('RECOMMENDED DATASETS');
   return`Research topic: ${t}\nAcademic level: ${lv}\nDiscipline: ${di}\nSections to include: ${secs.join(', ')}\n\nProduce a structured academic research report on this topic.`;
 }
 
-// ══ PARSE ══
-function parse(text){
-  const out={ideas:'',papers:'',gaps:'',rev:'',road:''};
-  const t=text.replace(/\*\*/g,'').replace(/#{1,3}\s*/g,'');
-  const ps={
-    ideas:/(?:\d[.):]?\s*)?RESEARCH IDEAS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RELEVANT PAPERS?|$)/i,
-    papers:/(?:\d[.):]?\s*)?RELEVANT PAPERS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RESEARCH GAPS?|$)/i,
-    gaps:/(?:\d[.):]?\s*)?RESEARCH GAPS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?LITERATURE REVIEW|$)/i,
-    rev:/(?:\d[.):]?\s*)?LITERATURE REVIEW\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?EXECUTION ROADMAP|$)/i,
-    road:/(?:\d[.):]?\s*)?EXECUTION ROADMAP\s*\n([\s\S]*?)$/i,
-  };
-  let any=false;
-  for(const[k,r]of Object.entries(ps)){const m=t.match(r);if(m&&m[1].trim().length>10){out[k]=m[1].trim();any=true;}}
-  return{sec:out,any};
-}
-
 // ══ API CALL ══
-async function callAPI(prompt){
-  const body={question:prompt};
+async function callAPI(message){
+  const body={question:message};
   if(sessionId)body.sessionId=sessionId;
-  const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const res=await fetch(API,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  });
   if(!res.ok){const e=await res.text();throw new Error(`API ${res.status}: ${e}`);}
   const d=await res.json();
   if(d.sessionId)sessionId=d.sessionId;
   return d.text||d.answer||d.output||JSON.stringify(d);
 }
 
-// ══ GENERATION ══
+// ══ ROUND 1 — SEND TOPIC TO ORCHESTRATOR ══
 async function startGen(){
   const t=document.getElementById('topic-input').value.trim();
   if(!t){alert('Please enter a research topic.');return;}
+
   topic=t;
   level=document.getElementById('lv-sel').value;
   discipline=document.getElementById('di-sel').value;
   institution=user?.inst||'';
-  showSection('loading');
-  setAgent(1,'waiting');setAgent(2,'waiting');
-  setLdTxt('Connecting to AI pipeline…');
+  sessionId=null; // fresh session for each new research
+
+  // Show orchestrator mini-loader
+  showSection('checking');
+  document.getElementById('checking-txt').textContent='Scanning for academic papers on your topic…';
+
   try{
-    setAgent(1,'active');setLdTxt('Research Scout is searching for papers…');
     const raw=await callAPI(buildPrompt());
-    setAgent(1,'done');setAgent(2,'active');
-    setLdTxt('Academic Writer is synthesising your report…');
-    await new Promise(r=>setTimeout(r,900));
-    setAgent(2,'done');setLdTxt('Report ready!');
-    fullText=raw;
-    const{sec,any}=parse(raw);
-    populate(sec,any,raw);
-    showSection('results');
+
+    if(isOrchestratorResponse(raw)){
+      // ── Orchestrator returned summary → show review screen ──
+      showReview(raw);
+    } else if(isEndResponse(raw)){
+      // Unexpected end response
+      showEnd(raw);
+    } else {
+      // Orchestrator not in flow or skipped → treat as full report
+      processFullReport(raw);
+    }
+
   }catch(err){
-    showSection('results');
-    document.getElementById('err-box').classList.remove('hidden');
-    document.getElementById('err-msg').textContent=err.message;
+    showSection('input');
+    alert('Connection failed: '+err.message+'. Please try again.');
   }
 }
 
-// ══ POPULATE ══
+// ══ SHOW REVIEW SCREEN ══
+function showReview(orcText){
+  // Display the Orchestrator's message
+  document.getElementById('orc-body').textContent=orcText;
+  // Clear any previous amendment
+  document.getElementById('amend-input').value='';
+  // Re-enable buttons
+  document.getElementById('btn-proceed').disabled=false;
+  document.getElementById('btn-amend').disabled=false;
+  showSection('review');
+}
+
+// ══ ROUND 2A — USER CLICKS PROCEED ══
+async function proceedResearch(){
+  const amendment=document.getElementById('amend-input').value.trim();
+
+  // If user typed something in the amendment box, that takes priority
+  // — treat it as an amendment, not a simple "go ahead"
+  if(amendment){
+    await submitAmendment();
+    return;
+  }
+
+  // No amendment typed — user is happy, send "go ahead"
+  document.getElementById('btn-proceed').disabled=true;
+  document.getElementById('btn-amend').disabled=true;
+
+  // Show full pipeline loading
+  showSection('loading');
+  setAgent(2,'active');setAgent(3,'waiting');setAgent(4,'waiting');
+  setLdTxt('Research Scout is searching for papers…');
+
+  try{
+    const raw=await callAPI('go ahead');
+
+    if(isOrchestratorResponse(raw)){
+      // Orchestrator looped — show updated review
+      setAgent(2,'waiting');
+      showReview(raw);
+    } else if(isEndResponse(raw)){
+      showEnd(raw);
+    } else {
+      // It's the full report
+      setAgent(2,'done');setAgent(3,'active');
+      setLdTxt('Evaluator is scoring paper quality…');
+      await new Promise(r=>setTimeout(r,700));
+      setAgent(3,'done');setAgent(4,'active');
+      setLdTxt('Academic Writer is synthesising your report…');
+      await new Promise(r=>setTimeout(r,700));
+      setAgent(4,'done');setLdTxt('Report ready!');
+      processFullReport(raw);
+    }
+  }catch(err){
+    showSection('review');
+    document.getElementById('btn-proceed').disabled=false;
+    document.getElementById('btn-amend').disabled=false;
+    toast('Something went wrong: '+err.message);
+  }
+}
+
+// ══ ROUND 2B — USER SUBMITS AMENDMENT ══
+async function submitAmendment(){
+  const amendment=document.getElementById('amend-input').value.trim();
+  if(!amendment){
+    toast('Please type your amendment or new topic in the box above.');
+    return;
+  }
+
+  document.getElementById('btn-proceed').disabled=true;
+  document.getElementById('btn-amend').disabled=true;
+
+  // Show orchestrator checking again
+  showSection('checking');
+  document.getElementById('checking-txt').textContent='Re-analysing your amended topic…';
+
+  try{
+    const raw=await callAPI(amendment);
+
+    if(isOrchestratorResponse(raw)){
+      // Got a new Orchestrator summary for the amended topic
+      showReview(raw);
+    } else if(isEndResponse(raw)){
+      showEnd(raw);
+    } else {
+      // Amendment somehow triggered full report — display it
+      processFullReport(raw);
+    }
+  }catch(err){
+    showSection('review');
+    document.getElementById('btn-proceed').disabled=false;
+    document.getElementById('btn-amend').disabled=false;
+    toast('Something went wrong: '+err.message);
+  }
+}
+
+// ══ ROUND 2C — USER CLICKS REJECT ══
+async function rejectResearch(){
+  // Don't need to call API — just show the end screen locally
+  // Optionally send "no" to properly close the Flowise session
+  try{ await callAPI('no'); }catch(e){ /* silent — we don't need the response */ }
+  showEnd('No problem at all — your session has been ended. Come back anytime with a new or refined topic. ScholarBot will be ready. 📚');
+}
+
+// ══ SHOW END SCREEN ══
+function showEnd(message){
+  // Show just the relevant part of the end message
+  const clean=message.replace(/no problem at all[.!]?\s*/i,'').trim()||message;
+  document.getElementById('end-msg').textContent=
+    'No problem at all. Come back anytime with a new or refined topic — ScholarBot will be ready. 📚';
+  showSection('end');
+}
+
+// ══ PROCESS FULL REPORT ══
+function processFullReport(raw){
+  fullText=raw;
+  const{sec,any}=parse(raw);
+  populate(sec,any,raw);
+  showSection('results');
+}
+
+// ══ PARSE ══
+function parse(text){
+  const out={ideas:'',papers:'',gaps:'',rev:'',road:'',abstract:'',journals:'',datasets:'',score:''};
+  const t=text.replace(/\*\*/g,'').replace(/#{1,3}\s*/g,'');
+  const scoreMatch=t.match(/RESEARCH CONFIDENCE SCORE:[\s\S]*?(?=##\s*1\.|RESEARCH IDEAS|$)/i);
+  if(scoreMatch)out.score=scoreMatch[0].trim();
+  const ps={
+    ideas:/(?:\d[.):]?\s*)?RESEARCH IDEAS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RELEVANT PAPERS?|$)/i,
+    papers:/(?:\d[.):]?\s*)?RELEVANT PAPERS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RESEARCH GAPS?|$)/i,
+    gaps:/(?:\d[.):]?\s*)?RESEARCH GAPS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?LITERATURE REVIEW|$)/i,
+    rev:/(?:\d[.):]?\s*)?LITERATURE REVIEW\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?EXECUTION ROADMAP|$)/i,
+    road:/(?:\d[.):]?\s*)?EXECUTION ROADMAP\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?DRAFT ABSTRACT|$)/i,
+    abstract:/(?:\d[.):]?\s*)?DRAFT ABSTRACT\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RECOMMENDED JOURNALS|$)/i,
+    journals:/(?:\d[.):]?\s*)?RECOMMENDED JOURNALS(?:\s*AND\s*CONFERENCES)?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RECOMMENDED DATASETS|$)/i,
+    datasets:/(?:\d[.):]?\s*)?RECOMMENDED DATASETS\s*\n([\s\S]*?)$/i,
+  };
+  let any=false;
+  for(const[k,r]of Object.entries(ps)){
+    if(k==='score')continue;
+    const m=t.match(r);
+    if(m&&m[1].trim().length>10){out[k]=m[1].trim();any=true;}
+  }
+  return{sec:out,any};
+}
+
+// ══ CONFIDENCE SCORE ══
+function renderScore(scoreText){
+  if(!scoreText)return;
+  const numMatch=scoreText.match(/(\d+(?:\.\d+)?)\/10/);
+  if(!numMatch)return;
+  const score=parseFloat(numMatch[1]);
+  document.getElementById('score-num').innerHTML=`${score}<span>/10</span>`;
+  setTimeout(()=>{document.getElementById('score-bar').style.width=(score/10*100)+'%'},100);
+  const rEl=document.getElementById('score-rating');
+  if(score>=9){rEl.textContent='Excellent';rEl.className='score-rating rating-excellent';}
+  else if(score>=7){rEl.textContent='Good';rEl.className='score-rating rating-good';}
+  else if(score>=5){rEl.textContent='Acceptable';rEl.className='score-rating rating-acceptable';}
+  else{rEl.textContent='Needs Refinement';rEl.className='score-rating rating-needs';}
+  const bm=scoreText.match(/Breakdown:(.*?)(?:\n|$)/i);
+  if(bm)document.getElementById('score-breakdown').textContent=bm[1].trim();
+  const am=scoreText.match(/Assessment:(.*?)(?:\n|Rating:|$)/is);
+  if(am)document.getElementById('score-assessment').textContent=am[1].trim();
+}
+
+// ══ POPULATE RESULTS ══
 function populate(sec,any,raw){
   document.getElementById('r-topic').textContent=topic;
   document.getElementById('m-lv').textContent=level;
   document.getElementById('m-di').textContent=discipline;
   document.getElementById('m-date').textContent=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
   document.getElementById('m-user').textContent=user?`${user.fn} ${user.ln}`:'Guest';
-  if(institution){
-    document.getElementById('m-inst').textContent=institution;
-    document.getElementById('m-inst-wrap').style.display='flex';
-  }
+  if(institution){document.getElementById('m-inst').textContent=institution;document.getElementById('m-inst-wrap').style.display='flex';}
   document.getElementById('c-ideas').textContent=sec.ideas||'Not included.';
   document.getElementById('c-papers').textContent=sec.papers||'Not included.';
   document.getElementById('c-gaps').textContent=sec.gaps||'Not included.';
   document.getElementById('c-rev').textContent=sec.rev||'Not included.';
   document.getElementById('c-road').textContent=sec.road||'Not included.';
+  document.getElementById('c-abstract').textContent=sec.abstract||'Not included.';
+  document.getElementById('c-journals').textContent=sec.journals||'Not included.';
+  document.getElementById('c-datasets').textContent=sec.datasets||'Not included.';
   document.getElementById('err-box').classList.add('hidden');
+  if(sec.score)renderScore(sec.score);
+  else document.getElementById('score-card').style.display='none';
   const rawEl=document.getElementById('acc-raw');
   if(!any&&raw){document.getElementById('c-raw').textContent=raw;rawEl.classList.remove('hidden');rawEl.classList.add('open');}
   else rawEl.classList.add('hidden');
@@ -691,14 +949,8 @@ function downloadPDF(){
       doc.text(l,mg,y);y+=size*.42;
     });y+=3;
   };
-  const line=()=>{
-    if(y>H-mg-12){doc.addPage();y=mg;}
-    doc.setDrawColor(79,70,229);doc.setLineWidth(.4);
-    doc.line(mg,y,W-mg,y);y+=5;
-  };
-  // Cover
+  const line=()=>{if(y>H-mg-12){doc.addPage();y=mg;}doc.setDrawColor(79,70,229);doc.setLineWidth(.4);doc.line(mg,y,W-mg,y);y+=5;};
   doc.setFillColor(8,11,26);doc.rect(0,0,W,H,'F');
-  // gradient bar
   doc.setFillColor(79,70,229);doc.rect(0,H*.55,W,6,'F');
   doc.setFillColor(6,182,212);doc.rect(0,H*.55+5,W,H*.45-5,'F');
   doc.setFontSize(36);doc.setFont('helvetica','bold');doc.setTextColor(255,255,255);
@@ -707,44 +959,25 @@ function downloadPDF(){
   doc.text('Research Intelligence',W/2,75,{align:'center'});
   doc.setFontSize(13);doc.setFont('helvetica','bold');doc.setTextColor(238,242,255);
   doc.splitTextToSize(topic,maxW).forEach((l,i)=>doc.text(l,W/2,96+i*7,{align:'center'}));
+  const scoreEl=document.getElementById('score-num');
+  if(scoreEl&&scoreEl.textContent!=='—'){doc.setFontSize(11);doc.setTextColor(6,182,212);doc.text('Confidence Score: '+scoreEl.textContent.replace('/10','').trim()+'/10',W/2,130,{align:'center'});}
   const cy=H*.58;
   doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(8,11,26);
-  const meta=[
-    ['Level',level],['Discipline',discipline],
-    ['Researcher',user?`${user.fn} ${user.ln}`:'Guest'],
-  ];
+  const meta=[['Level',level],['Discipline',discipline],['Researcher',user?`${user.fn} ${user.ln}`:'Guest']];
   if(institution)meta.push(['Institution',institution]);
   meta.push(['Date',document.getElementById('m-date').textContent]);
-  meta.forEach(([k,v],i)=>{
-    doc.setFont('helvetica','bold');doc.text(k+':',mg,cy+8+i*8);
-    doc.setFont('helvetica','normal');doc.text(v,mg+28,cy+8+i*8);
-  });
-  doc.setFontSize(8);doc.setTextColor(8,11,26);
-  doc.text('scholarbot.app · Research Intelligence',W/2,H-8,{align:'center'});
-  // Content
+  meta.forEach(([k,v],i)=>{doc.setFont('helvetica','bold');doc.text(k+':',mg,cy+8+i*8);doc.setFont('helvetica','normal');doc.text(v,mg+28,cy+8+i*8);});
+  doc.setFontSize(8);doc.setTextColor(8,11,26);doc.text('scholarbot.app · Research Intelligence',W/2,H-8,{align:'center'});
   doc.addPage();y=mg;
-  add('Research Topic',9,'normal',[120,120,120]);
-  add(topic,17,'bold',[8,11,26]);y+=2;line();
-  [
-    {label:'1.  RESEARCH IDEAS',id:'c-ideas'},
-    {label:'2.  RELEVANT PAPERS',id:'c-papers'},
-    {label:'3.  RESEARCH GAPS',id:'c-gaps'},
-    {label:'4.  LITERATURE REVIEW',id:'c-rev'},
-    {label:'5.  EXECUTION ROADMAP',id:'c-road'},
-  ].forEach(({label,id})=>{
+  add('Research Topic',9,'normal',[120,120,120]);add(topic,17,'bold',[8,11,26]);y+=2;line();
+  [{label:'1.  RESEARCH IDEAS',id:'c-ideas'},{label:'2.  RELEVANT PAPERS',id:'c-papers'},{label:'3.  RESEARCH GAPS',id:'c-gaps'},{label:'4.  LITERATURE REVIEW',id:'c-rev'},{label:'5.  EXECUTION ROADMAP',id:'c-road'},{label:'6.  DRAFT ABSTRACT',id:'c-abstract'},{label:'7.  RECOMMENDED JOURNALS & CONFERENCES',id:'c-journals'},{label:'8.  RECOMMENDED DATASETS',id:'c-datasets'}].forEach(({label,id})=>{
     const c=document.getElementById(id).textContent;
     if(!c||c==='Not included.')return;
     y+=5;if(y>H-mg-20){doc.addPage();y=mg;}
-    add(label,13,'bold',[8,11,26]);line();
-    add(c,10,'normal',[40,40,40]);y+=4;
+    add(label,13,'bold',[8,11,26]);line();add(c,10,'normal',[40,40,40]);y+=4;
   });
-  // Footers
   const pages=doc.internal.getNumberOfPages();
-  for(let i=2;i<=pages;i++){
-    doc.setPage(i);doc.setFontSize(8);doc.setTextColor(160,160,160);
-    doc.text('ScholarBot · Research Intelligence',mg,H-8);
-    doc.text(`Page ${i-1} of ${pages-1}`,W-mg,H-8,{align:'right'});
-  }
+  for(let i=2;i<=pages;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(160,160,160);doc.text('ScholarBot · Research Intelligence',mg,H-8);doc.text(`Page ${i-1} of ${pages-1}`,W-mg,H-8,{align:'right'});}
   doc.save('ScholarBot-'+topic.slice(0,40).replace(/\s+/g,'-')+'.pdf');
   toast('PDF downloaded ✓');
 }
@@ -753,56 +986,17 @@ function downloadPDF(){
 function downloadWord(){
   const userName=user?`${user.fn} ${user.ln}`:'Guest';
   const dateStr=document.getElementById('m-date').textContent;
+  const scoreText=document.getElementById('score-num').textContent;
   const g=id=>{const t=document.getElementById(id).textContent;return(!t||t==='Not included.')?'':t;};
-  const sh=(title,content)=>{
-    if(!content)return'';
-    const ps=content.split('\n').filter(l=>l.trim()).map(l=>`<p>${l}</p>`).join('');
-    return`<h2>${title}</h2>${ps}`;
-  };
+  const sh=(title,content)=>{if(!content)return'';const ps=content.split('\n').filter(l=>l.trim()).map(l=>`<p>${l}</p>`).join('');return`<h2>${title}</h2>${ps}`;};
   const instRow=institution?`<tr><td>Institution</td><td>${institution}</td></tr>`:'';
-  const html=`
-<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
-<head><meta charset="utf-8"/><title>ScholarBot — ${topic}</title>
-<style>
-body{font-family:Calibri,sans-serif;font-size:11pt;color:#222;margin:2.5cm;line-height:1.6}
-h1{font-family:'Segoe UI',sans-serif;font-size:22pt;color:#4F46E5;margin-bottom:4pt}
-h2{font-family:'Segoe UI',sans-serif;font-size:13pt;color:#0D1124;margin-top:22pt;margin-bottom:8pt;border-bottom:1pt solid #4F46E5;padding-bottom:4pt}
-p{margin:4pt 0;font-size:11pt}
-.cover{text-align:center;padding:50pt 0 36pt;border-bottom:2pt solid #4F46E5;margin-bottom:28pt}
-.cover h1{font-size:30pt;color:#4F46E5;letter-spacing:1pt}
-.cover .sub{font-size:11pt;color:#64748B;margin:6pt 0 18pt}
-.cover .tp{font-size:14pt;font-weight:bold;color:#0D1124;margin:14pt 0 8pt}
-table{border-collapse:collapse;width:100%;margin:14pt 0}
-td{padding:5pt 8pt;font-size:10pt;border:1pt solid #E0E0E0;color:#555}
-td:first-child{font-weight:bold;background:#F8F8FF;width:28%;color:#333}
-.foot{margin-top:36pt;padding-top:8pt;border-top:1pt solid #DDD;font-size:9pt;color:#999;text-align:center}
-</style></head>
-<body>
-<div class="cover">
-  <h1>ScholarBot</h1>
-  <div class="sub">Research Intelligence</div>
-  <div class="tp">${topic}</div>
-  <table>
-    <tr><td>Academic Level</td><td>${level}</td></tr>
-    <tr><td>Discipline</td><td>${discipline}</td></tr>
-    <tr><td>Researcher</td><td>${userName}</td></tr>
-    ${instRow}
-    <tr><td>Generated</td><td>${dateStr}</td></tr>
-  </table>
-</div>
-${sh('1. Research Ideas',g('c-ideas'))}
-${sh('2. Relevant Papers',g('c-papers'))}
-${sh('3. Research Gaps',g('c-gaps'))}
-${sh('4. Literature Review',g('c-rev'))}
-${sh('5. Execution Roadmap',g('c-road'))}
-<div class="foot">ScholarBot · Research Intelligence · scholarbot.app</div>
-</body></html>`;
+  const scoreRow=scoreText&&scoreText!=='—'?`<tr><td>Confidence Score</td><td>${scoreText}</td></tr>`:'';
+  const html=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"/><title>ScholarBot — ${topic}</title><style>body{font-family:Calibri,sans-serif;font-size:11pt;color:#222;margin:2.5cm;line-height:1.6}h1{font-family:'Segoe UI',sans-serif;font-size:22pt;color:#4F46E5;margin-bottom:4pt}h2{font-family:'Segoe UI',sans-serif;font-size:13pt;color:#0D1124;margin-top:22pt;margin-bottom:8pt;border-bottom:1pt solid #4F46E5;padding-bottom:4pt}p{margin:4pt 0;font-size:11pt}.cover{text-align:center;padding:50pt 0 36pt;border-bottom:2pt solid #4F46E5;margin-bottom:28pt}.cover h1{font-size:30pt;color:#4F46E5}.cover .sub{font-size:11pt;color:#64748B;margin:6pt 0 18pt}.cover .tp{font-size:14pt;font-weight:bold;color:#0D1124;margin:14pt 0 8pt}table{border-collapse:collapse;width:100%;margin:14pt 0}td{padding:5pt 8pt;font-size:10pt;border:1pt solid #E0E0E0;color:#555}td:first-child{font-weight:bold;background:#F8F8FF;width:28%;color:#333}.foot{margin-top:36pt;padding-top:8pt;border-top:1pt solid #DDD;font-size:9pt;color:#999;text-align:center}</style></head><body><div class="cover"><h1>ScholarBot</h1><div class="sub">Research Intelligence</div><div class="tp">${topic}</div><table><tr><td>Academic Level</td><td>${level}</td></tr><tr><td>Discipline</td><td>${discipline}</td></tr><tr><td>Researcher</td><td>${userName}</td></tr>${instRow}${scoreRow}<tr><td>Generated</td><td>${dateStr}</td></tr></table></div>${sh('1. Research Ideas',g('c-ideas'))}${sh('2. Relevant Papers',g('c-papers'))}${sh('3. Research Gaps',g('c-gaps'))}${sh('4. Literature Review',g('c-rev'))}${sh('5. Execution Roadmap',g('c-road'))}${sh('6. Draft Abstract',g('c-abstract'))}${sh('7. Recommended Journals & Conferences',g('c-journals'))}${sh('8. Recommended Datasets',g('c-datasets'))}<div class="foot">ScholarBot · Research Intelligence · scholarbot.app</div></body></html>`;
   const blob=new Blob([html],{type:'application/msword'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
   a.href=url;a.download='ScholarBot-'+topic.slice(0,40).replace(/\s+/g,'-')+'.doc';
-  document.body.appendChild(a);a.click();
-  document.body.removeChild(a);URL.revokeObjectURL(url);
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
   toast('Word document downloaded ✓');
 }
 
@@ -812,7 +1006,7 @@ ${sh('5. Execution Roadmap',g('c-road'))}
   if(s){try{user=JSON.parse(s);setNavUser(user);}catch(e){localStorage.removeItem('sb_s');}}
   document.addEventListener('keydown',e=>{
     if(e.key!=='Enter')return;
-    const a=SECS.find(s=>!document.getElementById('section-'+s).classList.contains('hidden'));
+    const a=SECS.find(s=>!document.getElementById('section-'+s)?.classList.contains('hidden'));
     if(a==='login')logIn();
     if(a==='signup')signUp();
   });
