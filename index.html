@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ScholarBot · Research Intelligence</title>
-  <meta name="description" content="ScholarBot — AI-powered research intelligence."/>
+  <meta name="description" content="ScholarBot — AI-powered research intelligence. Turn any topic into a full literature review, real paper references, research gaps, and an execution roadmap in seconds."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
@@ -28,9 +28,8 @@
     @keyframes spin{to{transform:rotate(360deg)}}
     @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(79,70,229,0)}50%{box-shadow:0 0 0 10px rgba(79,70,229,.2)}}
     @keyframes toastIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
-    @keyframes typeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-    /* NAV */
+    /* ── NAV ── */
     nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:60px;background:rgba(8,11,26,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(79,70,229,.18)}
     .nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer}
     .nav-logo-mark{width:32px;height:32px;flex-shrink:0}
@@ -45,10 +44,10 @@
     .nav-dl-btn{background:var(--gradient);color:#fff;border:none;padding:6px 16px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;transition:opacity .15s,transform .15s}
     .nav-dl-btn:hover{opacity:.88;transform:translateY(-1px)}
 
-    /* TOAST */
+    /* ── TOAST ── */
     #toast{position:fixed;bottom:24px;right:24px;z-index:999;background:var(--ink-card);border:1px solid rgba(79,70,229,.3);border-radius:10px;padding:10px 18px;font-size:13px;color:var(--white);animation:toastIn .25s ease;pointer-events:none}
 
-    /* HERO */
+    /* ── HERO ── */
     #section-hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 24px 80px;position:relative;overflow:hidden;text-align:center}
     .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(79,70,229,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(79,70,229,.04) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
     .hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(79,70,229,.12) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-60%);pointer-events:none}
@@ -73,7 +72,7 @@
     .p-title{font-size:13px;font-weight:600;color:var(--white);margin-bottom:4px}
     .p-desc{font-size:11px;color:var(--grey-400);line-height:1.5}
 
-    /* SHARED FORM */
+    /* ── SHARED FORM ── */
     .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px 60px}
     .card{background:var(--ink-card);border:1px solid rgba(79,70,229,.18);border-radius:20px;padding:40px;width:100%;max-width:480px;box-shadow:var(--shadow);animation:fadeUp .35s ease}
     .card-wide{max-width:700px}
@@ -100,37 +99,31 @@
     .ch{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--grey-200);cursor:pointer}
     .ch input[type=checkbox]{width:15px;height:15px;accent-color:var(--indigo-lt);cursor:pointer}
 
-    /* MINI LOADING (Orchestrator check) */
+    /* ── CHECKING (Orchestrator mini loader) ── */
     #section-checking{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
     .checking-icon{font-size:48px;margin-bottom:20px;animation:pulse 1.5s ease-in-out infinite}
-    .checking-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
+    .checking-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;letter-spacing:-.3px}
     .checking-sub{font-size:14px;color:var(--grey-400);margin-bottom:32px}
     .mini-spinner{width:32px;height:32px;border:2.5px solid rgba(79,70,229,.15);border-top-color:var(--indigo-lt);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 12px}
     .checking-status{font-size:13px;color:var(--grey-400)}
 
-    /* REVIEW SECTION */
+    /* ── REVIEW ── */
     #section-review{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:80px 24px 60px}
     .review-wrap{width:100%;max-width:760px;animation:fadeUp .4s ease}
-
-    /* Orchestrator summary display */
     .orc-summary{background:var(--ink-card);border:1px solid rgba(79,70,229,.2);border-radius:20px;padding:32px;margin-bottom:20px}
     .orc-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.06)}
     .orc-avatar{width:42px;height:42px;background:var(--gradient);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
     .orc-header-text h3{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:var(--white)}
     .orc-header-text p{font-size:12px;color:var(--grey-400);margin-top:2px}
     .orc-body{font-size:14px;color:var(--grey-200);line-height:1.85;white-space:pre-wrap;word-break:break-word}
-
-    /* Amendment box */
     .amend-card{background:var(--ink-card);border:1px solid rgba(79,70,229,.18);border-radius:20px;padding:28px;margin-bottom:16px}
     .amend-label{font-size:11px;font-weight:700;color:var(--cyan);letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
     .amend-label::after{content:'Optional';font-size:9px;color:var(--grey-400);font-weight:400;letter-spacing:0;text-transform:none;background:rgba(255,255,255,.06);padding:2px 8px;border-radius:100px}
-    .amend-textarea{width:100%;background:rgba(8,11,26,.6);border:1px solid rgba(199,210,232,.1);border-radius:12px;color:var(--white);font-family:'Inter',sans-serif;font-size:14px;padding:14px 16px;outline:none;transition:border-color .2s;resize:none;min-height:80px;line-height:1.6}
+    .amend-textarea{width:100%;background:rgba(8,11,26,.6);border:1px solid rgba(199,210,232,.1);border-radius:12px;color:var(--white);font-family:'Inter',sans-serif;font-size:14px;padding:14px 16px;outline:none;transition:border-color .2s;resize:none;min-height:100px;line-height:1.6}
     .amend-textarea:focus{border-color:var(--indigo-lt)}
     .amend-textarea::placeholder{color:var(--grey-400)}
-    .amend-hint{font-size:11px;color:var(--grey-400);margin-top:8px;line-height:1.5}
-
-    /* Action buttons */
-    .review-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+    .amend-hint{font-size:11px;color:var(--grey-400);margin-top:8px;line-height:1.6}
+    .review-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
     .btn-proceed{background:var(--gradient);color:#fff;border:none;padding:15px;border-radius:100px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:transform .15s,box-shadow .15s;display:flex;align-items:center;justify-content:center;gap:8px}
     .btn-proceed:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(79,70,229,.4)}
     .btn-proceed:disabled{opacity:.45;cursor:not-allowed}
@@ -140,14 +133,14 @@
     .btn-amend:hover:not(:disabled){background:rgba(6,182,212,.18)}
     .btn-amend:disabled{opacity:.45;cursor:not-allowed}
 
-    /* End screen */
+    /* ── END SCREEN ── */
     .end-card{background:var(--ink-card);border:1px solid rgba(239,68,68,.18);border-radius:20px;padding:40px;text-align:center;width:100%;max-width:500px;animation:fadeUp .35s ease}
     .end-icon{font-size:40px;margin-bottom:16px}
     .end-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
     .end-sub{font-size:14px;color:var(--grey-400);line-height:1.6;margin-bottom:24px}
     .btn-restart{background:var(--gradient);color:#fff;border:none;padding:14px 32px;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif}
 
-    /* MAIN LOADING */
+    /* ── LOADING (full pipeline) ── */
     #section-loading{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
     .ld-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin-bottom:10px;letter-spacing:-.4px}
     .ld-sub{font-size:14px;color:var(--grey-200);margin-bottom:52px}
@@ -166,7 +159,7 @@
     .spinner{width:36px;height:36px;border:2.5px solid rgba(79,70,229,.15);border-top-color:var(--indigo-lt);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 12px}
     .ld-status{font-size:13px;color:var(--grey-400);min-height:20px}
 
-    /* RESULTS */
+    /* ── RESULTS ── */
     #section-results{padding:88px 24px 100px;max-width:900px;margin:0 auto}
     .r-header{margin-bottom:20px;animation:fadeUp .4s ease}
     .r-tag{font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
@@ -174,6 +167,8 @@
     .r-meta{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:18px}
     .r-meta-i{font-size:12px;color:var(--grey-400);display:flex;align-items:center;gap:4px}
     .r-meta-i span{color:var(--grey-200);font-weight:500}
+
+    /* Score card */
     .score-card{background:var(--ink-card);border:1px solid rgba(79,70,229,.2);border-radius:var(--radius);padding:18px 22px;margin-bottom:14px}
     .score-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
     .score-label{font-size:12px;font-weight:700;color:var(--cyan);letter-spacing:1px;text-transform:uppercase}
@@ -190,6 +185,8 @@
     .rating-good{background:rgba(79,70,229,.15);color:var(--indigo-lt)}
     .rating-acceptable{background:rgba(245,158,11,.15);color:var(--amber)}
     .rating-needs{background:rgba(239,68,68,.1);color:#FCA5A5}
+
+    /* Accordion */
     .r-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
     .r-toolbar-l{font-size:13px;color:var(--grey-400)}
     .r-toolbar-r{display:flex;gap:7px}
@@ -221,6 +218,8 @@
     .acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
     .acc-item.open .acc-body{max-height:99999px}
     .acc-content{padding:0 18px 18px;font-size:14px;color:var(--grey-200);line-height:1.85;white-space:pre-wrap;word-break:break-word}
+
+    /* Bottom bars */
     .cite-bar{margin-top:10px;background:var(--ink-card);border:1px solid rgba(79,70,229,.1);border-radius:var(--radius);padding:14px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
     .cite-bar label{font-size:13px;color:var(--grey-200);white-space:nowrap}
     .cite-bar select{flex:1;min-width:140px;padding:8px 12px;font-size:13px}
@@ -257,7 +256,7 @@
 
 <div id="toast" class="hidden"></div>
 
-<!-- NAV -->
+<!-- ── NAV ── -->
 <nav>
   <div class="nav-logo" onclick="goHome()">
     <svg class="nav-logo-mark" viewBox="0 0 32 32" fill="none">
@@ -280,12 +279,12 @@
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ── HERO ── -->
 <section id="section-hero">
   <div class="hero-grid"></div><div class="hero-glow"></div>
   <div class="hero-pill"><div class="hero-pill-dot"></div>Powered by Multi-Agent AI</div>
   <h1 class="hero-title">Research,<br/><span class="grad">Reimagined.</span></h1>
-  <p class="hero-sub">Enter any topic. ScholarBot verifies papers exist, confirms your direction, then builds a full academic report with abstract, journals, and datasets — in seconds.</p>
+  <p class="hero-sub">Enter any topic. ScholarBot verifies papers exist, confirms your direction, then builds a full academic report — with abstract, journals, and datasets — in seconds.</p>
   <div class="hero-cta">
     <button class="btn-primary" onclick="handleStart()">Start Researching →</button>
     <button class="btn-secondary" onclick="document.getElementById('process').scrollIntoView({behavior:'smooth'})">How it works</button>
@@ -303,11 +302,11 @@
     <div class="p-card"><div class="p-num">STEP 01</div><div class="p-title">Enter your topic</div><div class="p-desc">Any research area — broad or specific</div></div>
     <div class="p-card"><div class="p-num">STEP 02</div><div class="p-title">Orchestrator checks</div><div class="p-desc">Scans for papers, summarises, asks you to confirm or refine</div></div>
     <div class="p-card"><div class="p-num">STEP 03</div><div class="p-title">Agents research</div><div class="p-desc">Scout finds papers, Evaluator scores, Writer synthesises</div></div>
-    <div class="p-card"><div class="p-num">STEP 04</div><div class="p-title">Download report</div><div class="p-desc">8 sections including abstract, journals, and datasets</div></div>
+    <div class="p-card"><div class="p-num">STEP 04</div><div class="p-title">Download report</div><div class="p-desc">8 sections — abstract, journals, datasets included</div></div>
   </div>
 </section>
 
-<!-- SIGN UP -->
+<!-- ── SIGN UP ── -->
 <section id="section-signup" class="wrap hidden">
   <div class="card">
     <h2>Create your account</h2><p>Free to use. No credit card required.</p>
@@ -320,7 +319,12 @@
     <div class="fg"><label class="fl">Password</label><input type="password" id="su-pw" placeholder="At least 6 characters"/></div>
     <div class="fg"><label class="fl">Institution <span style="color:var(--grey-400);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label><input type="text" id="su-inst" placeholder="e.g. University of Manchester"/></div>
     <div class="fg"><label class="fl">Academic Level</label>
-      <select id="su-lv"><option value="Masters">Masters (MSc)</option><option value="PhD">PhD / Doctoral</option><option value="Undergraduate">Undergraduate</option><option value="Researcher">Researcher</option></select>
+      <select id="su-lv">
+        <option value="Masters">Masters (MSc)</option>
+        <option value="PhD">PhD / Doctoral</option>
+        <option value="Undergraduate">Undergraduate</option>
+        <option value="Researcher">Researcher</option>
+      </select>
     </div>
     <button class="btn-action" onclick="signUp()">Create Account →</button>
     <div class="sw">Already have an account? <a onclick="showSection('login')">Log in</a></div>
@@ -328,7 +332,7 @@
   </div>
 </section>
 
-<!-- LOG IN -->
+<!-- ── LOG IN ── -->
 <section id="section-login" class="wrap hidden">
   <div class="card">
     <h2>Welcome back</h2><p>Log in to continue your research.</p>
@@ -342,7 +346,7 @@
   </div>
 </section>
 
-<!-- INPUT -->
+<!-- ── INPUT ── -->
 <section id="section-input" class="wrap hidden">
   <div class="card card-wide">
     <h2>Start your research</h2><p>The more specific your topic, the sharper the output.</p>
@@ -351,7 +355,12 @@
     </div>
     <div class="r2">
       <div class="fg"><label class="fl">Academic Level</label>
-        <select id="lv-sel"><option value="Masters">Masters (MSc)</option><option value="PhD">PhD / Doctoral</option><option value="Undergraduate">Undergraduate</option><option value="Researcher">Researcher</option></select>
+        <select id="lv-sel">
+          <option value="Masters">Masters (MSc)</option>
+          <option value="PhD">PhD / Doctoral</option>
+          <option value="Undergraduate">Undergraduate</option>
+          <option value="Researcher">Researcher</option>
+        </select>
       </div>
       <div class="fg"><label class="fl">Discipline</label>
         <select id="di-sel">
@@ -383,7 +392,7 @@
   </div>
 </section>
 
-<!-- CHECKING (Orchestrator mini loader) -->
+<!-- ── CHECKING (Orchestrator mini loader) ── -->
 <section id="section-checking" class="hidden">
   <div class="checking-icon">🎯</div>
   <h2 class="checking-title">Orchestrator is checking your topic…</h2>
@@ -392,50 +401,50 @@
   <p class="checking-status" id="checking-txt">Scanning academic databases…</p>
 </section>
 
-<!-- REVIEW (Orchestrator summary + user response) -->
+<!-- ── REVIEW ── -->
 <section id="section-review" class="hidden">
   <div class="review-wrap">
 
-    <!-- Orchestrator Summary Card -->
     <div class="orc-summary">
       <div class="orc-header">
         <div class="orc-avatar">🎯</div>
         <div class="orc-header-text">
           <h3>Orchestrator Agent</h3>
-          <p>Topic analysis complete — please review before proceeding</p>
+          <p>Topic analysis complete — review before proceeding</p>
         </div>
       </div>
       <div class="orc-body" id="orc-body">Loading summary…</div>
     </div>
 
-    <!-- Amendment Box -->
     <div class="amend-card">
       <div class="amend-label">Refine or amend your topic</div>
       <textarea
         class="amend-textarea"
         id="amend-input"
-        placeholder="Type a new topic, ask for a suggestion, or tweak the current one…&#10;&#10;Examples:&#10;• 'Change it to: machine learning in diabetes prediction'&#10;• 'Make it more specific around deep learning'&#10;• 'What would you suggest instead?'&#10;• 'Use one of your recommendations above'"
+        placeholder="Type a new topic, ask for a suggestion, or tweak the current one…&#10;&#10;Examples:&#10;• Change it to: machine learning in diabetes prediction&#10;• Make it more specific around deep learning&#10;• What would you suggest instead?&#10;• Use recommendation 2 above"
       ></textarea>
-      <p class="amend-hint">💡 Leave blank and click Proceed if you're happy with your current topic. Type here only if you want to change or refine it.</p>
+      <p class="amend-hint">
+        💡 <strong>Leave this blank</strong> and click <strong>Proceed to Full Research</strong> if you are happy with your current topic.<br/>
+        Only type here if you want to change, refine, or ask for a different suggestion.
+      </p>
     </div>
 
-    <!-- Action Buttons -->
     <div class="review-actions">
       <button class="btn-proceed" id="btn-proceed" onclick="proceedResearch()">
-        ✓ Proceed with Research
+        ✓ Proceed to Full Research
       </button>
       <button class="btn-reject" onclick="rejectResearch()">
         ✕ End Session
       </button>
     </div>
     <button class="btn-amend" id="btn-amend" onclick="submitAmendment()">
-      ↺ Submit Amendment &amp; Re-analyse
+      ↺ Submit Amendment &amp; Re-analyse Topic
     </button>
 
   </div>
 </section>
 
-<!-- END SCREEN (after reject) -->
+<!-- ── END SCREEN ── -->
 <section id="section-end" class="wrap hidden">
   <div class="end-card">
     <div class="end-icon">📚</div>
@@ -445,28 +454,40 @@
   </div>
 </section>
 
-<!-- LOADING (full pipeline) -->
+<!-- ── LOADING (full pipeline) ── -->
 <section id="section-loading" class="hidden">
   <h2 class="ld-title">Agents are working…</h2>
   <p class="ld-sub">This usually takes 30–60 seconds. Please wait.</p>
   <div class="agent-pipeline">
     <div class="agent-box done" id="ag1-box">
-      <div class="agent-box-header"><span class="agent-name">🎯 Orchestrator</span><span class="agent-status" id="ag1-st" style="color:#10B981">Done ✓</span></div>
+      <div class="agent-box-header">
+        <span class="agent-name">🎯 Orchestrator</span>
+        <span class="agent-status" id="ag1-st" style="color:#10B981">Done ✓</span>
+      </div>
       <p class="agent-desc">Verified topic and confirmed research direction</p>
     </div>
     <div class="pipeline-arrow"></div>
     <div class="agent-box" id="ag2-box">
-      <div class="agent-box-header"><span class="agent-name">🔍 Research Scout</span><span class="agent-status" id="ag2-st">Waiting</span></div>
+      <div class="agent-box-header">
+        <span class="agent-name">🔍 Research Scout</span>
+        <span class="agent-status" id="ag2-st">Waiting</span>
+      </div>
       <p class="agent-desc">Searching for real papers, identifying themes and gaps</p>
     </div>
     <div class="pipeline-arrow"></div>
     <div class="agent-box" id="ag3-box">
-      <div class="agent-box-header"><span class="agent-name">📊 Evaluator</span><span class="agent-status" id="ag3-st">Waiting</span></div>
+      <div class="agent-box-header">
+        <span class="agent-name">📊 Evaluator</span>
+        <span class="agent-status" id="ag3-st">Waiting</span>
+      </div>
       <p class="agent-desc">Scoring paper quality and calculating confidence</p>
     </div>
     <div class="pipeline-arrow"></div>
     <div class="agent-box" id="ag4-box">
-      <div class="agent-box-header"><span class="agent-name">✍️ Academic Writer</span><span class="agent-status" id="ag4-st">Waiting</span></div>
+      <div class="agent-box-header">
+        <span class="agent-name">✍️ Academic Writer</span>
+        <span class="agent-status" id="ag4-st">Waiting</span>
+      </div>
       <p class="agent-desc">Writing full report with abstract, journals and datasets</p>
     </div>
   </div>
@@ -474,8 +495,9 @@
   <p class="ld-status" id="ld-txt">Research pipeline running…</p>
 </section>
 
-<!-- RESULTS -->
+<!-- ── RESULTS ── -->
 <section id="section-results" class="hidden">
+
   <div class="r-header">
     <div class="r-tag">Research Report</div>
     <div class="r-title" id="r-topic"></div>
@@ -491,7 +513,10 @@
   <div class="score-card" id="score-card">
     <div class="score-header">
       <span class="score-label">📊 Research Confidence Score</span>
-      <div><span class="score-badge" id="score-num">—<span>/10</span></span><span class="score-rating" id="score-rating"></span></div>
+      <div>
+        <span class="score-badge" id="score-num">—<span>/10</span></span>
+        <span class="score-rating" id="score-rating"></span>
+      </div>
     </div>
     <div class="score-bar-wrap"><div class="score-bar" id="score-bar" style="width:0%"></div></div>
     <div class="score-breakdown" id="score-breakdown"></div>
@@ -522,18 +547,27 @@
 
   <div class="cite-bar">
     <label>Reformat references as:</label>
-    <select id="cite-sty"><option value="APA">APA 7th Edition</option><option value="Harvard">Harvard</option><option value="IEEE">IEEE</option><option value="Chicago">Chicago</option></select>
+    <select id="cite-sty">
+      <option value="APA">APA 7th Edition</option>
+      <option value="Harvard">Harvard</option>
+      <option value="IEEE">IEEE</option>
+      <option value="Chicago">Chicago</option>
+    </select>
     <button class="btn-ref" id="btn-ref" onclick="reformat()">Apply Style</button>
   </div>
 
   <div class="dl-bar">
-    <div class="dl-bar-text"><h4>⬇ Download your full report</h4><p>All 8 sections including abstract, journals and datasets</p></div>
+    <div class="dl-bar-text">
+      <h4>⬇ Download your full report</h4>
+      <p>All 8 sections — abstract, journals and datasets included</p>
+    </div>
     <div class="dl-actions">
       <button class="btn-pdf" onclick="downloadPDF()">PDF</button>
       <button class="btn-word" onclick="downloadWord()">Word (.doc)</button>
       <button class="btn-new" onclick="newSearch()">New Search</button>
     </div>
   </div>
+
 </section>
 
 <footer>
@@ -545,104 +579,132 @@
 </footer>
 
 <script>
-// ══ CONFIG ══
-const API='https://cloud.flowiseai.com/api/v1/prediction/2ae796b1-b682-4ad6-9d0d-61e3905dd345';
+// ══════════════════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════════════════
+const API = 'https://cloud.flowiseai.com/api/v1/prediction/2ae796b1-b682-4ad6-9d0d-61e3905dd345';
 
-// ══ STATE ══
-let topic='',level='',discipline='',institution='',fullText='',sessionId=null,user=null;
+// ══════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════
+let topic = '', level = '', discipline = '', institution = '';
+let fullText = '', sessionId = null, user = null;
 
-// ══ ALL SECTIONS ══
-// 'checking' = orchestrator mini loader
-// 'review'   = orchestrator summary + user input
-// 'end'      = session ended gracefully
-const SECS=['hero','signup','login','input','checking','review','end','loading','results'];
+// ══════════════════════════════════════════════════════
+// SECTION NAVIGATION
+// ══════════════════════════════════════════════════════
+const SECS = ['hero','signup','login','input','checking','review','end','loading','results'];
 
-function showSection(n){
-  SECS.forEach(s=>{
-    const e=document.getElementById('section-'+s);
-    if(e)e.classList.toggle('hidden',s!==n);
+function showSection(n) {
+  SECS.forEach(s => {
+    const e = document.getElementById('section-' + s);
+    if (e) e.classList.toggle('hidden', s !== n);
   });
-  document.getElementById('nav-dl').classList.toggle('hidden',n!=='results');
-  window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('nav-dl').classList.toggle('hidden', n !== 'results');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-function goHome(){showSection('hero')}
-function handleStart(){showSection(user?'input':'signup')}
-function newSearch(){sessionId=null;document.getElementById('amend-input').value='';showSection('input')}
+function goHome()       { showSection('hero'); }
+function handleStart()  { showSection(user ? 'input' : 'signup'); }
+function newSearch()    { sessionId = null; document.getElementById('amend-input').value = ''; showSection('input'); }
 
-// ══ TOAST ══
+// ══════════════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════════════
 let _tt;
-function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.remove('hidden');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.add('hidden'),2800)}
+function toast(m) {
+  const t = document.getElementById('toast');
+  t.textContent = m;
+  t.classList.remove('hidden');
+  clearTimeout(_tt);
+  _tt = setTimeout(() => t.classList.add('hidden'), 2800);
+}
 
-// ══ AUTH ══
-function getUsers(){return JSON.parse(localStorage.getItem('sb_u')||'[]')}
-function saveUsers(u){localStorage.setItem('sb_u',JSON.stringify(u))}
-function hp(p){let h=0;for(let i=0;i<p.length;i++){h=(Math.imul(31,h)+p.charCodeAt(i))|0}return h.toString(36)}
-function setNavUser(u){
-  if(!u){document.getElementById('nav-user').classList.add('hidden');return}
+// ══════════════════════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════════════════════
+function getUsers()      { return JSON.parse(localStorage.getItem('sb_u') || '[]'); }
+function saveUsers(u)    { localStorage.setItem('sb_u', JSON.stringify(u)); }
+function hp(p)           { let h=0; for(let i=0;i<p.length;i++){h=(Math.imul(31,h)+p.charCodeAt(i))|0} return h.toString(36); }
+
+function setNavUser(u) {
+  if (!u) { document.getElementById('nav-user').classList.add('hidden'); return; }
   document.getElementById('nav-user').classList.remove('hidden');
-  document.getElementById('nav-name').textContent=u.fn;
-  document.getElementById('nav-av').textContent=u.fn[0].toUpperCase();
+  document.getElementById('nav-name').textContent = u.fn;
+  document.getElementById('nav-av').textContent   = u.fn[0].toUpperCase();
 }
-function showErr(id,msg){const e=document.getElementById(id);e.textContent=msg;e.classList.remove('hidden')}
+function showErr(id, msg) {
+  const e = document.getElementById(id);
+  e.textContent = msg;
+  e.classList.remove('hidden');
+}
 
-function signUp(){
+function signUp() {
   document.getElementById('su-err').classList.add('hidden');
-  const fn=document.getElementById('su-fn').value.trim();
-  const ln=document.getElementById('su-ln').value.trim();
-  const em=document.getElementById('su-em').value.trim().toLowerCase();
-  const pw=document.getElementById('su-pw').value;
-  const inst=document.getElementById('su-inst').value.trim();
-  const lv=document.getElementById('su-lv').value;
-  if(!fn||!ln)return showErr('su-err','Please enter your first and last name.');
-  if(!em.includes('@'))return showErr('su-err','Please enter a valid email address.');
-  if(pw.length<6)return showErr('su-err','Password must be at least 6 characters.');
-  const users=getUsers();
-  if(users.find(u=>u.em===em))return showErr('su-err','An account with this email already exists.');
-  const u={fn,ln,em,pw:hp(pw),inst,lv,at:Date.now()};
-  users.push(u);saveUsers(users);
-  user=u;localStorage.setItem('sb_s',JSON.stringify(u));
-  setNavUser(u);document.getElementById('lv-sel').value=lv;
-  toast(`Welcome, ${fn}! 🎉`);showSection('input');
+  const fn   = document.getElementById('su-fn').value.trim();
+  const ln   = document.getElementById('su-ln').value.trim();
+  const em   = document.getElementById('su-em').value.trim().toLowerCase();
+  const pw   = document.getElementById('su-pw').value;
+  const inst = document.getElementById('su-inst').value.trim();
+  const lv   = document.getElementById('su-lv').value;
+  if (!fn || !ln) return showErr('su-err', 'Please enter your first and last name.');
+  if (!em.includes('@')) return showErr('su-err', 'Please enter a valid email address.');
+  if (pw.length < 6) return showErr('su-err', 'Password must be at least 6 characters.');
+  const users = getUsers();
+  if (users.find(u => u.em === em)) return showErr('su-err', 'An account with this email already exists.');
+  const u = { fn, ln, em, pw: hp(pw), inst, lv, at: Date.now() };
+  users.push(u); saveUsers(users);
+  user = u; localStorage.setItem('sb_s', JSON.stringify(u));
+  setNavUser(u);
+  document.getElementById('lv-sel').value = lv;
+  toast(`Welcome, ${fn}! 🎉`); showSection('input');
 }
 
-function logIn(){
+function logIn() {
   document.getElementById('li-err').classList.add('hidden');
-  const em=document.getElementById('li-em').value.trim().toLowerCase();
-  const pw=document.getElementById('li-pw').value;
-  const u=getUsers().find(u=>u.em===em&&u.pw===hp(pw));
-  if(!u)return showErr('li-err','Email or password is incorrect.');
-  user=u;localStorage.setItem('sb_s',JSON.stringify(u));
-  setNavUser(u);document.getElementById('lv-sel').value=u.lv||'Masters';
-  toast(`Welcome back, ${u.fn}!`);showSection('input');
+  const em = document.getElementById('li-em').value.trim().toLowerCase();
+  const pw = document.getElementById('li-pw').value;
+  const u  = getUsers().find(u => u.em === em && u.pw === hp(pw));
+  if (!u) return showErr('li-err', 'Email or password is incorrect.');
+  user = u; localStorage.setItem('sb_s', JSON.stringify(u));
+  setNavUser(u);
+  document.getElementById('lv-sel').value = u.lv || 'Masters';
+  toast(`Welcome back, ${u.fn}!`); showSection('input');
 }
 
-function logout(){
-  user=null;sessionId=null;localStorage.removeItem('sb_s');
-  setNavUser(null);toast('Logged out.');showSection('hero');
+function logout() {
+  user = null; sessionId = null;
+  localStorage.removeItem('sb_s');
+  setNavUser(null); toast('Logged out.'); showSection('hero');
 }
 
-// ══ ACCORDION ══
-function tog(id){document.getElementById(id).classList.toggle('open')}
-function setAll(o){document.querySelectorAll('.acc-item').forEach(e=>e.classList.toggle('open',o))}
-function cp(e,id){e.stopPropagation();navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>toast('Copied ✓'))}
+// ══════════════════════════════════════════════════════
+// ACCORDION
+// ══════════════════════════════════════════════════════
+function tog(id)    { document.getElementById(id).classList.toggle('open'); }
+function setAll(o)  { document.querySelectorAll('.acc-item').forEach(e => e.classList.toggle('open', o)); }
+function cp(e, id)  { e.stopPropagation(); navigator.clipboard.writeText(document.getElementById(id).textContent).then(() => toast('Copied ✓')); }
 
-// ══ AGENT ANIMATION ══
-function setAgent(n,state){
-  const box=document.getElementById('ag'+n+'-box');
-  const st=document.getElementById('ag'+n+'-st');
-  if(!box)return;
-  box.className='agent-box'+(state!=='waiting'?' '+state:'');
-  const labels={waiting:'Waiting',active:'Working…',done:'Done ✓'};
-  st.textContent=labels[state]||state;
-  st.style.color=state==='active'?'#6366F1':state==='done'?'#10B981':'#64748B';
+// ══════════════════════════════════════════════════════
+// AGENT ANIMATION
+// ══════════════════════════════════════════════════════
+function setAgent(n, state) {
+  const box = document.getElementById('ag' + n + '-box');
+  const st  = document.getElementById('ag' + n + '-st');
+  if (!box) return;
+  box.className = 'agent-box' + (state !== 'waiting' ? ' ' + state : '');
+  const labels = { waiting: 'Waiting', active: 'Working…', done: 'Done ✓' };
+  st.textContent = labels[state] || state;
+  st.style.color = state === 'active' ? '#6366F1' : state === 'done' ? '#10B981' : '#64748B';
 }
-function setLdTxt(m){const e=document.getElementById('ld-txt');if(e)e.textContent=m}
+function setLdTxt(m) { const e = document.getElementById('ld-txt'); if (e) e.textContent = m; }
 
-// ══ DETECT ORCHESTRATOR RESPONSE ══
-// The key function — determines if what came back is the
-// Orchestrator's summary (needs user input) or the full report
-function isOrchestratorResponse(text){
-  const markers=[
+// ══════════════════════════════════════════════════════
+// RESPONSE DETECTION
+// Determines what type of response came back from Flowise
+// ══════════════════════════════════════════════════════
+function isOrchestratorResponse(text) {
+  // These markers appear in the Orchestrator's output format
+  const markers = [
     'Click PROCEED',
     'TOPIC UNDERSTOOD',
     'PAPERS FOUND',
@@ -651,364 +713,521 @@ function isOrchestratorResponse(text){
     'Shall I go ahead',
     'SCOPE ASSESSMENT',
     'Click REJECT',
+    'ScholarBot is waiting for your decision',
   ];
-  return markers.some(m=>text.includes(m));
+  return markers.some(m => text.includes(m));
 }
 
-// ══ DETECT END/REJECT RESPONSE ══
-function isEndResponse(text){
-  const markers=[
+function isEndResponse(text) {
+  const markers = [
     'session has been ended',
     'Come back anytime',
     'No problem at all',
-    'ScholarBot session',
     'ready when you are',
+    'start a new chat',
   ];
-  return markers.some(m=>text.toLowerCase().includes(m.toLowerCase()));
+  return markers.some(m => text.toLowerCase().includes(m.toLowerCase()));
 }
 
-// ══ PROMPT ══
-function buildPrompt(){
-  const t=document.getElementById('topic-input').value.trim();
-  const lv=document.getElementById('lv-sel').value;
-  const di=document.getElementById('di-sel').value;
-  const secs=['RELEVANT PAPERS'];
-  if(document.getElementById('cb-ideas').checked)secs.push('RESEARCH IDEAS');
-  if(document.getElementById('cb-gaps').checked)secs.push('RESEARCH GAPS');
-  if(document.getElementById('cb-rev').checked)secs.push('LITERATURE REVIEW');
-  if(document.getElementById('cb-road').checked)secs.push('EXECUTION ROADMAP');
-  if(document.getElementById('cb-abstract').checked)secs.push('DRAFT ABSTRACT');
-  if(document.getElementById('cb-journals').checked)secs.push('RECOMMENDED JOURNALS AND CONFERENCES');
-  if(document.getElementById('cb-datasets').checked)secs.push('RECOMMENDED DATASETS');
-  return`Research topic: ${t}\nAcademic level: ${lv}\nDiscipline: ${di}\nSections to include: ${secs.join(', ')}\n\nProduce a structured academic research report on this topic.`;
+// ══════════════════════════════════════════════════════
+// BUILD PROMPT
+// Sends topic + preferences as one structured message
+// ══════════════════════════════════════════════════════
+function buildPrompt() {
+  const t  = document.getElementById('topic-input').value.trim();
+  const lv = document.getElementById('lv-sel').value;
+  const di = document.getElementById('di-sel').value;
+  const secs = ['RELEVANT PAPERS'];
+  if (document.getElementById('cb-ideas').checked)    secs.push('RESEARCH IDEAS');
+  if (document.getElementById('cb-gaps').checked)     secs.push('RESEARCH GAPS');
+  if (document.getElementById('cb-rev').checked)      secs.push('LITERATURE REVIEW');
+  if (document.getElementById('cb-road').checked)     secs.push('EXECUTION ROADMAP');
+  if (document.getElementById('cb-abstract').checked) secs.push('DRAFT ABSTRACT');
+  if (document.getElementById('cb-journals').checked) secs.push('RECOMMENDED JOURNALS AND CONFERENCES');
+  if (document.getElementById('cb-datasets').checked) secs.push('RECOMMENDED DATASETS');
+  return (
+    `Research topic: ${t}\n` +
+    `Academic level: ${lv}\n` +
+    `Discipline: ${di}\n` +
+    `Sections to include: ${secs.join(', ')}\n\n` +
+    `Produce a structured academic research report on this topic.`
+  );
 }
 
-// ══ API CALL ══
-async function callAPI(message){
-  const body={question:message};
-  if(sessionId)body.sessionId=sessionId;
-  const res=await fetch(API,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(body)
+// ══════════════════════════════════════════════════════
+// API CALL
+// Passes sessionId in both formats Flowise V2 accepts
+// ══════════════════════════════════════════════════════
+async function callAPI(message) {
+  const body = {
+    question: message,
+    // Pass sessionId in both locations — Flowise V2 checks both
+    sessionId: sessionId,
+    overrideConfig: { sessionId: sessionId }
+  };
+  const res = await fetch(API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
   });
-  if(!res.ok){const e=await res.text();throw new Error(`API ${res.status}: ${e}`);}
-  const d=await res.json();
-  if(d.sessionId)sessionId=d.sessionId;
-  return d.text||d.answer||d.output||JSON.stringify(d);
+  if (!res.ok) {
+    const e = await res.text();
+    throw new Error(`API ${res.status}: ${e}`);
+  }
+  const d = await res.json();
+  // Capture sessionId from whichever field Flowise returns it in
+  const sid = d.sessionId || d.chatId || d.id;
+  if (sid) sessionId = sid;
+  return d.text || d.answer || d.output || JSON.stringify(d);
 }
 
-// ══ ROUND 1 — SEND TOPIC TO ORCHESTRATOR ══
-async function startGen(){
-  const t=document.getElementById('topic-input').value.trim();
-  if(!t){alert('Please enter a research topic.');return;}
+// ══════════════════════════════════════════════════════
+// ROUND 1 — Send topic to Orchestrator
+// ══════════════════════════════════════════════════════
+async function startGen() {
+  const t = document.getElementById('topic-input').value.trim();
+  if (!t) { alert('Please enter a research topic.'); return; }
 
-  topic=t;
-  level=document.getElementById('lv-sel').value;
-  discipline=document.getElementById('di-sel').value;
-  institution=user?.inst||'';
-  sessionId=null; // fresh session for each new research
+  topic      = t;
+  level      = document.getElementById('lv-sel').value;
+  discipline = document.getElementById('di-sel').value;
+  institution = user?.inst || '';
 
-  // Show orchestrator mini-loader
+  // Generate a fresh, stable sessionId for this entire research session.
+  // Both the Orchestrator call and the Scout call MUST share this ID
+  // so Flowise knows they are the same conversation.
+  sessionId = 'sb_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+
   showSection('checking');
-  document.getElementById('checking-txt').textContent='Scanning for academic papers on your topic…';
+  document.getElementById('checking-txt').textContent = 'Scanning for academic papers on your topic…';
 
-  try{
-    const raw=await callAPI(buildPrompt());
+  try {
+    const raw = await callAPI(buildPrompt());
 
-    if(isOrchestratorResponse(raw)){
-      // ── Orchestrator returned summary → show review screen ──
+    if (isOrchestratorResponse(raw)) {
       showReview(raw);
-    } else if(isEndResponse(raw)){
-      // Unexpected end response
+    } else if (isEndResponse(raw)) {
       showEnd(raw);
     } else {
-      // Orchestrator not in flow or skipped → treat as full report
+      // Orchestrator not in pipeline — go straight to results
       processFullReport(raw);
     }
-
-  }catch(err){
+  } catch (err) {
     showSection('input');
-    alert('Connection failed: '+err.message+'. Please try again.');
+    alert('Connection failed: ' + err.message + '. Please try again.');
   }
 }
 
-// ══ SHOW REVIEW SCREEN ══
-function showReview(orcText){
-  // Display the Orchestrator's message
-  document.getElementById('orc-body').textContent=orcText;
-  // Clear any previous amendment
-  document.getElementById('amend-input').value='';
-  // Re-enable buttons
-  document.getElementById('btn-proceed').disabled=false;
-  document.getElementById('btn-amend').disabled=false;
+// ══════════════════════════════════════════════════════
+// SHOW REVIEW SCREEN
+// ══════════════════════════════════════════════════════
+function showReview(orcText) {
+  document.getElementById('orc-body').textContent = orcText;
+  document.getElementById('amend-input').value    = '';
+  document.getElementById('btn-proceed').disabled = false;
+  document.getElementById('btn-amend').disabled   = false;
   showSection('review');
 }
 
-// ══ ROUND 2A — USER CLICKS PROCEED ══
-async function proceedResearch(){
-  const amendment=document.getElementById('amend-input').value.trim();
+// ══════════════════════════════════════════════════════
+// ROUND 2A — Proceed to full research
+//
+// TWO PATHS:
+// • No text in amendment box → send "go ahead" → full report
+// • Text in amendment box    → treat as amendment, re-analyse
+// ══════════════════════════════════════════════════════
+async function proceedResearch() {
+  const amendment = document.getElementById('amend-input').value.trim();
 
-  // If user typed something in the amendment box, that takes priority
-  // — treat it as an amendment, not a simple "go ahead"
-  if(amendment){
+  // If user typed something, that takes priority — re-analyse
+  if (amendment) {
     await submitAmendment();
     return;
   }
 
-  // No amendment typed — user is happy, send "go ahead"
-  document.getElementById('btn-proceed').disabled=true;
-  document.getElementById('btn-amend').disabled=true;
+  // Nothing typed — user is happy → proceed to full pipeline
+  document.getElementById('btn-proceed').disabled = true;
+  document.getElementById('btn-amend').disabled   = true;
 
-  // Show full pipeline loading
   showSection('loading');
-  setAgent(2,'active');setAgent(3,'waiting');setAgent(4,'waiting');
+  setAgent(2, 'active'); setAgent(3, 'waiting'); setAgent(4, 'waiting');
   setLdTxt('Research Scout is searching for papers…');
 
-  try{
-    const raw=await callAPI('go ahead');
+  try {
+    // Send confirmation — Condition node routes this to Scout
+    let raw = await callAPI('go ahead');
 
-    if(isOrchestratorResponse(raw)){
-      // Orchestrator looped — show updated review
-      setAgent(2,'waiting');
-      showReview(raw);
-    } else if(isEndResponse(raw)){
+    // ── Safety net ──
+    // If Orchestrator ran again (routing issue), try once more
+    // with a stronger, unambiguous confirmation signal
+    if (isOrchestratorResponse(raw)) {
+      setLdTxt('Confirming research direction…');
+      raw = await callAPI('Yes, I confirm. Please proceed with the full research pipeline now and generate the complete report.');
+    }
+
+    if (isOrchestratorResponse(raw)) {
+      // Still stuck after retry — bring user back
+      toast('Routing issue — please click Proceed again.');
+      showSection('review');
+      document.getElementById('btn-proceed').disabled = false;
+      document.getElementById('btn-amend').disabled   = false;
+    } else if (isEndResponse(raw)) {
       showEnd(raw);
     } else {
-      // It's the full report
-      setAgent(2,'done');setAgent(3,'active');
+      // ✅ Full report received — animate pipeline and show results
+      setAgent(2, 'done'); setAgent(3, 'active');
       setLdTxt('Evaluator is scoring paper quality…');
-      await new Promise(r=>setTimeout(r,700));
-      setAgent(3,'done');setAgent(4,'active');
+      await new Promise(r => setTimeout(r, 700));
+      setAgent(3, 'done'); setAgent(4, 'active');
       setLdTxt('Academic Writer is synthesising your report…');
-      await new Promise(r=>setTimeout(r,700));
-      setAgent(4,'done');setLdTxt('Report ready!');
+      await new Promise(r => setTimeout(r, 700));
+      setAgent(4, 'done'); setLdTxt('Report ready!');
       processFullReport(raw);
     }
-  }catch(err){
+  } catch (err) {
     showSection('review');
-    document.getElementById('btn-proceed').disabled=false;
-    document.getElementById('btn-amend').disabled=false;
-    toast('Something went wrong: '+err.message);
+    document.getElementById('btn-proceed').disabled = false;
+    document.getElementById('btn-amend').disabled   = false;
+    toast('Something went wrong: ' + err.message);
   }
 }
 
-// ══ ROUND 2B — USER SUBMITS AMENDMENT ══
-async function submitAmendment(){
-  const amendment=document.getElementById('amend-input').value.trim();
-  if(!amendment){
+// ══════════════════════════════════════════════════════
+// ROUND 2B — Submit amendment
+// User typed something → send to Orchestrator for re-analysis
+// ══════════════════════════════════════════════════════
+async function submitAmendment() {
+  const amendment = document.getElementById('amend-input').value.trim();
+  if (!amendment) {
     toast('Please type your amendment or new topic in the box above.');
     return;
   }
 
-  document.getElementById('btn-proceed').disabled=true;
-  document.getElementById('btn-amend').disabled=true;
+  document.getElementById('btn-proceed').disabled = true;
+  document.getElementById('btn-amend').disabled   = true;
 
-  // Show orchestrator checking again
   showSection('checking');
-  document.getElementById('checking-txt').textContent='Re-analysing your amended topic…';
+  document.getElementById('checking-txt').textContent = 'Re-analysing your amended topic…';
 
-  try{
-    const raw=await callAPI(amendment);
+  try {
+    const raw = await callAPI(amendment);
 
-    if(isOrchestratorResponse(raw)){
-      // Got a new Orchestrator summary for the amended topic
+    if (isOrchestratorResponse(raw)) {
+      // Got updated Orchestrator summary → show review again
       showReview(raw);
-    } else if(isEndResponse(raw)){
+    } else if (isEndResponse(raw)) {
       showEnd(raw);
     } else {
-      // Amendment somehow triggered full report — display it
+      // Amendment triggered full report directly — display it
       processFullReport(raw);
     }
-  }catch(err){
+  } catch (err) {
     showSection('review');
-    document.getElementById('btn-proceed').disabled=false;
-    document.getElementById('btn-amend').disabled=false;
-    toast('Something went wrong: '+err.message);
+    document.getElementById('btn-proceed').disabled = false;
+    document.getElementById('btn-amend').disabled   = false;
+    toast('Something went wrong: ' + err.message);
   }
 }
 
-// ══ ROUND 2C — USER CLICKS REJECT ══
-async function rejectResearch(){
-  // Don't need to call API — just show the end screen locally
-  // Optionally send "no" to properly close the Flowise session
-  try{ await callAPI('no'); }catch(e){ /* silent — we don't need the response */ }
+// ══════════════════════════════════════════════════════
+// ROUND 2C — End session
+// ══════════════════════════════════════════════════════
+async function rejectResearch() {
+  // Silently close the Flowise session
+  try { await callAPI('no'); } catch (e) { /* silent */ }
   showEnd('No problem at all — your session has been ended. Come back anytime with a new or refined topic. ScholarBot will be ready. 📚');
 }
 
-// ══ SHOW END SCREEN ══
-function showEnd(message){
-  // Show just the relevant part of the end message
-  const clean=message.replace(/no problem at all[.!]?\s*/i,'').trim()||message;
-  document.getElementById('end-msg').textContent=
+// ══════════════════════════════════════════════════════
+// SHOW END SCREEN
+// ══════════════════════════════════════════════════════
+function showEnd(message) {
+  document.getElementById('end-msg').textContent =
     'No problem at all. Come back anytime with a new or refined topic — ScholarBot will be ready. 📚';
   showSection('end');
 }
 
-// ══ PROCESS FULL REPORT ══
-function processFullReport(raw){
-  fullText=raw;
-  const{sec,any}=parse(raw);
-  populate(sec,any,raw);
+// ══════════════════════════════════════════════════════
+// PROCESS FULL REPORT
+// ══════════════════════════════════════════════════════
+function processFullReport(raw) {
+  fullText = raw;
+  const { sec, any } = parse(raw);
+  populate(sec, any, raw);
   showSection('results');
 }
 
-// ══ PARSE ══
-function parse(text){
-  const out={ideas:'',papers:'',gaps:'',rev:'',road:'',abstract:'',journals:'',datasets:'',score:''};
-  const t=text.replace(/\*\*/g,'').replace(/#{1,3}\s*/g,'');
-  const scoreMatch=t.match(/RESEARCH CONFIDENCE SCORE:[\s\S]*?(?=##\s*1\.|RESEARCH IDEAS|$)/i);
-  if(scoreMatch)out.score=scoreMatch[0].trim();
-  const ps={
-    ideas:/(?:\d[.):]?\s*)?RESEARCH IDEAS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RELEVANT PAPERS?|$)/i,
-    papers:/(?:\d[.):]?\s*)?RELEVANT PAPERS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RESEARCH GAPS?|$)/i,
-    gaps:/(?:\d[.):]?\s*)?RESEARCH GAPS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?LITERATURE REVIEW|$)/i,
-    rev:/(?:\d[.):]?\s*)?LITERATURE REVIEW\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?EXECUTION ROADMAP|$)/i,
-    road:/(?:\d[.):]?\s*)?EXECUTION ROADMAP\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?DRAFT ABSTRACT|$)/i,
-    abstract:/(?:\d[.):]?\s*)?DRAFT ABSTRACT\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RECOMMENDED JOURNALS|$)/i,
-    journals:/(?:\d[.):]?\s*)?RECOMMENDED JOURNALS(?:\s*AND\s*CONFERENCES)?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RECOMMENDED DATASETS|$)/i,
-    datasets:/(?:\d[.):]?\s*)?RECOMMENDED DATASETS\s*\n([\s\S]*?)$/i,
+// ══════════════════════════════════════════════════════
+// PARSE RESPONSE
+// Flexible section extraction — handles variable Gemini formatting
+// ══════════════════════════════════════════════════════
+function parse(text) {
+  const out = { ideas:'', papers:'', gaps:'', rev:'', road:'', abstract:'', journals:'', datasets:'', score:'' };
+  // Strip markdown formatting before parsing
+  const t = text.replace(/\*\*/g, '').replace(/#{1,3}\s*/g, '');
+
+  // Extract confidence score block
+  const scoreMatch = t.match(/RESEARCH CONFIDENCE SCORE:[\s\S]*?(?=##?\s*1\.|RESEARCH IDEAS|$)/i);
+  if (scoreMatch) out.score = scoreMatch[0].trim();
+
+  const ps = {
+    ideas:    /(?:\d[.):]?\s*)?RESEARCH IDEAS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RELEVANT PAPERS?|$)/i,
+    papers:   /(?:\d[.):]?\s*)?RELEVANT PAPERS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RESEARCH GAPS?|$)/i,
+    gaps:     /(?:\d[.):]?\s*)?RESEARCH GAPS?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?LITERATURE REVIEW|$)/i,
+    rev:      /(?:\d[.):]?\s*)?LITERATURE REVIEW\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?EXECUTION ROADMAP|$)/i,
+    road:     /(?:\d[.):]?\s*)?EXECUTION ROADMAP\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?DRAFT ABSTRACT|$)/i,
+    abstract: /(?:\d[.):]?\s*)?DRAFT ABSTRACT\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RECOMMENDED JOURNALS|$)/i,
+    journals: /(?:\d[.):]?\s*)?RECOMMENDED JOURNALS(?:\s*AND\s*CONFERENCES)?\s*\n([\s\S]*?)(?=(?:\d[.):]?\s*)?RECOMMENDED DATASETS|$)/i,
+    datasets: /(?:\d[.):]?\s*)?RECOMMENDED DATASETS\s*\n([\s\S]*?)$/i,
   };
-  let any=false;
-  for(const[k,r]of Object.entries(ps)){
-    if(k==='score')continue;
-    const m=t.match(r);
-    if(m&&m[1].trim().length>10){out[k]=m[1].trim();any=true;}
+
+  let any = false;
+  for (const [k, r] of Object.entries(ps)) {
+    if (k === 'score') continue;
+    const m = t.match(r);
+    if (m && m[1].trim().length > 10) { out[k] = m[1].trim(); any = true; }
   }
-  return{sec:out,any};
+  return { sec: out, any };
 }
 
-// ══ CONFIDENCE SCORE ══
-function renderScore(scoreText){
-  if(!scoreText)return;
-  const numMatch=scoreText.match(/(\d+(?:\.\d+)?)\/10/);
-  if(!numMatch)return;
-  const score=parseFloat(numMatch[1]);
-  document.getElementById('score-num').innerHTML=`${score}<span>/10</span>`;
-  setTimeout(()=>{document.getElementById('score-bar').style.width=(score/10*100)+'%'},100);
-  const rEl=document.getElementById('score-rating');
-  if(score>=9){rEl.textContent='Excellent';rEl.className='score-rating rating-excellent';}
-  else if(score>=7){rEl.textContent='Good';rEl.className='score-rating rating-good';}
-  else if(score>=5){rEl.textContent='Acceptable';rEl.className='score-rating rating-acceptable';}
-  else{rEl.textContent='Needs Refinement';rEl.className='score-rating rating-needs';}
-  const bm=scoreText.match(/Breakdown:(.*?)(?:\n|$)/i);
-  if(bm)document.getElementById('score-breakdown').textContent=bm[1].trim();
-  const am=scoreText.match(/Assessment:(.*?)(?:\n|Rating:|$)/is);
-  if(am)document.getElementById('score-assessment').textContent=am[1].trim();
+// ══════════════════════════════════════════════════════
+// CONFIDENCE SCORE RENDERER
+// ══════════════════════════════════════════════════════
+function renderScore(scoreText) {
+  if (!scoreText) return;
+  const numMatch = scoreText.match(/(\d+(?:\.\d+)?)\/10/);
+  if (!numMatch) return;
+  const score = parseFloat(numMatch[1]);
+  document.getElementById('score-num').innerHTML = `${score}<span>/10</span>`;
+  setTimeout(() => { document.getElementById('score-bar').style.width = (score / 10 * 100) + '%'; }, 100);
+  const rEl = document.getElementById('score-rating');
+  if (score >= 9)      { rEl.textContent = 'Excellent';       rEl.className = 'score-rating rating-excellent'; }
+  else if (score >= 7) { rEl.textContent = 'Good';            rEl.className = 'score-rating rating-good'; }
+  else if (score >= 5) { rEl.textContent = 'Acceptable';      rEl.className = 'score-rating rating-acceptable'; }
+  else                 { rEl.textContent = 'Needs Refinement'; rEl.className = 'score-rating rating-needs'; }
+  const bm = scoreText.match(/Breakdown:(.*?)(?:\n|$)/i);
+  if (bm) document.getElementById('score-breakdown').textContent = bm[1].trim();
+  const am = scoreText.match(/Assessment:(.*?)(?:\n|Rating:|$)/is);
+  if (am) document.getElementById('score-assessment').textContent = am[1].trim();
 }
 
-// ══ POPULATE RESULTS ══
-function populate(sec,any,raw){
-  document.getElementById('r-topic').textContent=topic;
-  document.getElementById('m-lv').textContent=level;
-  document.getElementById('m-di').textContent=discipline;
-  document.getElementById('m-date').textContent=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
-  document.getElementById('m-user').textContent=user?`${user.fn} ${user.ln}`:'Guest';
-  if(institution){document.getElementById('m-inst').textContent=institution;document.getElementById('m-inst-wrap').style.display='flex';}
-  document.getElementById('c-ideas').textContent=sec.ideas||'Not included.';
-  document.getElementById('c-papers').textContent=sec.papers||'Not included.';
-  document.getElementById('c-gaps').textContent=sec.gaps||'Not included.';
-  document.getElementById('c-rev').textContent=sec.rev||'Not included.';
-  document.getElementById('c-road').textContent=sec.road||'Not included.';
-  document.getElementById('c-abstract').textContent=sec.abstract||'Not included.';
-  document.getElementById('c-journals').textContent=sec.journals||'Not included.';
-  document.getElementById('c-datasets').textContent=sec.datasets||'Not included.';
+// ══════════════════════════════════════════════════════
+// POPULATE RESULTS PAGE
+// ══════════════════════════════════════════════════════
+function populate(sec, any, raw) {
+  document.getElementById('r-topic').textContent    = topic;
+  document.getElementById('m-lv').textContent       = level;
+  document.getElementById('m-di').textContent       = discipline;
+  document.getElementById('m-date').textContent     = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+  document.getElementById('m-user').textContent     = user ? `${user.fn} ${user.ln}` : 'Guest';
+  if (institution) {
+    document.getElementById('m-inst').textContent   = institution;
+    document.getElementById('m-inst-wrap').style.display = 'flex';
+  }
+  document.getElementById('c-ideas').textContent    = sec.ideas    || 'Not included.';
+  document.getElementById('c-papers').textContent   = sec.papers   || 'Not included.';
+  document.getElementById('c-gaps').textContent     = sec.gaps     || 'Not included.';
+  document.getElementById('c-rev').textContent      = sec.rev      || 'Not included.';
+  document.getElementById('c-road').textContent     = sec.road     || 'Not included.';
+  document.getElementById('c-abstract').textContent = sec.abstract || 'Not included.';
+  document.getElementById('c-journals').textContent = sec.journals || 'Not included.';
+  document.getElementById('c-datasets').textContent = sec.datasets || 'Not included.';
   document.getElementById('err-box').classList.add('hidden');
-  if(sec.score)renderScore(sec.score);
-  else document.getElementById('score-card').style.display='none';
-  const rawEl=document.getElementById('acc-raw');
-  if(!any&&raw){document.getElementById('c-raw').textContent=raw;rawEl.classList.remove('hidden');rawEl.classList.add('open');}
-  else rawEl.classList.add('hidden');
+
+  if (sec.score) renderScore(sec.score);
+  else document.getElementById('score-card').style.display = 'none';
+
+  const rawEl = document.getElementById('acc-raw');
+  if (!any && raw) {
+    document.getElementById('c-raw').textContent = raw;
+    rawEl.classList.remove('hidden');
+    rawEl.classList.add('open');
+  } else {
+    rawEl.classList.add('hidden');
+  }
 }
 
-// ══ CITATION ══
-async function reformat(){
-  const sty=document.getElementById('cite-sty').value;
-  const btn=document.getElementById('btn-ref');
-  btn.textContent='Reformatting…';btn.disabled=true;
-  try{
-    const r=await callAPI(`Reformat all paper references from the report on "${topic}" into ${sty} citation style. Return only the formatted reference list.`);
-    document.getElementById('c-papers').textContent=r;
+// ══════════════════════════════════════════════════════
+// CITATION REFORMATTER
+// ══════════════════════════════════════════════════════
+async function reformat() {
+  const sty = document.getElementById('cite-sty').value;
+  const btn = document.getElementById('btn-ref');
+  btn.textContent = 'Reformatting…'; btn.disabled = true;
+  try {
+    const r = await callAPI(`Reformat all paper references from the report on "${topic}" into ${sty} citation style. Return only the formatted reference list.`);
+    document.getElementById('c-papers').textContent = r;
     document.getElementById('acc-papers').classList.add('open');
     toast(`Reformatted to ${sty} ✓`);
-  }catch(e){toast('Could not reformat: '+e.message);}
-  finally{btn.textContent='Apply Style';btn.disabled=false;}
+  } catch (e) {
+    toast('Could not reformat: ' + e.message);
+  } finally {
+    btn.textContent = 'Apply Style'; btn.disabled = false;
+  }
 }
 
-// ══ PDF ══
-function downloadPDF(){
-  const{jsPDF}=window.jspdf;
-  const doc=new jsPDF({unit:'mm',format:'a4'});
-  const W=doc.internal.pageSize.getWidth(),H=doc.internal.pageSize.getHeight();
-  const mg=18,maxW=W-mg*2;let y=mg;
-  const add=(text,size,style,col)=>{
-    doc.setFontSize(size);doc.setFont('helvetica',style||'normal');
-    doc.setTextColor(...(col||[40,40,40]));
-    doc.splitTextToSize(String(text),maxW).forEach(l=>{
-      if(y>H-mg-10){doc.addPage();y=mg;}
-      doc.text(l,mg,y);y+=size*.42;
-    });y+=3;
+// ══════════════════════════════════════════════════════
+// PDF DOWNLOAD
+// ══════════════════════════════════════════════════════
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+  const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
+  const mg = 18, maxW = W - mg * 2; let y = mg;
+
+  const add = (text, size, style, col) => {
+    doc.setFontSize(size); doc.setFont('helvetica', style || 'normal');
+    doc.setTextColor(...(col || [40, 40, 40]));
+    doc.splitTextToSize(String(text), maxW).forEach(l => {
+      if (y > H - mg - 10) { doc.addPage(); y = mg; }
+      doc.text(l, mg, y); y += size * .42;
+    }); y += 3;
   };
-  const line=()=>{if(y>H-mg-12){doc.addPage();y=mg;}doc.setDrawColor(79,70,229);doc.setLineWidth(.4);doc.line(mg,y,W-mg,y);y+=5;};
-  doc.setFillColor(8,11,26);doc.rect(0,0,W,H,'F');
-  doc.setFillColor(79,70,229);doc.rect(0,H*.55,W,6,'F');
-  doc.setFillColor(6,182,212);doc.rect(0,H*.55+5,W,H*.45-5,'F');
-  doc.setFontSize(36);doc.setFont('helvetica','bold');doc.setTextColor(255,255,255);
-  doc.text('ScholarBot',W/2,64,{align:'center'});
-  doc.setFontSize(11);doc.setFont('helvetica','normal');doc.setTextColor(148,163,184);
-  doc.text('Research Intelligence',W/2,75,{align:'center'});
-  doc.setFontSize(13);doc.setFont('helvetica','bold');doc.setTextColor(238,242,255);
-  doc.splitTextToSize(topic,maxW).forEach((l,i)=>doc.text(l,W/2,96+i*7,{align:'center'}));
-  const scoreEl=document.getElementById('score-num');
-  if(scoreEl&&scoreEl.textContent!=='—'){doc.setFontSize(11);doc.setTextColor(6,182,212);doc.text('Confidence Score: '+scoreEl.textContent.replace('/10','').trim()+'/10',W/2,130,{align:'center'});}
-  const cy=H*.58;
-  doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(8,11,26);
-  const meta=[['Level',level],['Discipline',discipline],['Researcher',user?`${user.fn} ${user.ln}`:'Guest']];
-  if(institution)meta.push(['Institution',institution]);
-  meta.push(['Date',document.getElementById('m-date').textContent]);
-  meta.forEach(([k,v],i)=>{doc.setFont('helvetica','bold');doc.text(k+':',mg,cy+8+i*8);doc.setFont('helvetica','normal');doc.text(v,mg+28,cy+8+i*8);});
-  doc.setFontSize(8);doc.setTextColor(8,11,26);doc.text('scholarbot.app · Research Intelligence',W/2,H-8,{align:'center'});
-  doc.addPage();y=mg;
-  add('Research Topic',9,'normal',[120,120,120]);add(topic,17,'bold',[8,11,26]);y+=2;line();
-  [{label:'1.  RESEARCH IDEAS',id:'c-ideas'},{label:'2.  RELEVANT PAPERS',id:'c-papers'},{label:'3.  RESEARCH GAPS',id:'c-gaps'},{label:'4.  LITERATURE REVIEW',id:'c-rev'},{label:'5.  EXECUTION ROADMAP',id:'c-road'},{label:'6.  DRAFT ABSTRACT',id:'c-abstract'},{label:'7.  RECOMMENDED JOURNALS & CONFERENCES',id:'c-journals'},{label:'8.  RECOMMENDED DATASETS',id:'c-datasets'}].forEach(({label,id})=>{
-    const c=document.getElementById(id).textContent;
-    if(!c||c==='Not included.')return;
-    y+=5;if(y>H-mg-20){doc.addPage();y=mg;}
-    add(label,13,'bold',[8,11,26]);line();add(c,10,'normal',[40,40,40]);y+=4;
+  const line = () => {
+    if (y > H - mg - 12) { doc.addPage(); y = mg; }
+    doc.setDrawColor(79, 70, 229); doc.setLineWidth(.4);
+    doc.line(mg, y, W - mg, y); y += 5;
+  };
+
+  // Cover page
+  doc.setFillColor(8,11,26); doc.rect(0,0,W,H,'F');
+  doc.setFillColor(79,70,229); doc.rect(0,H*.55,W,6,'F');
+  doc.setFillColor(6,182,212); doc.rect(0,H*.55+5,W,H*.45-5,'F');
+  doc.setFontSize(36); doc.setFont('helvetica','bold'); doc.setTextColor(255,255,255);
+  doc.text('ScholarBot', W/2, 64, {align:'center'});
+  doc.setFontSize(11); doc.setFont('helvetica','normal'); doc.setTextColor(148,163,184);
+  doc.text('Research Intelligence', W/2, 75, {align:'center'});
+  doc.setFontSize(13); doc.setFont('helvetica','bold'); doc.setTextColor(238,242,255);
+  doc.splitTextToSize(topic, maxW).forEach((l,i) => doc.text(l, W/2, 96+i*7, {align:'center'}));
+  const scoreEl = document.getElementById('score-num');
+  if (scoreEl && scoreEl.textContent !== '—') {
+    doc.setFontSize(11); doc.setTextColor(6,182,212);
+    doc.text('Confidence Score: ' + scoreEl.textContent.replace('/10','').trim() + '/10', W/2, 130, {align:'center'});
+  }
+  const cy = H * .58;
+  doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(8,11,26);
+  const meta = [['Level',level],['Discipline',discipline],['Researcher',user?`${user.fn} ${user.ln}`:'Guest']];
+  if (institution) meta.push(['Institution', institution]);
+  meta.push(['Date', document.getElementById('m-date').textContent]);
+  meta.forEach(([k,v],i) => {
+    doc.setFont('helvetica','bold'); doc.text(k+':', mg, cy+8+i*8);
+    doc.setFont('helvetica','normal'); doc.text(v, mg+28, cy+8+i*8);
   });
-  const pages=doc.internal.getNumberOfPages();
-  for(let i=2;i<=pages;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(160,160,160);doc.text('ScholarBot · Research Intelligence',mg,H-8);doc.text(`Page ${i-1} of ${pages-1}`,W-mg,H-8,{align:'right'});}
-  doc.save('ScholarBot-'+topic.slice(0,40).replace(/\s+/g,'-')+'.pdf');
+  doc.setFontSize(8); doc.setTextColor(8,11,26);
+  doc.text('scholarbot.app · Research Intelligence', W/2, H-8, {align:'center'});
+
+  // Content
+  doc.addPage(); y = mg;
+  add('Research Topic', 9, 'normal', [120,120,120]);
+  add(topic, 17, 'bold', [8,11,26]); y += 2; line();
+
+  [
+    {label:'1.  RESEARCH IDEAS',                    id:'c-ideas'},
+    {label:'2.  RELEVANT PAPERS',                   id:'c-papers'},
+    {label:'3.  RESEARCH GAPS',                     id:'c-gaps'},
+    {label:'4.  LITERATURE REVIEW',                 id:'c-rev'},
+    {label:'5.  EXECUTION ROADMAP',                 id:'c-road'},
+    {label:'6.  DRAFT ABSTRACT',                    id:'c-abstract'},
+    {label:'7.  RECOMMENDED JOURNALS & CONFERENCES',id:'c-journals'},
+    {label:'8.  RECOMMENDED DATASETS',              id:'c-datasets'},
+  ].forEach(({label, id}) => {
+    const c = document.getElementById(id).textContent;
+    if (!c || c === 'Not included.') return;
+    y += 5; if (y > H - mg - 20) { doc.addPage(); y = mg; }
+    add(label, 13, 'bold', [8,11,26]); line();
+    add(c, 10, 'normal', [40,40,40]); y += 4;
+  });
+
+  // Page footers (skip cover)
+  const pages = doc.internal.getNumberOfPages();
+  for (let i = 2; i <= pages; i++) {
+    doc.setPage(i); doc.setFontSize(8); doc.setTextColor(160,160,160);
+    doc.text('ScholarBot · Research Intelligence', mg, H-8);
+    doc.text(`Page ${i-1} of ${pages-1}`, W-mg, H-8, {align:'right'});
+  }
+  doc.save('ScholarBot-' + topic.slice(0,40).replace(/\s+/g,'-') + '.pdf');
   toast('PDF downloaded ✓');
 }
 
-// ══ WORD ══
-function downloadWord(){
-  const userName=user?`${user.fn} ${user.ln}`:'Guest';
-  const dateStr=document.getElementById('m-date').textContent;
-  const scoreText=document.getElementById('score-num').textContent;
-  const g=id=>{const t=document.getElementById(id).textContent;return(!t||t==='Not included.')?'':t;};
-  const sh=(title,content)=>{if(!content)return'';const ps=content.split('\n').filter(l=>l.trim()).map(l=>`<p>${l}</p>`).join('');return`<h2>${title}</h2>${ps}`;};
-  const instRow=institution?`<tr><td>Institution</td><td>${institution}</td></tr>`:'';
-  const scoreRow=scoreText&&scoreText!=='—'?`<tr><td>Confidence Score</td><td>${scoreText}</td></tr>`:'';
-  const html=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"/><title>ScholarBot — ${topic}</title><style>body{font-family:Calibri,sans-serif;font-size:11pt;color:#222;margin:2.5cm;line-height:1.6}h1{font-family:'Segoe UI',sans-serif;font-size:22pt;color:#4F46E5;margin-bottom:4pt}h2{font-family:'Segoe UI',sans-serif;font-size:13pt;color:#0D1124;margin-top:22pt;margin-bottom:8pt;border-bottom:1pt solid #4F46E5;padding-bottom:4pt}p{margin:4pt 0;font-size:11pt}.cover{text-align:center;padding:50pt 0 36pt;border-bottom:2pt solid #4F46E5;margin-bottom:28pt}.cover h1{font-size:30pt;color:#4F46E5}.cover .sub{font-size:11pt;color:#64748B;margin:6pt 0 18pt}.cover .tp{font-size:14pt;font-weight:bold;color:#0D1124;margin:14pt 0 8pt}table{border-collapse:collapse;width:100%;margin:14pt 0}td{padding:5pt 8pt;font-size:10pt;border:1pt solid #E0E0E0;color:#555}td:first-child{font-weight:bold;background:#F8F8FF;width:28%;color:#333}.foot{margin-top:36pt;padding-top:8pt;border-top:1pt solid #DDD;font-size:9pt;color:#999;text-align:center}</style></head><body><div class="cover"><h1>ScholarBot</h1><div class="sub">Research Intelligence</div><div class="tp">${topic}</div><table><tr><td>Academic Level</td><td>${level}</td></tr><tr><td>Discipline</td><td>${discipline}</td></tr><tr><td>Researcher</td><td>${userName}</td></tr>${instRow}${scoreRow}<tr><td>Generated</td><td>${dateStr}</td></tr></table></div>${sh('1. Research Ideas',g('c-ideas'))}${sh('2. Relevant Papers',g('c-papers'))}${sh('3. Research Gaps',g('c-gaps'))}${sh('4. Literature Review',g('c-rev'))}${sh('5. Execution Roadmap',g('c-road'))}${sh('6. Draft Abstract',g('c-abstract'))}${sh('7. Recommended Journals & Conferences',g('c-journals'))}${sh('8. Recommended Datasets',g('c-datasets'))}<div class="foot">ScholarBot · Research Intelligence · scholarbot.app</div></body></html>`;
-  const blob=new Blob([html],{type:'application/msword'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download='ScholarBot-'+topic.slice(0,40).replace(/\s+/g,'-')+'.doc';
-  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+// ══════════════════════════════════════════════════════
+// WORD DOWNLOAD
+// ══════════════════════════════════════════════════════
+function downloadWord() {
+  const userName = user ? `${user.fn} ${user.ln}` : 'Guest';
+  const dateStr  = document.getElementById('m-date').textContent;
+  const scoreText = document.getElementById('score-num').textContent;
+  const g  = id => { const t = document.getElementById(id).textContent; return (!t || t === 'Not included.') ? '' : t; };
+  const sh = (title, content) => {
+    if (!content) return '';
+    const ps = content.split('\n').filter(l => l.trim()).map(l => `<p>${l}</p>`).join('');
+    return `<h2>${title}</h2>${ps}`;
+  };
+  const instRow  = institution ? `<tr><td>Institution</td><td>${institution}</td></tr>` : '';
+  const scoreRow = (scoreText && scoreText !== '—') ? `<tr><td>Confidence Score</td><td>${scoreText}</td></tr>` : '';
+  const html = `
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="utf-8"/><title>ScholarBot — ${topic}</title>
+<style>
+body{font-family:Calibri,sans-serif;font-size:11pt;color:#222;margin:2.5cm;line-height:1.6}
+h1{font-family:'Segoe UI',sans-serif;font-size:22pt;color:#4F46E5;margin-bottom:4pt}
+h2{font-family:'Segoe UI',sans-serif;font-size:13pt;color:#0D1124;margin-top:22pt;margin-bottom:8pt;border-bottom:1pt solid #4F46E5;padding-bottom:4pt}
+p{margin:4pt 0;font-size:11pt}
+.cover{text-align:center;padding:50pt 0 36pt;border-bottom:2pt solid #4F46E5;margin-bottom:28pt}
+.cover h1{font-size:30pt;color:#4F46E5}
+.cover .sub{font-size:11pt;color:#64748B;margin:6pt 0 18pt}
+.cover .tp{font-size:14pt;font-weight:bold;color:#0D1124;margin:14pt 0 8pt}
+table{border-collapse:collapse;width:100%;margin:14pt 0}
+td{padding:5pt 8pt;font-size:10pt;border:1pt solid #E0E0E0;color:#555}
+td:first-child{font-weight:bold;background:#F8F8FF;width:28%;color:#333}
+.foot{margin-top:36pt;padding-top:8pt;border-top:1pt solid #DDD;font-size:9pt;color:#999;text-align:center}
+</style></head>
+<body>
+<div class="cover">
+  <h1>ScholarBot</h1>
+  <div class="sub">Research Intelligence</div>
+  <div class="tp">${topic}</div>
+  <table>
+    <tr><td>Academic Level</td><td>${level}</td></tr>
+    <tr><td>Discipline</td><td>${discipline}</td></tr>
+    <tr><td>Researcher</td><td>${userName}</td></tr>
+    ${instRow}
+    ${scoreRow}
+    <tr><td>Generated</td><td>${dateStr}</td></tr>
+  </table>
+</div>
+${sh('1. Research Ideas',                     g('c-ideas'))}
+${sh('2. Relevant Papers',                    g('c-papers'))}
+${sh('3. Research Gaps',                      g('c-gaps'))}
+${sh('4. Literature Review',                  g('c-rev'))}
+${sh('5. Execution Roadmap',                  g('c-road'))}
+${sh('6. Draft Abstract',                     g('c-abstract'))}
+${sh('7. Recommended Journals & Conferences', g('c-journals'))}
+${sh('8. Recommended Datasets',               g('c-datasets'))}
+<div class="foot">ScholarBot · Research Intelligence · scholarbot.app</div>
+</body></html>`;
+  const blob = new Blob([html], { type: 'application/msword' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = 'ScholarBot-' + topic.slice(0,40).replace(/\s+/g,'-') + '.doc';
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
   toast('Word document downloaded ✓');
 }
 
-// ══ INIT ══
-(function(){
-  const s=localStorage.getItem('sb_s');
-  if(s){try{user=JSON.parse(s);setNavUser(user);}catch(e){localStorage.removeItem('sb_s');}}
-  document.addEventListener('keydown',e=>{
-    if(e.key!=='Enter')return;
-    const a=SECS.find(s=>!document.getElementById('section-'+s)?.classList.contains('hidden'));
-    if(a==='login')logIn();
-    if(a==='signup')signUp();
+// ══════════════════════════════════════════════════════
+// INIT — restore session on page load
+// ══════════════════════════════════════════════════════
+(function init() {
+  const s = localStorage.getItem('sb_s');
+  if (s) {
+    try { user = JSON.parse(s); setNavUser(user); } catch(e) { localStorage.removeItem('sb_s'); }
+  }
+  // Enter key on auth forms
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    const active = SECS.find(s => !document.getElementById('section-'+s)?.classList.contains('hidden'));
+    if (active === 'login')  logIn();
+    if (active === 'signup') signUp();
   });
 })();
 </script>
