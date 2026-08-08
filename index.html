@@ -16,7 +16,7 @@
       --indigo:#4F46E5;--indigo-lt:#6366F1;--cyan:#06B6D4;--cyan-lt:#22D3EE;
       --gradient:linear-gradient(135deg,#4F46E5,#06B6D4);
       --white:#EEF2FF;--grey-200:#C7D2E8;--grey-400:#64748B;--grey-600:#334155;
-      --green:#10B981;--red:#EF4444;--amber:#F59E0B;--purple:#7C3AED;
+      --green:#10B981;--red:#EF4444;--amber:#F59E0B;
       --radius:14px;--shadow:0 8px 40px rgba(0,0,0,0.5);
     }
     html{scroll-behavior:smooth}
@@ -29,7 +29,7 @@
     @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(79,70,229,0)}50%{box-shadow:0 0 0 10px rgba(79,70,229,.2)}}
     @keyframes toastIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
 
-    /* ── NAV ── */
+    /* NAV */
     nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:60px;background:rgba(8,11,26,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(79,70,229,.18)}
     .nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer}
     .nav-logo-mark{width:32px;height:32px;flex-shrink:0}
@@ -44,10 +44,10 @@
     .nav-dl-btn{background:var(--gradient);color:#fff;border:none;padding:6px 16px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;transition:opacity .15s,transform .15s}
     .nav-dl-btn:hover{opacity:.88;transform:translateY(-1px)}
 
-    /* ── TOAST ── */
+    /* TOAST */
     #toast{position:fixed;bottom:24px;right:24px;z-index:999;background:var(--ink-card);border:1px solid rgba(79,70,229,.3);border-radius:10px;padding:10px 18px;font-size:13px;color:var(--white);animation:toastIn .25s ease;pointer-events:none}
 
-    /* ── HERO ── */
+    /* HERO */
     #section-hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 24px 80px;position:relative;overflow:hidden;text-align:center}
     .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(79,70,229,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(79,70,229,.04) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
     .hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(79,70,229,.12) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-60%);pointer-events:none}
@@ -72,7 +72,7 @@
     .p-title{font-size:13px;font-weight:600;color:var(--white);margin-bottom:4px}
     .p-desc{font-size:11px;color:var(--grey-400);line-height:1.5}
 
-    /* ── SHARED FORM ── */
+    /* SHARED FORM */
     .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px 60px}
     .card{background:var(--ink-card);border:1px solid rgba(79,70,229,.18);border-radius:20px;padding:40px;width:100%;max-width:480px;box-shadow:var(--shadow);animation:fadeUp .35s ease}
     .card-wide{max-width:700px}
@@ -99,7 +99,7 @@
     .ch{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--grey-200);cursor:pointer}
     .ch input[type=checkbox]{width:15px;height:15px;accent-color:var(--indigo-lt);cursor:pointer}
 
-    /* ── CHECKING (Orchestrator mini loader) ── */
+    /* CHECKING */
     #section-checking{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
     .checking-icon{font-size:48px;margin-bottom:20px;animation:pulse 1.5s ease-in-out infinite}
     .checking-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;letter-spacing:-.3px}
@@ -107,10 +107,10 @@
     .mini-spinner{width:32px;height:32px;border:2.5px solid rgba(79,70,229,.15);border-top-color:var(--indigo-lt);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 12px}
     .checking-status{font-size:13px;color:var(--grey-400)}
 
-    /* ── REVIEW ── */
+    /* REVIEW */
     #section-review{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:80px 24px 60px}
     .review-wrap{width:100%;max-width:760px;animation:fadeUp .4s ease}
-    .orc-summary{background:var(--ink-card);border:1px solid rgba(79,70,229,.2);border-radius:20px;padding:32px;margin-bottom:20px}
+    .orc-summary{background:var(--ink-card);border:1px solid rgba(79,70,229,.22);border-radius:20px;padding:32px;margin-bottom:20px}
     .orc-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.06)}
     .orc-avatar{width:42px;height:42px;background:var(--gradient);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
     .orc-header-text h3{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:var(--white)}
@@ -133,14 +133,14 @@
     .btn-amend:hover:not(:disabled){background:rgba(6,182,212,.18)}
     .btn-amend:disabled{opacity:.45;cursor:not-allowed}
 
-    /* ── END SCREEN ── */
+    /* END SCREEN */
     .end-card{background:var(--ink-card);border:1px solid rgba(239,68,68,.18);border-radius:20px;padding:40px;text-align:center;width:100%;max-width:500px;animation:fadeUp .35s ease}
     .end-icon{font-size:40px;margin-bottom:16px}
     .end-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
     .end-sub{font-size:14px;color:var(--grey-400);line-height:1.6;margin-bottom:24px}
     .btn-restart{background:var(--gradient);color:#fff;border:none;padding:14px 32px;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif}
 
-    /* ── LOADING (full pipeline) ── */
+    /* LOADING */
     #section-loading{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
     .ld-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin-bottom:10px;letter-spacing:-.4px}
     .ld-sub{font-size:14px;color:var(--grey-200);margin-bottom:52px}
@@ -159,7 +159,7 @@
     .spinner{width:36px;height:36px;border:2.5px solid rgba(79,70,229,.15);border-top-color:var(--indigo-lt);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 12px}
     .ld-status{font-size:13px;color:var(--grey-400);min-height:20px}
 
-    /* ── RESULTS ── */
+    /* RESULTS */
     #section-results{padding:88px 24px 100px;max-width:900px;margin:0 auto}
     .r-header{margin-bottom:20px;animation:fadeUp .4s ease}
     .r-tag{font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
@@ -167,8 +167,6 @@
     .r-meta{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:18px}
     .r-meta-i{font-size:12px;color:var(--grey-400);display:flex;align-items:center;gap:4px}
     .r-meta-i span{color:var(--grey-200);font-weight:500}
-
-    /* Score card */
     .score-card{background:var(--ink-card);border:1px solid rgba(79,70,229,.2);border-radius:var(--radius);padding:18px 22px;margin-bottom:14px}
     .score-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
     .score-label{font-size:12px;font-weight:700;color:var(--cyan);letter-spacing:1px;text-transform:uppercase}
@@ -178,15 +176,12 @@
     .score-bar{height:8px;border-radius:100px;background:var(--gradient);transition:width 1s ease}
     .score-breakdown{display:flex;gap:16px;flex-wrap:wrap}
     .score-item{font-size:11px;color:var(--grey-400)}
-    .score-item strong{color:var(--grey-200)}
     .score-assessment{font-size:12px;color:var(--grey-200);margin-top:8px;font-style:italic}
     .score-rating{display:inline-block;font-size:11px;font-weight:700;padding:2px 10px;border-radius:100px;margin-top:6px}
     .rating-excellent{background:rgba(16,185,129,.15);color:var(--green)}
     .rating-good{background:rgba(79,70,229,.15);color:var(--indigo-lt)}
     .rating-acceptable{background:rgba(245,158,11,.15);color:var(--amber)}
     .rating-needs{background:rgba(239,68,68,.1);color:#FCA5A5}
-
-    /* Accordion */
     .r-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
     .r-toolbar-l{font-size:13px;color:var(--grey-400)}
     .r-toolbar-r{display:flex;gap:7px}
@@ -218,8 +213,6 @@
     .acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
     .acc-item.open .acc-body{max-height:99999px}
     .acc-content{padding:0 18px 18px;font-size:14px;color:var(--grey-200);line-height:1.85;white-space:pre-wrap;word-break:break-word}
-
-    /* Bottom bars */
     .cite-bar{margin-top:10px;background:var(--ink-card);border:1px solid rgba(79,70,229,.1);border-radius:var(--radius);padding:14px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
     .cite-bar label{font-size:13px;color:var(--grey-200);white-space:nowrap}
     .cite-bar select{flex:1;min-width:140px;padding:8px 12px;font-size:13px}
@@ -241,13 +234,9 @@
     footer a{color:var(--indigo-lt);text-decoration:none}
 
     @media(max-width:640px){
-      nav{padding:0 16px}
-      .card{padding:26px 16px}
-      .r2{grid-template-columns:1fr}
-      .review-actions{grid-template-columns:1fr}
-      .dl-bar{flex-direction:column}
-      .dl-actions{width:100%}
-      .btn-pdf,.btn-word,.btn-new{flex:1;text-align:center}
+      nav{padding:0 16px}.card{padding:26px 16px}.r2{grid-template-columns:1fr}
+      .review-actions{grid-template-columns:1fr}.dl-bar{flex-direction:column}
+      .dl-actions{width:100%}.btn-pdf,.btn-word,.btn-new{flex:1;text-align:center}
     }
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
   </style>
@@ -256,7 +245,7 @@
 
 <div id="toast" class="hidden"></div>
 
-<!-- ── NAV ── -->
+<!-- NAV -->
 <nav>
   <div class="nav-logo" onclick="goHome()">
     <svg class="nav-logo-mark" viewBox="0 0 32 32" fill="none">
@@ -279,7 +268,7 @@
   </div>
 </nav>
 
-<!-- ── HERO ── -->
+<!-- HERO -->
 <section id="section-hero">
   <div class="hero-grid"></div><div class="hero-glow"></div>
   <div class="hero-pill"><div class="hero-pill-dot"></div>Powered by Multi-Agent AI</div>
@@ -300,13 +289,13 @@
   </div>
   <div class="process-row" id="process">
     <div class="p-card"><div class="p-num">STEP 01</div><div class="p-title">Enter your topic</div><div class="p-desc">Any research area — broad or specific</div></div>
-    <div class="p-card"><div class="p-num">STEP 02</div><div class="p-title">Orchestrator checks</div><div class="p-desc">Scans for papers, summarises, asks you to confirm or refine</div></div>
+    <div class="p-card"><div class="p-num">STEP 02</div><div class="p-title">Orchestrator checks</div><div class="p-desc">Scans for papers, asks you to confirm or refine</div></div>
     <div class="p-card"><div class="p-num">STEP 03</div><div class="p-title">Agents research</div><div class="p-desc">Scout finds papers, Evaluator scores, Writer synthesises</div></div>
     <div class="p-card"><div class="p-num">STEP 04</div><div class="p-title">Download report</div><div class="p-desc">8 sections — abstract, journals, datasets included</div></div>
   </div>
 </section>
 
-<!-- ── SIGN UP ── -->
+<!-- SIGN UP -->
 <section id="section-signup" class="wrap hidden">
   <div class="card">
     <h2>Create your account</h2><p>Free to use. No credit card required.</p>
@@ -332,7 +321,7 @@
   </div>
 </section>
 
-<!-- ── LOG IN ── -->
+<!-- LOG IN -->
 <section id="section-login" class="wrap hidden">
   <div class="card">
     <h2>Welcome back</h2><p>Log in to continue your research.</p>
@@ -346,7 +335,7 @@
   </div>
 </section>
 
-<!-- ── INPUT ── -->
+<!-- INPUT -->
 <section id="section-input" class="wrap hidden">
   <div class="card card-wide">
     <h2>Start your research</h2><p>The more specific your topic, the sharper the output.</p>
@@ -392,7 +381,7 @@
   </div>
 </section>
 
-<!-- ── CHECKING (Orchestrator mini loader) ── -->
+<!-- CHECKING -->
 <section id="section-checking" class="hidden">
   <div class="checking-icon">🎯</div>
   <h2 class="checking-title">Orchestrator is checking your topic…</h2>
@@ -401,7 +390,7 @@
   <p class="checking-status" id="checking-txt">Scanning academic databases…</p>
 </section>
 
-<!-- ── REVIEW ── -->
+<!-- REVIEW -->
 <section id="section-review" class="hidden">
   <div class="review-wrap">
 
@@ -410,22 +399,22 @@
         <div class="orc-avatar">🎯</div>
         <div class="orc-header-text">
           <h3>Orchestrator Agent</h3>
-          <p>Topic analysis complete — review before proceeding</p>
+          <p>Topic analysis complete — please review and choose your next step</p>
         </div>
       </div>
       <div class="orc-body" id="orc-body">Loading summary…</div>
     </div>
 
     <div class="amend-card">
-      <div class="amend-label">Refine or amend your topic</div>
+      <div class="amend-label">Amend or refine your topic</div>
       <textarea
         class="amend-textarea"
         id="amend-input"
-        placeholder="Type a new topic, ask for a suggestion, or tweak the current one…&#10;&#10;Examples:&#10;• Change it to: machine learning in diabetes prediction&#10;• Make it more specific around deep learning&#10;• What would you suggest instead?&#10;• Use recommendation 2 above"
+        placeholder="Type here to change or refine your topic before re-analysis…&#10;&#10;Examples:&#10;• Machine learning in early diabetes detection using wearable data&#10;• Make it more specific to deep learning in radiology&#10;• Use recommendation 2 from above&#10;• What about NLP in mental health diagnosis instead?"
       ></textarea>
       <p class="amend-hint">
-        💡 <strong>Leave this blank</strong> and click <strong>Proceed to Full Research</strong> if you are happy with your current topic.<br/>
-        Only type here if you want to change, refine, or ask for a different suggestion.
+        💡 <strong>Leave blank and click Proceed</strong> if you are happy with your current topic and want the full report.<br/>
+        Type here <strong>only if you want to change or refine</strong> your topic — then click Submit Amendment.
       </p>
     </div>
 
@@ -438,23 +427,23 @@
       </button>
     </div>
     <button class="btn-amend" id="btn-amend" onclick="submitAmendment()">
-      ↺ Submit Amendment &amp; Re-analyse Topic
+      ↺ Submit Amendment &amp; Re-analyse
     </button>
 
   </div>
 </section>
 
-<!-- ── END SCREEN ── -->
+<!-- END SCREEN -->
 <section id="section-end" class="wrap hidden">
   <div class="end-card">
     <div class="end-icon">📚</div>
     <h2 class="end-title">Session Ended</h2>
-    <p class="end-sub" id="end-msg">No problem at all. Come back anytime with a refined topic — ScholarBot will be ready.</p>
+    <p class="end-sub">No problem at all. Come back anytime with a new or refined topic — ScholarBot will be ready.</p>
     <button class="btn-restart" onclick="newSearch()">Start New Research →</button>
   </div>
 </section>
 
-<!-- ── LOADING (full pipeline) ── -->
+<!-- LOADING (full pipeline) -->
 <section id="section-loading" class="hidden">
   <h2 class="ld-title">Agents are working…</h2>
   <p class="ld-sub">This usually takes 30–60 seconds. Please wait.</p>
@@ -495,9 +484,8 @@
   <p class="ld-status" id="ld-txt">Research pipeline running…</p>
 </section>
 
-<!-- ── RESULTS ── -->
+<!-- RESULTS -->
 <section id="section-results" class="hidden">
-
   <div class="r-header">
     <div class="r-tag">Research Report</div>
     <div class="r-title" id="r-topic"></div>
@@ -567,7 +555,6 @@
       <button class="btn-new" onclick="newSearch()">New Search</button>
     </div>
   </div>
-
 </section>
 
 <footer>
@@ -591,7 +578,7 @@ let topic = '', level = '', discipline = '', institution = '';
 let fullText = '', sessionId = null, user = null;
 
 // ══════════════════════════════════════════════════════
-// SECTION NAVIGATION
+// NAVIGATION
 // ══════════════════════════════════════════════════════
 const SECS = ['hero','signup','login','input','checking','review','end','loading','results'];
 
@@ -603,9 +590,9 @@ function showSection(n) {
   document.getElementById('nav-dl').classList.toggle('hidden', n !== 'results');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-function goHome()       { showSection('hero'); }
-function handleStart()  { showSection(user ? 'input' : 'signup'); }
-function newSearch()    { sessionId = null; document.getElementById('amend-input').value = ''; showSection('input'); }
+function goHome()      { showSection('hero'); }
+function handleStart() { showSection(user ? 'input' : 'signup'); }
+function newSearch()   { sessionId = null; document.getElementById('amend-input').value = ''; showSection('input'); }
 
 // ══════════════════════════════════════════════════════
 // TOAST
@@ -613,18 +600,16 @@ function newSearch()    { sessionId = null; document.getElementById('amend-input
 let _tt;
 function toast(m) {
   const t = document.getElementById('toast');
-  t.textContent = m;
-  t.classList.remove('hidden');
-  clearTimeout(_tt);
-  _tt = setTimeout(() => t.classList.add('hidden'), 2800);
+  t.textContent = m; t.classList.remove('hidden');
+  clearTimeout(_tt); _tt = setTimeout(() => t.classList.add('hidden'), 3000);
 }
 
 // ══════════════════════════════════════════════════════
 // AUTH
 // ══════════════════════════════════════════════════════
-function getUsers()      { return JSON.parse(localStorage.getItem('sb_u') || '[]'); }
-function saveUsers(u)    { localStorage.setItem('sb_u', JSON.stringify(u)); }
-function hp(p)           { let h=0; for(let i=0;i<p.length;i++){h=(Math.imul(31,h)+p.charCodeAt(i))|0} return h.toString(36); }
+function getUsers()   { return JSON.parse(localStorage.getItem('sb_u') || '[]'); }
+function saveUsers(u) { localStorage.setItem('sb_u', JSON.stringify(u)); }
+function hp(p)        { let h=0; for(let i=0;i<p.length;i++){h=(Math.imul(31,h)+p.charCodeAt(i))|0} return h.toString(36); }
 
 function setNavUser(u) {
   if (!u) { document.getElementById('nav-user').classList.add('hidden'); return; }
@@ -633,108 +618,129 @@ function setNavUser(u) {
   document.getElementById('nav-av').textContent   = u.fn[0].toUpperCase();
 }
 function showErr(id, msg) {
-  const e = document.getElementById(id);
-  e.textContent = msg;
-  e.classList.remove('hidden');
+  const e = document.getElementById(id); e.textContent = msg; e.classList.remove('hidden');
 }
 
 function signUp() {
   document.getElementById('su-err').classList.add('hidden');
-  const fn   = document.getElementById('su-fn').value.trim();
-  const ln   = document.getElementById('su-ln').value.trim();
-  const em   = document.getElementById('su-em').value.trim().toLowerCase();
-  const pw   = document.getElementById('su-pw').value;
-  const inst = document.getElementById('su-inst').value.trim();
-  const lv   = document.getElementById('su-lv').value;
-  if (!fn || !ln) return showErr('su-err', 'Please enter your first and last name.');
-  if (!em.includes('@')) return showErr('su-err', 'Please enter a valid email address.');
-  if (pw.length < 6) return showErr('su-err', 'Password must be at least 6 characters.');
-  const users = getUsers();
-  if (users.find(u => u.em === em)) return showErr('su-err', 'An account with this email already exists.');
-  const u = { fn, ln, em, pw: hp(pw), inst, lv, at: Date.now() };
+  const fn=document.getElementById('su-fn').value.trim(), ln=document.getElementById('su-ln').value.trim();
+  const em=document.getElementById('su-em').value.trim().toLowerCase(), pw=document.getElementById('su-pw').value;
+  const inst=document.getElementById('su-inst').value.trim(), lv=document.getElementById('su-lv').value;
+  if (!fn||!ln) return showErr('su-err','Please enter your first and last name.');
+  if (!em.includes('@')) return showErr('su-err','Please enter a valid email address.');
+  if (pw.length<6) return showErr('su-err','Password must be at least 6 characters.');
+  const users=getUsers();
+  if (users.find(u=>u.em===em)) return showErr('su-err','An account with this email already exists.');
+  const u={fn,ln,em,pw:hp(pw),inst,lv,at:Date.now()};
   users.push(u); saveUsers(users);
-  user = u; localStorage.setItem('sb_s', JSON.stringify(u));
-  setNavUser(u);
-  document.getElementById('lv-sel').value = lv;
+  user=u; localStorage.setItem('sb_s',JSON.stringify(u));
+  setNavUser(u); document.getElementById('lv-sel').value=lv;
   toast(`Welcome, ${fn}! 🎉`); showSection('input');
 }
 
 function logIn() {
   document.getElementById('li-err').classList.add('hidden');
-  const em = document.getElementById('li-em').value.trim().toLowerCase();
-  const pw = document.getElementById('li-pw').value;
-  const u  = getUsers().find(u => u.em === em && u.pw === hp(pw));
-  if (!u) return showErr('li-err', 'Email or password is incorrect.');
-  user = u; localStorage.setItem('sb_s', JSON.stringify(u));
-  setNavUser(u);
-  document.getElementById('lv-sel').value = u.lv || 'Masters';
+  const em=document.getElementById('li-em').value.trim().toLowerCase(), pw=document.getElementById('li-pw').value;
+  const u=getUsers().find(u=>u.em===em&&u.pw===hp(pw));
+  if (!u) return showErr('li-err','Email or password is incorrect.');
+  user=u; localStorage.setItem('sb_s',JSON.stringify(u));
+  setNavUser(u); document.getElementById('lv-sel').value=u.lv||'Masters';
   toast(`Welcome back, ${u.fn}!`); showSection('input');
 }
 
 function logout() {
-  user = null; sessionId = null;
-  localStorage.removeItem('sb_s');
+  user=null; sessionId=null; localStorage.removeItem('sb_s');
   setNavUser(null); toast('Logged out.'); showSection('hero');
 }
 
 // ══════════════════════════════════════════════════════
 // ACCORDION
 // ══════════════════════════════════════════════════════
-function tog(id)    { document.getElementById(id).classList.toggle('open'); }
-function setAll(o)  { document.querySelectorAll('.acc-item').forEach(e => e.classList.toggle('open', o)); }
-function cp(e, id)  { e.stopPropagation(); navigator.clipboard.writeText(document.getElementById(id).textContent).then(() => toast('Copied ✓')); }
+function tog(id)   { document.getElementById(id).classList.toggle('open'); }
+function setAll(o) { document.querySelectorAll('.acc-item').forEach(e=>e.classList.toggle('open',o)); }
+function cp(e,id)  { e.stopPropagation(); navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>toast('Copied ✓')); }
 
 // ══════════════════════════════════════════════════════
 // AGENT ANIMATION
 // ══════════════════════════════════════════════════════
 function setAgent(n, state) {
-  const box = document.getElementById('ag' + n + '-box');
-  const st  = document.getElementById('ag' + n + '-st');
+  const box=document.getElementById('ag'+n+'-box'), st=document.getElementById('ag'+n+'-st');
   if (!box) return;
-  box.className = 'agent-box' + (state !== 'waiting' ? ' ' + state : '');
-  const labels = { waiting: 'Waiting', active: 'Working…', done: 'Done ✓' };
-  st.textContent = labels[state] || state;
-  st.style.color = state === 'active' ? '#6366F1' : state === 'done' ? '#10B981' : '#64748B';
+  box.className='agent-box'+(state!=='waiting'?' '+state:'');
+  const labels={waiting:'Waiting',active:'Working…',done:'Done ✓'};
+  st.textContent=labels[state]||state;
+  st.style.color=state==='active'?'#6366F1':state==='done'?'#10B981':'#64748B';
 }
-function setLdTxt(m) { const e = document.getElementById('ld-txt'); if (e) e.textContent = m; }
+function setLdTxt(m) { const e=document.getElementById('ld-txt'); if(e) e.textContent=m; }
 
 // ══════════════════════════════════════════════════════
-// RESPONSE DETECTION
-// Determines what type of response came back from Flowise
+// RESPONSE DETECTION — the most critical logic
+//
+// Uses BOTH positive markers (things Orchestrator says)
+// AND negative markers (things only the Writer says)
+// to correctly classify any response
 // ══════════════════════════════════════════════════════
 function isOrchestratorResponse(text) {
-  // These markers appear in the Orchestrator's output format
-  const markers = [
+  const t = text || '';
+
+  // These phrases only appear in the Orchestrator's summary
+  const positive = [
     'Click PROCEED',
+    'Click REJECT',
     'TOPIC UNDERSTOOD',
     'PAPERS FOUND',
     'RESEARCH LANDSCAPE',
-    'ScholarBot is waiting',
-    'Shall I go ahead',
     'SCOPE ASSESSMENT',
-    'Click REJECT',
+    'ScholarBot is waiting',
     'ScholarBot is waiting for your decision',
+    'Shall I go ahead',
+    'TOPIC SUMMARY',
+    'proceed with the full research',
+    'Type \'go ahead\'',
+    'Type "go ahead"',
+    'Are you happy',
+    'Would you like to proceed',
+    'happy with this summary',
   ];
-  return markers.some(m => text.includes(m));
+
+  // These phrases ONLY appear in a full report from the Writer
+  // If any are present, it cannot be the Orchestrator
+  const negative = [
+    'RESEARCH IDEAS',
+    'RELEVANT PAPERS',
+    'RESEARCH GAPS',
+    'LITERATURE REVIEW',
+    'EXECUTION ROADMAP',
+    'DRAFT ABSTRACT',
+    'RECOMMENDED JOURNALS',
+    'RECOMMENDED DATASETS',
+    'EVALUATION REPORT',
+  ];
+
+  const hasPositive = positive.some(m => t.includes(m));
+  const hasNegative = negative.some(m => t.toUpperCase().includes(m.toUpperCase()));
+
+  // It's an Orchestrator response only when:
+  // it has positive markers AND no full-report markers
+  return hasPositive && !hasNegative;
 }
 
 function isEndResponse(text) {
-  const markers = [
-    'session has been ended',
-    'Come back anytime',
-    'No problem at all',
-    'ready when you are',
-    'start a new chat',
-  ];
-  return markers.some(m => text.toLowerCase().includes(m.toLowerCase()));
+  const t = (text || '').toLowerCase();
+  return (
+    t.includes('session has been ended') ||
+    t.includes('come back anytime') ||
+    t.includes('no problem at all') ||
+    t.includes('ready when you are') ||
+    t.includes('start a new chat')
+  );
 }
 
 // ══════════════════════════════════════════════════════
 // BUILD PROMPT
-// Sends topic + preferences as one structured message
 // ══════════════════════════════════════════════════════
-function buildPrompt() {
-  const t  = document.getElementById('topic-input').value.trim();
+function buildPrompt(customTopic) {
+  const t  = customTopic || document.getElementById('topic-input').value.trim();
   const lv = document.getElementById('lv-sel').value;
   const di = document.getElementById('di-sel').value;
   const secs = ['RELEVANT PAPERS'];
@@ -750,32 +756,44 @@ function buildPrompt() {
     `Academic level: ${lv}\n` +
     `Discipline: ${di}\n` +
     `Sections to include: ${secs.join(', ')}\n\n` +
-    `Produce a structured academic research report on this topic.`
+    `Please analyse this topic and produce a structured academic research report.`
   );
 }
 
 // ══════════════════════════════════════════════════════
 // API CALL
-// Passes sessionId in both formats Flowise V2 accepts
+// Does NOT pre-generate sessionId — lets Flowise own it
 // ══════════════════════════════════════════════════════
 async function callAPI(message) {
-  const body = {
-    question: message,
-    // Pass sessionId in both locations — Flowise V2 checks both
-    sessionId: sessionId,
-    overrideConfig: { sessionId: sessionId }
-  };
+  const body = { question: message };
+
+  // Only attach sessionId if Flowise already gave us one
+  // Never send a client-generated ID — it confuses Flowise
+  if (sessionId) {
+    body.sessionId = sessionId;
+    body.overrideConfig = { sessionId: sessionId };
+  }
+
   const res = await fetch(API, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body)
   });
+
   if (!res.ok) {
-    const e = await res.text();
-    throw new Error(`API ${res.status}: ${e}`);
+    const errText = await res.text();
+    if (res.status === 500) {
+      throw new Error(
+        'The AI pipeline returned a server error (500). ' +
+        'This is usually a Flowise routing issue. ' +
+        'Please try starting a new search.'
+      );
+    }
+    throw new Error(`API ${res.status}: ${errText}`);
   }
+
   const d = await res.json();
-  // Capture sessionId from whichever field Flowise returns it in
+  // Capture the Flowise-generated sessionId
   const sid = d.sessionId || d.chatId || d.id;
   if (sid) sessionId = sid;
   return d.text || d.answer || d.output || JSON.stringify(d);
@@ -783,20 +801,17 @@ async function callAPI(message) {
 
 // ══════════════════════════════════════════════════════
 // ROUND 1 — Send topic to Orchestrator
+// sessionId starts as null — Flowise creates a new session
 // ══════════════════════════════════════════════════════
 async function startGen() {
   const t = document.getElementById('topic-input').value.trim();
   if (!t) { alert('Please enter a research topic.'); return; }
 
-  topic      = t;
-  level      = document.getElementById('lv-sel').value;
-  discipline = document.getElementById('di-sel').value;
+  topic       = t;
+  level       = document.getElementById('lv-sel').value;
+  discipline  = document.getElementById('di-sel').value;
   institution = user?.inst || '';
-
-  // Generate a fresh, stable sessionId for this entire research session.
-  // Both the Orchestrator call and the Scout call MUST share this ID
-  // so Flowise knows they are the same conversation.
-  sessionId = 'sb_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  sessionId   = null; // Always fresh — let Flowise own the session
 
   showSection('checking');
   document.getElementById('checking-txt').textContent = 'Scanning for academic papers on your topic…';
@@ -807,14 +822,14 @@ async function startGen() {
     if (isOrchestratorResponse(raw)) {
       showReview(raw);
     } else if (isEndResponse(raw)) {
-      showEnd(raw);
+      showEnd();
     } else {
-      // Orchestrator not in pipeline — go straight to results
+      // No Orchestrator in flow, or Orchestrator skipped — go straight to results
       processFullReport(raw);
     }
   } catch (err) {
     showSection('input');
-    alert('Connection failed: ' + err.message + '. Please try again.');
+    alert('Connection failed: ' + err.message);
   }
 }
 
@@ -822,103 +837,110 @@ async function startGen() {
 // SHOW REVIEW SCREEN
 // ══════════════════════════════════════════════════════
 function showReview(orcText) {
-  document.getElementById('orc-body').textContent = orcText;
-  document.getElementById('amend-input').value    = '';
-  document.getElementById('btn-proceed').disabled = false;
-  document.getElementById('btn-amend').disabled   = false;
+  document.getElementById('orc-body').textContent    = orcText;
+  document.getElementById('amend-input').value       = '';
+  document.getElementById('btn-proceed').disabled    = false;
+  document.getElementById('btn-amend').disabled      = false;
   showSection('review');
 }
 
 // ══════════════════════════════════════════════════════
 // ROUND 2A — Proceed to full research
 //
-// TWO PATHS:
-// • No text in amendment box → send "go ahead" → full report
-// • Text in amendment box    → treat as amendment, re-analyse
+// PATH A: Nothing in amendment box → send "go ahead" → full report
+// PATH B: Text in amendment box → re-analyse instead (smart guard)
 // ══════════════════════════════════════════════════════
 async function proceedResearch() {
   const amendment = document.getElementById('amend-input').value.trim();
 
-  // If user typed something, that takes priority — re-analyse
+  // Guard: if user typed something and clicked Proceed by mistake,
+  // treat it as an amendment not a confirmation
   if (amendment) {
     await submitAmendment();
     return;
   }
 
-  // Nothing typed — user is happy → proceed to full pipeline
   document.getElementById('btn-proceed').disabled = true;
   document.getElementById('btn-amend').disabled   = true;
 
   showSection('loading');
-  setAgent(2, 'active'); setAgent(3, 'waiting'); setAgent(4, 'waiting');
+  setAgent(2,'active'); setAgent(3,'waiting'); setAgent(4,'waiting');
   setLdTxt('Research Scout is searching for papers…');
 
   try {
-    // Send confirmation — Condition node routes this to Scout
     let raw = await callAPI('go ahead');
 
-    // ── Safety net ──
-    // If Orchestrator ran again (routing issue), try once more
-    // with a stronger, unambiguous confirmation signal
+    // Safety: if Orchestrator ran again, try once with stronger signal
     if (isOrchestratorResponse(raw)) {
-      setLdTxt('Confirming research direction…');
-      raw = await callAPI('Yes, I confirm. Please proceed with the full research pipeline now and generate the complete report.');
+      setLdTxt('Confirming and proceeding…');
+      raw = await callAPI('Yes, I am happy with this topic. Please proceed with the full research now and generate the complete report.');
     }
 
     if (isOrchestratorResponse(raw)) {
-      // Still stuck after retry — bring user back
-      toast('Routing issue — please click Proceed again.');
+      // Still stuck — return user to review
+      toast('Please try clicking Proceed again.');
       showSection('review');
       document.getElementById('btn-proceed').disabled = false;
       document.getElementById('btn-amend').disabled   = false;
     } else if (isEndResponse(raw)) {
-      showEnd(raw);
+      showEnd();
     } else {
-      // ✅ Full report received — animate pipeline and show results
-      setAgent(2, 'done'); setAgent(3, 'active');
+      // Full report — animate and display
+      setAgent(2,'done'); setAgent(3,'active');
       setLdTxt('Evaluator is scoring paper quality…');
       await new Promise(r => setTimeout(r, 700));
-      setAgent(3, 'done'); setAgent(4, 'active');
+      setAgent(3,'done'); setAgent(4,'active');
       setLdTxt('Academic Writer is synthesising your report…');
       await new Promise(r => setTimeout(r, 700));
-      setAgent(4, 'done'); setLdTxt('Report ready!');
+      setAgent(4,'done'); setLdTxt('Report ready!');
       processFullReport(raw);
     }
   } catch (err) {
     showSection('review');
     document.getElementById('btn-proceed').disabled = false;
     document.getElementById('btn-amend').disabled   = false;
-    toast('Something went wrong: ' + err.message);
+    toast('Error: ' + err.message);
   }
 }
 
 // ══════════════════════════════════════════════════════
 // ROUND 2B — Submit amendment
-// User typed something → send to Orchestrator for re-analysis
+//
+// Starts a COMPLETELY FRESH SESSION with the amended topic.
+// This bypasses the unreliable Loop node in Flowise entirely.
+// The user experience is identical — Orchestrator re-analyses
+// the new topic from scratch.
 // ══════════════════════════════════════════════════════
 async function submitAmendment() {
   const amendment = document.getElementById('amend-input').value.trim();
   if (!amendment) {
-    toast('Please type your amendment or new topic in the box above.');
+    toast('Please type your amendment or new topic in the box above first.');
     return;
   }
 
   document.getElementById('btn-proceed').disabled = true;
   document.getElementById('btn-amend').disabled   = true;
 
+  // Update the stored topic
+  topic = amendment;
+
+  // CRITICAL: Reset sessionId to null so Flowise starts fresh
+  // This avoids the 500 Loop node error entirely
+  sessionId = null;
+
   showSection('checking');
   document.getElementById('checking-txt').textContent = 'Re-analysing your amended topic…';
 
   try {
-    const raw = await callAPI(amendment);
+    // Update the topic-input field so buildPrompt() uses the new topic
+    document.getElementById('topic-input').value = amendment;
+    const raw = await callAPI(buildPrompt());
 
     if (isOrchestratorResponse(raw)) {
-      // Got updated Orchestrator summary → show review again
       showReview(raw);
     } else if (isEndResponse(raw)) {
-      showEnd(raw);
+      showEnd();
     } else {
-      // Amendment triggered full report directly — display it
       processFullReport(raw);
     }
   } catch (err) {
@@ -933,17 +955,14 @@ async function submitAmendment() {
 // ROUND 2C — End session
 // ══════════════════════════════════════════════════════
 async function rejectResearch() {
-  // Silently close the Flowise session
   try { await callAPI('no'); } catch (e) { /* silent */ }
-  showEnd('No problem at all — your session has been ended. Come back anytime with a new or refined topic. ScholarBot will be ready. 📚');
+  showEnd();
 }
 
 // ══════════════════════════════════════════════════════
 // SHOW END SCREEN
 // ══════════════════════════════════════════════════════
-function showEnd(message) {
-  document.getElementById('end-msg').textContent =
-    'No problem at all. Come back anytime with a new or refined topic — ScholarBot will be ready. 📚';
+function showEnd() {
   showSection('end');
 }
 
@@ -958,15 +977,13 @@ function processFullReport(raw) {
 }
 
 // ══════════════════════════════════════════════════════
-// PARSE RESPONSE
-// Flexible section extraction — handles variable Gemini formatting
+// PARSE RESPONSE — flexible section extraction
 // ══════════════════════════════════════════════════════
 function parse(text) {
   const out = { ideas:'', papers:'', gaps:'', rev:'', road:'', abstract:'', journals:'', datasets:'', score:'' };
-  // Strip markdown formatting before parsing
-  const t = text.replace(/\*\*/g, '').replace(/#{1,3}\s*/g, '');
+  const t = text.replace(/\*\*/g,'').replace(/#{1,3}\s*/g,'');
 
-  // Extract confidence score block
+  // Extract confidence score
   const scoreMatch = t.match(/RESEARCH CONFIDENCE SCORE:[\s\S]*?(?=##?\s*1\.|RESEARCH IDEAS|$)/i);
   if (scoreMatch) out.score = scoreMatch[0].trim();
 
@@ -991,7 +1008,7 @@ function parse(text) {
 }
 
 // ══════════════════════════════════════════════════════
-// CONFIDENCE SCORE RENDERER
+// CONFIDENCE SCORE
 // ══════════════════════════════════════════════════════
 function renderScore(scoreText) {
   if (!scoreText) return;
@@ -999,12 +1016,12 @@ function renderScore(scoreText) {
   if (!numMatch) return;
   const score = parseFloat(numMatch[1]);
   document.getElementById('score-num').innerHTML = `${score}<span>/10</span>`;
-  setTimeout(() => { document.getElementById('score-bar').style.width = (score / 10 * 100) + '%'; }, 100);
+  setTimeout(() => { document.getElementById('score-bar').style.width = (score/10*100)+'%'; }, 100);
   const rEl = document.getElementById('score-rating');
-  if (score >= 9)      { rEl.textContent = 'Excellent';       rEl.className = 'score-rating rating-excellent'; }
-  else if (score >= 7) { rEl.textContent = 'Good';            rEl.className = 'score-rating rating-good'; }
-  else if (score >= 5) { rEl.textContent = 'Acceptable';      rEl.className = 'score-rating rating-acceptable'; }
-  else                 { rEl.textContent = 'Needs Refinement'; rEl.className = 'score-rating rating-needs'; }
+  if (score>=9)      { rEl.textContent='Excellent';        rEl.className='score-rating rating-excellent'; }
+  else if (score>=7) { rEl.textContent='Good';             rEl.className='score-rating rating-good'; }
+  else if (score>=5) { rEl.textContent='Acceptable';       rEl.className='score-rating rating-acceptable'; }
+  else               { rEl.textContent='Needs Refinement'; rEl.className='score-rating rating-needs'; }
   const bm = scoreText.match(/Breakdown:(.*?)(?:\n|$)/i);
   if (bm) document.getElementById('score-breakdown').textContent = bm[1].trim();
   const am = scoreText.match(/Assessment:(.*?)(?:\n|Rating:|$)/is);
@@ -1012,16 +1029,16 @@ function renderScore(scoreText) {
 }
 
 // ══════════════════════════════════════════════════════
-// POPULATE RESULTS PAGE
+// POPULATE RESULTS
 // ══════════════════════════════════════════════════════
 function populate(sec, any, raw) {
   document.getElementById('r-topic').textContent    = topic;
   document.getElementById('m-lv').textContent       = level;
   document.getElementById('m-di').textContent       = discipline;
-  document.getElementById('m-date').textContent     = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+  document.getElementById('m-date').textContent     = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
   document.getElementById('m-user').textContent     = user ? `${user.fn} ${user.ln}` : 'Guest';
   if (institution) {
-    document.getElementById('m-inst').textContent   = institution;
+    document.getElementById('m-inst').textContent = institution;
     document.getElementById('m-inst-wrap').style.display = 'flex';
   }
   document.getElementById('c-ideas').textContent    = sec.ideas    || 'Not included.';
@@ -1033,18 +1050,13 @@ function populate(sec, any, raw) {
   document.getElementById('c-journals').textContent = sec.journals || 'Not included.';
   document.getElementById('c-datasets').textContent = sec.datasets || 'Not included.';
   document.getElementById('err-box').classList.add('hidden');
-
   if (sec.score) renderScore(sec.score);
   else document.getElementById('score-card').style.display = 'none';
-
   const rawEl = document.getElementById('acc-raw');
   if (!any && raw) {
     document.getElementById('c-raw').textContent = raw;
-    rawEl.classList.remove('hidden');
-    rawEl.classList.add('open');
-  } else {
-    rawEl.classList.add('hidden');
-  }
+    rawEl.classList.remove('hidden'); rawEl.classList.add('open');
+  } else { rawEl.classList.add('hidden'); }
 }
 
 // ══════════════════════════════════════════════════════
@@ -1059,11 +1071,8 @@ async function reformat() {
     document.getElementById('c-papers').textContent = r;
     document.getElementById('acc-papers').classList.add('open');
     toast(`Reformatted to ${sty} ✓`);
-  } catch (e) {
-    toast('Could not reformat: ' + e.message);
-  } finally {
-    btn.textContent = 'Apply Style'; btn.disabled = false;
-  }
+  } catch (e) { toast('Could not reformat: ' + e.message); }
+  finally { btn.textContent = 'Apply Style'; btn.disabled = false; }
 }
 
 // ══════════════════════════════════════════════════════
@@ -1071,81 +1080,68 @@ async function reformat() {
 // ══════════════════════════════════════════════════════
 function downloadPDF() {
   const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-  const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
-  const mg = 18, maxW = W - mg * 2; let y = mg;
-
-  const add = (text, size, style, col) => {
-    doc.setFontSize(size); doc.setFont('helvetica', style || 'normal');
-    doc.setTextColor(...(col || [40, 40, 40]));
-    doc.splitTextToSize(String(text), maxW).forEach(l => {
-      if (y > H - mg - 10) { doc.addPage(); y = mg; }
-      doc.text(l, mg, y); y += size * .42;
-    }); y += 3;
+  const doc = new jsPDF({ unit:'mm', format:'a4' });
+  const W=doc.internal.pageSize.getWidth(), H=doc.internal.pageSize.getHeight();
+  const mg=18, maxW=W-mg*2; let y=mg;
+  const add = (text,size,style,col) => {
+    doc.setFontSize(size); doc.setFont('helvetica',style||'normal');
+    doc.setTextColor(...(col||[40,40,40]));
+    doc.splitTextToSize(String(text),maxW).forEach(l => {
+      if (y>H-mg-10) { doc.addPage(); y=mg; }
+      doc.text(l,mg,y); y+=size*.42;
+    }); y+=3;
   };
   const line = () => {
-    if (y > H - mg - 12) { doc.addPage(); y = mg; }
-    doc.setDrawColor(79, 70, 229); doc.setLineWidth(.4);
-    doc.line(mg, y, W - mg, y); y += 5;
+    if (y>H-mg-12) { doc.addPage(); y=mg; }
+    doc.setDrawColor(79,70,229); doc.setLineWidth(.4);
+    doc.line(mg,y,W-mg,y); y+=5;
   };
-
-  // Cover page
+  // Cover
   doc.setFillColor(8,11,26); doc.rect(0,0,W,H,'F');
   doc.setFillColor(79,70,229); doc.rect(0,H*.55,W,6,'F');
   doc.setFillColor(6,182,212); doc.rect(0,H*.55+5,W,H*.45-5,'F');
   doc.setFontSize(36); doc.setFont('helvetica','bold'); doc.setTextColor(255,255,255);
-  doc.text('ScholarBot', W/2, 64, {align:'center'});
+  doc.text('ScholarBot',W/2,64,{align:'center'});
   doc.setFontSize(11); doc.setFont('helvetica','normal'); doc.setTextColor(148,163,184);
-  doc.text('Research Intelligence', W/2, 75, {align:'center'});
+  doc.text('Research Intelligence',W/2,75,{align:'center'});
   doc.setFontSize(13); doc.setFont('helvetica','bold'); doc.setTextColor(238,242,255);
-  doc.splitTextToSize(topic, maxW).forEach((l,i) => doc.text(l, W/2, 96+i*7, {align:'center'}));
+  doc.splitTextToSize(topic,maxW).forEach((l,i)=>doc.text(l,W/2,96+i*7,{align:'center'}));
   const scoreEl = document.getElementById('score-num');
-  if (scoreEl && scoreEl.textContent !== '—') {
+  if (scoreEl && scoreEl.textContent!=='—') {
     doc.setFontSize(11); doc.setTextColor(6,182,212);
-    doc.text('Confidence Score: ' + scoreEl.textContent.replace('/10','').trim() + '/10', W/2, 130, {align:'center'});
+    doc.text('Confidence Score: '+scoreEl.textContent.replace('/10','').trim()+'/10',W/2,130,{align:'center'});
   }
-  const cy = H * .58;
+  const cy=H*.58;
   doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(8,11,26);
-  const meta = [['Level',level],['Discipline',discipline],['Researcher',user?`${user.fn} ${user.ln}`:'Guest']];
-  if (institution) meta.push(['Institution', institution]);
-  meta.push(['Date', document.getElementById('m-date').textContent]);
-  meta.forEach(([k,v],i) => {
-    doc.setFont('helvetica','bold'); doc.text(k+':', mg, cy+8+i*8);
-    doc.setFont('helvetica','normal'); doc.text(v, mg+28, cy+8+i*8);
-  });
+  const meta=[['Level',level],['Discipline',discipline],['Researcher',user?`${user.fn} ${user.ln}`:'Guest']];
+  if (institution) meta.push(['Institution',institution]);
+  meta.push(['Date',document.getElementById('m-date').textContent]);
+  meta.forEach(([k,v],i)=>{doc.setFont('helvetica','bold');doc.text(k+':',mg,cy+8+i*8);doc.setFont('helvetica','normal');doc.text(v,mg+28,cy+8+i*8);});
   doc.setFontSize(8); doc.setTextColor(8,11,26);
-  doc.text('scholarbot.app · Research Intelligence', W/2, H-8, {align:'center'});
-
+  doc.text('scholarbot.app · Research Intelligence',W/2,H-8,{align:'center'});
   // Content
-  doc.addPage(); y = mg;
-  add('Research Topic', 9, 'normal', [120,120,120]);
-  add(topic, 17, 'bold', [8,11,26]); y += 2; line();
-
-  [
-    {label:'1.  RESEARCH IDEAS',                    id:'c-ideas'},
-    {label:'2.  RELEVANT PAPERS',                   id:'c-papers'},
-    {label:'3.  RESEARCH GAPS',                     id:'c-gaps'},
-    {label:'4.  LITERATURE REVIEW',                 id:'c-rev'},
-    {label:'5.  EXECUTION ROADMAP',                 id:'c-road'},
-    {label:'6.  DRAFT ABSTRACT',                    id:'c-abstract'},
-    {label:'7.  RECOMMENDED JOURNALS & CONFERENCES',id:'c-journals'},
-    {label:'8.  RECOMMENDED DATASETS',              id:'c-datasets'},
-  ].forEach(({label, id}) => {
-    const c = document.getElementById(id).textContent;
-    if (!c || c === 'Not included.') return;
-    y += 5; if (y > H - mg - 20) { doc.addPage(); y = mg; }
-    add(label, 13, 'bold', [8,11,26]); line();
-    add(c, 10, 'normal', [40,40,40]); y += 4;
+  doc.addPage(); y=mg;
+  add('Research Topic',9,'normal',[120,120,120]);
+  add(topic,17,'bold',[8,11,26]); y+=2; line();
+  [{label:'1.  RESEARCH IDEAS',id:'c-ideas'},{label:'2.  RELEVANT PAPERS',id:'c-papers'},
+   {label:'3.  RESEARCH GAPS',id:'c-gaps'},{label:'4.  LITERATURE REVIEW',id:'c-rev'},
+   {label:'5.  EXECUTION ROADMAP',id:'c-road'},{label:'6.  DRAFT ABSTRACT',id:'c-abstract'},
+   {label:'7.  RECOMMENDED JOURNALS & CONFERENCES',id:'c-journals'},
+   {label:'8.  RECOMMENDED DATASETS',id:'c-datasets'}
+  ].forEach(({label,id})=>{
+    const c=document.getElementById(id).textContent;
+    if (!c||c==='Not included.') return;
+    y+=5; if(y>H-mg-20){doc.addPage();y=mg;}
+    add(label,13,'bold',[8,11,26]); line();
+    add(c,10,'normal',[40,40,40]); y+=4;
   });
-
-  // Page footers (skip cover)
-  const pages = doc.internal.getNumberOfPages();
-  for (let i = 2; i <= pages; i++) {
+  const pages=doc.internal.getNumberOfPages();
+  for(let i=2;i<=pages;i++){
     doc.setPage(i); doc.setFontSize(8); doc.setTextColor(160,160,160);
-    doc.text('ScholarBot · Research Intelligence', mg, H-8);
-    doc.text(`Page ${i-1} of ${pages-1}`, W-mg, H-8, {align:'right'});
+    doc.text('ScholarBot · Research Intelligence',mg,H-8);
+    doc.text(`Page ${i-1} of ${pages-1}`,W-mg,H-8,{align:'right'});
   }
-  doc.save('ScholarBot-' + topic.slice(0,40).replace(/\s+/g,'-') + '.pdf');
+  doc.save('ScholarBot-'+topic.slice(0,40).replace(/\s+/g,'-')+'.pdf');
   toast('PDF downloaded ✓');
 }
 
@@ -1153,76 +1149,29 @@ function downloadPDF() {
 // WORD DOWNLOAD
 // ══════════════════════════════════════════════════════
 function downloadWord() {
-  const userName = user ? `${user.fn} ${user.ln}` : 'Guest';
-  const dateStr  = document.getElementById('m-date').textContent;
-  const scoreText = document.getElementById('score-num').textContent;
-  const g  = id => { const t = document.getElementById(id).textContent; return (!t || t === 'Not included.') ? '' : t; };
-  const sh = (title, content) => {
-    if (!content) return '';
-    const ps = content.split('\n').filter(l => l.trim()).map(l => `<p>${l}</p>`).join('');
-    return `<h2>${title}</h2>${ps}`;
-  };
-  const instRow  = institution ? `<tr><td>Institution</td><td>${institution}</td></tr>` : '';
-  const scoreRow = (scoreText && scoreText !== '—') ? `<tr><td>Confidence Score</td><td>${scoreText}</td></tr>` : '';
-  const html = `
-<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
-<head><meta charset="utf-8"/><title>ScholarBot — ${topic}</title>
-<style>
-body{font-family:Calibri,sans-serif;font-size:11pt;color:#222;margin:2.5cm;line-height:1.6}
-h1{font-family:'Segoe UI',sans-serif;font-size:22pt;color:#4F46E5;margin-bottom:4pt}
-h2{font-family:'Segoe UI',sans-serif;font-size:13pt;color:#0D1124;margin-top:22pt;margin-bottom:8pt;border-bottom:1pt solid #4F46E5;padding-bottom:4pt}
-p{margin:4pt 0;font-size:11pt}
-.cover{text-align:center;padding:50pt 0 36pt;border-bottom:2pt solid #4F46E5;margin-bottom:28pt}
-.cover h1{font-size:30pt;color:#4F46E5}
-.cover .sub{font-size:11pt;color:#64748B;margin:6pt 0 18pt}
-.cover .tp{font-size:14pt;font-weight:bold;color:#0D1124;margin:14pt 0 8pt}
-table{border-collapse:collapse;width:100%;margin:14pt 0}
-td{padding:5pt 8pt;font-size:10pt;border:1pt solid #E0E0E0;color:#555}
-td:first-child{font-weight:bold;background:#F8F8FF;width:28%;color:#333}
-.foot{margin-top:36pt;padding-top:8pt;border-top:1pt solid #DDD;font-size:9pt;color:#999;text-align:center}
-</style></head>
-<body>
-<div class="cover">
-  <h1>ScholarBot</h1>
-  <div class="sub">Research Intelligence</div>
-  <div class="tp">${topic}</div>
-  <table>
-    <tr><td>Academic Level</td><td>${level}</td></tr>
-    <tr><td>Discipline</td><td>${discipline}</td></tr>
-    <tr><td>Researcher</td><td>${userName}</td></tr>
-    ${instRow}
-    ${scoreRow}
-    <tr><td>Generated</td><td>${dateStr}</td></tr>
-  </table>
-</div>
-${sh('1. Research Ideas',                     g('c-ideas'))}
-${sh('2. Relevant Papers',                    g('c-papers'))}
-${sh('3. Research Gaps',                      g('c-gaps'))}
-${sh('4. Literature Review',                  g('c-rev'))}
-${sh('5. Execution Roadmap',                  g('c-road'))}
-${sh('6. Draft Abstract',                     g('c-abstract'))}
-${sh('7. Recommended Journals & Conferences', g('c-journals'))}
-${sh('8. Recommended Datasets',               g('c-datasets'))}
-<div class="foot">ScholarBot · Research Intelligence · scholarbot.app</div>
-</body></html>`;
-  const blob = new Blob([html], { type: 'application/msword' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href = url; a.download = 'ScholarBot-' + topic.slice(0,40).replace(/\s+/g,'-') + '.doc';
+  const userName=user?`${user.fn} ${user.ln}`:'Guest';
+  const dateStr=document.getElementById('m-date').textContent;
+  const scoreText=document.getElementById('score-num').textContent;
+  const g=id=>{const t=document.getElementById(id).textContent;return(!t||t==='Not included.')?'':t;};
+  const sh=(title,content)=>{if(!content)return'';const ps=content.split('\n').filter(l=>l.trim()).map(l=>`<p>${l}</p>`).join('');return`<h2>${title}</h2>${ps}`;};
+  const instRow=institution?`<tr><td>Institution</td><td>${institution}</td></tr>`:'';
+  const scoreRow=(scoreText&&scoreText!=='—')?`<tr><td>Confidence Score</td><td>${scoreText}</td></tr>`:'';
+  const html=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"/><title>ScholarBot — ${topic}</title><style>body{font-family:Calibri,sans-serif;font-size:11pt;color:#222;margin:2.5cm;line-height:1.6}h1{font-family:'Segoe UI',sans-serif;font-size:22pt;color:#4F46E5}h2{font-family:'Segoe UI',sans-serif;font-size:13pt;color:#0D1124;margin-top:22pt;margin-bottom:8pt;border-bottom:1pt solid #4F46E5;padding-bottom:4pt}p{margin:4pt 0;font-size:11pt}.cover{text-align:center;padding:50pt 0 36pt;border-bottom:2pt solid #4F46E5;margin-bottom:28pt}.cover h1{font-size:30pt;color:#4F46E5}.cover .sub{font-size:11pt;color:#64748B;margin:6pt 0 18pt}table{border-collapse:collapse;width:100%;margin:14pt 0}td{padding:5pt 8pt;font-size:10pt;border:1pt solid #E0E0E0;color:#555}td:first-child{font-weight:bold;background:#F8F8FF;width:28%;color:#333}.foot{margin-top:36pt;padding-top:8pt;border-top:1pt solid #DDD;font-size:9pt;color:#999;text-align:center}</style></head><body><div class="cover"><h1>ScholarBot</h1><div class="sub">Research Intelligence</div><p style="font-size:14pt;font-weight:bold;color:#0D1124;margin:14pt 0">${topic}</p><table><tr><td>Academic Level</td><td>${level}</td></tr><tr><td>Discipline</td><td>${discipline}</td></tr><tr><td>Researcher</td><td>${userName}</td></tr>${instRow}${scoreRow}<tr><td>Generated</td><td>${dateStr}</td></tr></table></div>${sh('1. Research Ideas',g('c-ideas'))}${sh('2. Relevant Papers',g('c-papers'))}${sh('3. Research Gaps',g('c-gaps'))}${sh('4. Literature Review',g('c-rev'))}${sh('5. Execution Roadmap',g('c-road'))}${sh('6. Draft Abstract',g('c-abstract'))}${sh('7. Recommended Journals & Conferences',g('c-journals'))}${sh('8. Recommended Datasets',g('c-datasets'))}<div class="foot">ScholarBot · Research Intelligence · scholarbot.app</div></body></html>`;
+  const blob=new Blob([html],{type:'application/msword'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='ScholarBot-'+topic.slice(0,40).replace(/\s+/g,'-')+'.doc';
   document.body.appendChild(a); a.click();
   document.body.removeChild(a); URL.revokeObjectURL(url);
   toast('Word document downloaded ✓');
 }
 
 // ══════════════════════════════════════════════════════
-// INIT — restore session on page load
+// INIT
 // ══════════════════════════════════════════════════════
 (function init() {
   const s = localStorage.getItem('sb_s');
-  if (s) {
-    try { user = JSON.parse(s); setNavUser(user); } catch(e) { localStorage.removeItem('sb_s'); }
-  }
-  // Enter key on auth forms
+  if (s) { try { user=JSON.parse(s); setNavUser(user); } catch(e) { localStorage.removeItem('sb_s'); } }
   document.addEventListener('keydown', e => {
     if (e.key !== 'Enter') return;
     const active = SECS.find(s => !document.getElementById('section-'+s)?.classList.contains('hidden'));
