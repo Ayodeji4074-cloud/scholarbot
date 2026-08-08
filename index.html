@@ -22,14 +22,11 @@
     html{scroll-behavior:smooth}
     body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--white);min-height:100vh;overflow-x:hidden}
     .hidden{display:none!important}
-
     @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
     @keyframes spin{to{transform:rotate(360deg)}}
     @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(79,70,229,0)}50%{box-shadow:0 0 0 10px rgba(79,70,229,.2)}}
     @keyframes toastIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
-
-    /* NAV */
     nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:60px;background:rgba(8,11,26,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(79,70,229,.18)}
     .nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer}
     .nav-logo-mark{width:32px;height:32px;flex-shrink:0}
@@ -43,11 +40,7 @@
     .btn-nav-out:hover{color:var(--red);border-color:rgba(239,68,68,.35)}
     .nav-dl-btn{background:var(--gradient);color:#fff;border:none;padding:6px 16px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;transition:opacity .15s,transform .15s}
     .nav-dl-btn:hover{opacity:.88;transform:translateY(-1px)}
-
-    /* TOAST */
     #toast{position:fixed;bottom:24px;right:24px;z-index:999;background:var(--ink-card);border:1px solid rgba(79,70,229,.3);border-radius:10px;padding:10px 18px;font-size:13px;color:var(--white);animation:toastIn .25s ease;pointer-events:none}
-
-    /* HERO */
     #section-hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 24px 80px;position:relative;overflow:hidden;text-align:center}
     .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(79,70,229,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(79,70,229,.04) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
     .hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(79,70,229,.12) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-60%);pointer-events:none}
@@ -71,8 +64,6 @@
     .p-num{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--indigo-lt);letter-spacing:1px;margin-bottom:8px}
     .p-title{font-size:13px;font-weight:600;color:var(--white);margin-bottom:4px}
     .p-desc{font-size:11px;color:var(--grey-400);line-height:1.5}
-
-    /* SHARED FORM */
     .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px 60px}
     .card{background:var(--ink-card);border:1px solid rgba(79,70,229,.18);border-radius:20px;padding:40px;width:100%;max-width:480px;box-shadow:var(--shadow);animation:fadeUp .35s ease}
     .card-wide{max-width:700px}
@@ -98,16 +89,12 @@
     .checks{display:flex;flex-direction:column;gap:9px}
     .ch{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--grey-200);cursor:pointer}
     .ch input[type=checkbox]{width:15px;height:15px;accent-color:var(--indigo-lt);cursor:pointer}
-
-    /* CHECKING */
     #section-checking{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
     .checking-icon{font-size:48px;margin-bottom:20px;animation:pulse 1.5s ease-in-out infinite}
     .checking-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;letter-spacing:-.3px}
     .checking-sub{font-size:14px;color:var(--grey-400);margin-bottom:32px}
     .mini-spinner{width:32px;height:32px;border:2.5px solid rgba(79,70,229,.15);border-top-color:var(--indigo-lt);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 12px}
     .checking-status{font-size:13px;color:var(--grey-400)}
-
-    /* REVIEW */
     #section-review{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:80px 24px 60px}
     .review-wrap{width:100%;max-width:760px;animation:fadeUp .4s ease}
     .orc-summary{background:var(--ink-card);border:1px solid rgba(79,70,229,.22);border-radius:20px;padding:32px;margin-bottom:20px}
@@ -132,15 +119,11 @@
     .btn-amend{width:100%;background:rgba(6,182,212,.1);color:var(--cyan-lt);border:1px solid rgba(6,182,212,.3);padding:13px;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:8px}
     .btn-amend:hover:not(:disabled){background:rgba(6,182,212,.18)}
     .btn-amend:disabled{opacity:.45;cursor:not-allowed}
-
-    /* END SCREEN */
     .end-card{background:var(--ink-card);border:1px solid rgba(239,68,68,.18);border-radius:20px;padding:40px;text-align:center;width:100%;max-width:500px;animation:fadeUp .35s ease}
     .end-icon{font-size:40px;margin-bottom:16px}
     .end-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
     .end-sub{font-size:14px;color:var(--grey-400);line-height:1.6;margin-bottom:24px}
     .btn-restart{background:var(--gradient);color:#fff;border:none;padding:14px 32px;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif}
-
-    /* LOADING */
     #section-loading{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
     .ld-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin-bottom:10px;letter-spacing:-.4px}
     .ld-sub{font-size:14px;color:var(--grey-200);margin-bottom:52px}
@@ -158,8 +141,6 @@
     .pipeline-arrow{width:2px;height:26px;background:linear-gradient(to bottom,rgba(79,70,229,.4),rgba(79,70,229,.1));margin:0 auto}
     .spinner{width:36px;height:36px;border:2.5px solid rgba(79,70,229,.15);border-top-color:var(--indigo-lt);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 12px}
     .ld-status{font-size:13px;color:var(--grey-400);min-height:20px}
-
-    /* RESULTS */
     #section-results{padding:88px 24px 100px;max-width:900px;margin:0 auto}
     .r-header{margin-bottom:20px;animation:fadeUp .4s ease}
     .r-tag{font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
@@ -229,10 +210,8 @@
     .btn-new{background:transparent;color:var(--grey-200);border:1px solid rgba(199,210,232,.15);padding:12px 20px;border-radius:100px;font-size:13px;font-weight:500;cursor:pointer;transition:border-color .15s,color .15s}
     .btn-new:hover{border-color:var(--indigo-lt);color:var(--white)}
     .err-box{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.25);border-radius:var(--radius);padding:16px 20px;color:#FCA5A5;font-size:14px;line-height:1.6;margin-top:20px}
-
     footer{text-align:center;padding:36px 24px;font-size:12px;color:var(--grey-600);border-top:1px solid rgba(255,255,255,.04)}
     footer a{color:var(--indigo-lt);text-decoration:none}
-
     @media(max-width:640px){
       nav{padding:0 16px}.card{padding:26px 16px}.r2{grid-template-columns:1fr}
       .review-actions{grid-template-columns:1fr}.dl-bar{flex-direction:column}
@@ -245,7 +224,6 @@
 
 <div id="toast" class="hidden"></div>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo" onclick="goHome()">
     <svg class="nav-logo-mark" viewBox="0 0 32 32" fill="none">
@@ -268,7 +246,6 @@
   </div>
 </nav>
 
-<!-- HERO -->
 <section id="section-hero">
   <div class="hero-grid"></div><div class="hero-glow"></div>
   <div class="hero-pill"><div class="hero-pill-dot"></div>Powered by Multi-Agent AI</div>
@@ -295,7 +272,6 @@
   </div>
 </section>
 
-<!-- SIGN UP -->
 <section id="section-signup" class="wrap hidden">
   <div class="card">
     <h2>Create your account</h2><p>Free to use. No credit card required.</p>
@@ -321,7 +297,6 @@
   </div>
 </section>
 
-<!-- LOG IN -->
 <section id="section-login" class="wrap hidden">
   <div class="card">
     <h2>Welcome back</h2><p>Log in to continue your research.</p>
@@ -335,7 +310,6 @@
   </div>
 </section>
 
-<!-- INPUT -->
 <section id="section-input" class="wrap hidden">
   <div class="card card-wide">
     <h2>Start your research</h2><p>The more specific your topic, the sharper the output.</p>
@@ -381,7 +355,6 @@
   </div>
 </section>
 
-<!-- CHECKING -->
 <section id="section-checking" class="hidden">
   <div class="checking-icon">🎯</div>
   <h2 class="checking-title">Orchestrator is checking your topic…</h2>
@@ -390,10 +363,8 @@
   <p class="checking-status" id="checking-txt">Scanning academic databases…</p>
 </section>
 
-<!-- REVIEW -->
 <section id="section-review" class="hidden">
   <div class="review-wrap">
-
     <div class="orc-summary">
       <div class="orc-header">
         <div class="orc-avatar">🎯</div>
@@ -404,36 +375,23 @@
       </div>
       <div class="orc-body" id="orc-body">Loading summary…</div>
     </div>
-
     <div class="amend-card">
       <div class="amend-label">Amend or refine your topic</div>
-      <textarea
-        class="amend-textarea"
-        id="amend-input"
-        placeholder="Type here to change or refine your topic before re-analysis…&#10;&#10;Examples:&#10;• Machine learning in early diabetes detection using wearable data&#10;• Make it more specific to deep learning in radiology&#10;• Use recommendation 2 from above&#10;• What about NLP in mental health diagnosis instead?"
-      ></textarea>
+      <textarea class="amend-textarea" id="amend-input"
+        placeholder="Type here to change or refine your topic before re-analysis…&#10;&#10;Examples:&#10;• Machine learning in early diabetes detection using wearable data&#10;• Make it more specific to deep learning in radiology&#10;• Use recommendation 2 from above&#10;• What about NLP in mental health diagnosis instead?"></textarea>
       <p class="amend-hint">
         💡 <strong>Leave blank and click Proceed</strong> if you are happy with your current topic and want the full report.<br/>
         Type here <strong>only if you want to change or refine</strong> your topic — then click Submit Amendment.
       </p>
     </div>
-
     <div class="review-actions">
-      <button class="btn-proceed" id="btn-proceed" onclick="proceedResearch()">
-        ✓ Proceed to Full Research
-      </button>
-      <button class="btn-reject" onclick="rejectResearch()">
-        ✕ End Session
-      </button>
+      <button class="btn-proceed" id="btn-proceed" onclick="proceedResearch()">✓ Proceed to Full Research</button>
+      <button class="btn-reject" onclick="rejectResearch()">✕ End Session</button>
     </div>
-    <button class="btn-amend" id="btn-amend" onclick="submitAmendment()">
-      ↺ Submit Amendment &amp; Re-analyse
-    </button>
-
+    <button class="btn-amend" id="btn-amend" onclick="submitAmendment()">↺ Submit Amendment &amp; Re-analyse</button>
   </div>
 </section>
 
-<!-- END SCREEN -->
 <section id="section-end" class="wrap hidden">
   <div class="end-card">
     <div class="end-icon">📚</div>
@@ -443,7 +401,6 @@
   </div>
 </section>
 
-<!-- LOADING (full pipeline) -->
 <section id="section-loading" class="hidden">
   <h2 class="ld-title">Agents are working…</h2>
   <p class="ld-sub">This usually takes 30–60 seconds. Please wait.</p>
@@ -484,7 +441,6 @@
   <p class="ld-status" id="ld-txt">Research pipeline running…</p>
 </section>
 
-<!-- RESULTS -->
 <section id="section-results" class="hidden">
   <div class="r-header">
     <div class="r-tag">Research Report</div>
@@ -497,7 +453,6 @@
       <div class="r-meta-i">Generated: <span id="m-date">—</span></div>
     </div>
   </div>
-
   <div class="score-card" id="score-card">
     <div class="score-header">
       <span class="score-label">📊 Research Confidence Score</span>
@@ -510,9 +465,7 @@
     <div class="score-breakdown" id="score-breakdown"></div>
     <div class="score-assessment" id="score-assessment"></div>
   </div>
-
   <div class="err-box hidden" id="err-box"><strong>Something went wrong.</strong><br/><span id="err-msg"></span></div>
-
   <div class="r-toolbar">
     <span class="r-toolbar-l">8 sections generated</span>
     <div class="r-toolbar-r">
@@ -520,7 +473,6 @@
       <button class="btn-sm" onclick="setAll(false)">Collapse all</button>
     </div>
   </div>
-
   <div class="accordion">
     <div class="acc-item open" id="acc-ideas"><div class="acc-h" onclick="tog('acc-ideas')"><div class="acc-hl"><div class="acc-icon i-ideas">💡</div><div><div class="acc-title">Research Ideas</div><div class="acc-sub">Unique angles to explore</div></div></div><div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-ideas')">Copy</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-ideas">Loading…</div></div></div>
     <div class="acc-item open" id="acc-papers"><div class="acc-h" onclick="tog('acc-papers')"><div class="acc-hl"><div class="acc-icon i-papers">📄</div><div><div class="acc-title">Relevant Papers</div><div class="acc-sub">Real, verified academic papers</div></div></div><div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-papers')">Copy</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-papers">Loading…</div></div></div>
@@ -528,11 +480,10 @@
     <div class="acc-item" id="acc-rev"><div class="acc-h" onclick="tog('acc-rev')"><div class="acc-hl"><div class="acc-icon i-review">📚</div><div><div class="acc-title">Literature Review</div><div class="acc-sub">Full academic-quality writeup</div></div></div><div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-rev')">Copy</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-rev">Loading…</div></div></div>
     <div class="acc-item" id="acc-road"><div class="acc-h" onclick="tog('acc-road')"><div class="acc-hl"><div class="acc-icon i-roadmap">🗺️</div><div><div class="acc-title">Execution Roadmap</div><div class="acc-sub">How to go about this research</div></div></div><div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-road')">Copy</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-road">Loading…</div></div></div>
     <div class="acc-item" id="acc-abstract"><div class="acc-h" onclick="tog('acc-abstract')"><div class="acc-hl"><div class="acc-icon i-abstract">📝</div><div><div class="acc-title">Draft Abstract</div><div class="acc-sub">150-word draft — review before using</div></div></div><div class="acc-hr"><span class="acc-new">NEW</span><button class="acc-copy" onclick="cp(event,'c-abstract')">Copy</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-abstract">Loading…</div></div></div>
-    <div class="acc-item" id="acc-journals"><div class="acc-h" onclick="tog('acc-journals')"><div class="acc-hl"><div class="acc-icon i-journals">🎓</div><div><div class="acc-title">Recommended Journals & Conferences</div><div class="acc-sub">Where to publish your research</div></div></div><div class="acc-hr"><span class="acc-new">NEW</span><button class="acc-copy" onclick="cp(event,'c-journals')">Copy</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-journals">Loading…</div></div></div>
+    <div class="acc-item" id="acc-journals"><div class="acc-h" onclick="tog('acc-journals')"><div class="acc-hl"><div class="acc-icon i-journals">🎓</div><div><div class="acc-title">Recommended Journals &amp; Conferences</div><div class="acc-sub">Where to publish your research</div></div></div><div class="acc-hr"><span class="acc-new">NEW</span><button class="acc-copy" onclick="cp(event,'c-journals')">Copy</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-journals">Loading…</div></div></div>
     <div class="acc-item" id="acc-datasets"><div class="acc-h" onclick="tog('acc-datasets')"><div class="acc-hl"><div class="acc-icon i-datasets">🗄️</div><div><div class="acc-title">Recommended Datasets</div><div class="acc-sub">Publicly available data for your research</div></div></div><div class="acc-hr"><span class="acc-new">NEW</span><button class="acc-copy" onclick="cp(event,'c-datasets')">Copy</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-datasets">Loading…</div></div></div>
     <div class="acc-item hidden" id="acc-raw"><div class="acc-h" onclick="tog('acc-raw')"><div class="acc-hl"><div class="acc-icon i-raw">📋</div><div><div class="acc-title">Full Agent Output</div><div class="acc-sub">Raw response — view if sections above appear empty</div></div></div><div class="acc-hr"><button class="acc-copy" onclick="cp(event,'c-raw')">Copy all</button><div class="acc-chev">▾</div></div></div><div class="acc-body"><div class="acc-content" id="c-raw"></div></div></div>
   </div>
-
   <div class="cite-bar">
     <label>Reformat references as:</label>
     <select id="cite-sty">
@@ -543,7 +494,6 @@
     </select>
     <button class="btn-ref" id="btn-ref" onclick="reformat()">Apply Style</button>
   </div>
-
   <div class="dl-bar">
     <div class="dl-bar-text">
       <h4>⬇ Download your full report</h4>
@@ -576,6 +526,9 @@ const API = 'https://cloud.flowiseai.com/api/v1/prediction/2ae796b1-b682-4ad6-9d
 // ══════════════════════════════════════════════════════
 let topic = '', level = '', discipline = '', institution = '';
 let fullText = '', sessionId = null, user = null;
+// ▶ KEY FIX: flag set true the moment user clicks Proceed
+// When true, whatever Flowise returns is treated as the full report — no review screen ever again
+let _proceedingToReport = false;
 
 // ══════════════════════════════════════════════════════
 // NAVIGATION
@@ -592,7 +545,7 @@ function showSection(n) {
 }
 function goHome()      { showSection('hero'); }
 function handleStart() { showSection(user ? 'input' : 'signup'); }
-function newSearch()   { sessionId = null; document.getElementById('amend-input').value = ''; showSection('input'); }
+function newSearch()   { sessionId = null; _proceedingToReport = false; document.getElementById('amend-input').value = ''; showSection('input'); }
 
 // ══════════════════════════════════════════════════════
 // TOAST
@@ -649,7 +602,7 @@ function logIn() {
 }
 
 function logout() {
-  user=null; sessionId=null; localStorage.removeItem('sb_s');
+  user=null; sessionId=null; _proceedingToReport=false; localStorage.removeItem('sb_s');
   setNavUser(null); toast('Logged out.'); showSection('hero');
 }
 
@@ -674,55 +627,71 @@ function setAgent(n, state) {
 function setLdTxt(m) { const e=document.getElementById('ld-txt'); if(e) e.textContent=m; }
 
 // ══════════════════════════════════════════════════════
-// RESPONSE DETECTION — the most critical logic
+// ▶ RESPONSE CLASSIFICATION — FIXED
 //
-// Uses BOTH positive markers (things Orchestrator says)
-// AND negative markers (things only the Writer says)
-// to correctly classify any response
+// RULE 1: Writer section headings ALWAYS win.
+//         If ANY appear in the text, it is a full report. Period.
+// RULE 2: If _proceedingToReport flag is true, treat as full report.
+// RULE 3: Only classify as Orchestrator when no Writer headings found
+//         AND positive Orchestrator markers are present.
 // ══════════════════════════════════════════════════════
+
+// Strip search query noise before classification
+function stripSearchNoise(text) {
+  // Remove lines that look like Google search query strings
+  return (text || '').split('\n').filter(line => {
+    const l = line.trim();
+    return !(l.startsWith('search?q=') || l.startsWith('https://www.google') || l.match(/^search\?/i));
+  }).join('\n');
+}
+
+// Writer section headings — if ANY of these appear it is ALWAYS a full report
+const WRITER_HEADINGS = [
+  'RESEARCH IDEAS',
+  'RELEVANT PAPERS',
+  'RESEARCH GAPS',
+  'LITERATURE REVIEW',
+  'EXECUTION ROADMAP',
+  'DRAFT ABSTRACT',
+  'RECOMMENDED JOURNALS',
+  'RECOMMENDED DATASETS',
+  'EVALUATION REPORT',
+  'CONFIDENCE SCORE',
+];
+
+// Orchestrator-only phrases (only meaningful when no Writer headings present)
+const ORC_MARKERS = [
+  'Click PROCEED',
+  'Click REJECT',
+  'TOPIC UNDERSTOOD',
+  'PAPERS FOUND',
+  'RESEARCH LANDSCAPE',
+  'SCOPE ASSESSMENT',
+  'ScholarBot is waiting',
+  'Shall I go ahead',
+  'TOPIC SUMMARY',
+  'Are you happy',
+  'Would you like to proceed',
+  'happy with this summary',
+  'proceed with the full research',
+];
+
+function hasWriterContent(text) {
+  const upper = (text || '').toUpperCase();
+  return WRITER_HEADINGS.some(h => upper.includes(h.toUpperCase()));
+}
+
 function isOrchestratorResponse(text) {
-  const t = text || '';
+  // If user already clicked Proceed, NEVER show review screen again
+  if (_proceedingToReport) return false;
 
-  // These phrases only appear in the Orchestrator's summary
-  const positive = [
-    'Click PROCEED',
-    'Click REJECT',
-    'TOPIC UNDERSTOOD',
-    'PAPERS FOUND',
-    'RESEARCH LANDSCAPE',
-    'SCOPE ASSESSMENT',
-    'ScholarBot is waiting',
-    'ScholarBot is waiting for your decision',
-    'Shall I go ahead',
-    'TOPIC SUMMARY',
-    'proceed with the full research',
-    'Type \'go ahead\'',
-    'Type "go ahead"',
-    'Are you happy',
-    'Would you like to proceed',
-    'happy with this summary',
-  ];
+  const cleaned = stripSearchNoise(text);
 
-  // These phrases ONLY appear in a full report from the Writer
-  // If any are present, it cannot be the Orchestrator
-  const negative = [
-    'RESEARCH IDEAS',
-    'RELEVANT PAPERS',
-    'RESEARCH GAPS',
-    'LITERATURE REVIEW',
-    'EXECUTION ROADMAP',
-    'DRAFT ABSTRACT',
-    'RECOMMENDED JOURNALS',
-    'RECOMMENDED DATASETS',
-    'EVALUATION REPORT',
-  ];
+  // ABSOLUTE RULE: Writer headings = full report, not Orchestrator
+  if (hasWriterContent(cleaned)) return false;
 
-  const hasPositive = positive.some(m => t.includes(m));
-  const hasNegative = negative.some(m => t.toUpperCase().includes(m.toUpperCase()));
-
-  // It's an Orchestrator response only when:
-  // it has positive markers AND no full-report markers
-  return hasPositive && !hasNegative;
+  // Check for Orchestrator positive markers
+  return ORC_MARKERS.some(m => cleaned.includes(m));
 }
 
 function isEndResponse(text) {
@@ -762,38 +731,24 @@ function buildPrompt(customTopic) {
 
 // ══════════════════════════════════════════════════════
 // API CALL
-// Does NOT pre-generate sessionId — lets Flowise own it
 // ══════════════════════════════════════════════════════
 async function callAPI(message) {
   const body = { question: message };
-
-  // Only attach sessionId if Flowise already gave us one
-  // Never send a client-generated ID — it confuses Flowise
   if (sessionId) {
     body.sessionId = sessionId;
     body.overrideConfig = { sessionId: sessionId };
   }
-
   const res = await fetch(API, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body)
   });
-
   if (!res.ok) {
     const errText = await res.text();
-    if (res.status === 500) {
-      throw new Error(
-        'The AI pipeline returned a server error (500). ' +
-        'This is usually a Flowise routing issue. ' +
-        'Please try starting a new search.'
-      );
-    }
+    if (res.status === 500) throw new Error('The AI pipeline returned a server error (500). Please try starting a new search.');
     throw new Error(`API ${res.status}: ${errText}`);
   }
-
   const d = await res.json();
-  // Capture the Flowise-generated sessionId
   const sid = d.sessionId || d.chatId || d.id;
   if (sid) sessionId = sid;
   return d.text || d.answer || d.output || JSON.stringify(d);
@@ -801,7 +756,6 @@ async function callAPI(message) {
 
 // ══════════════════════════════════════════════════════
 // ROUND 1 — Send topic to Orchestrator
-// sessionId starts as null — Flowise creates a new session
 // ══════════════════════════════════════════════════════
 async function startGen() {
   const t = document.getElementById('topic-input').value.trim();
@@ -811,22 +765,15 @@ async function startGen() {
   level       = document.getElementById('lv-sel').value;
   discipline  = document.getElementById('di-sel').value;
   institution = user?.inst || '';
-  sessionId   = null; // Always fresh — let Flowise own the session
+  sessionId   = null;
+  _proceedingToReport = false; // reset for fresh run
 
   showSection('checking');
   document.getElementById('checking-txt').textContent = 'Scanning for academic papers on your topic…';
 
   try {
     const raw = await callAPI(buildPrompt());
-
-    if (isOrchestratorResponse(raw)) {
-      showReview(raw);
-    } else if (isEndResponse(raw)) {
-      showEnd();
-    } else {
-      // No Orchestrator in flow, or Orchestrator skipped — go straight to results
-      processFullReport(raw);
-    }
+    routeResponse(raw);
   } catch (err) {
     showSection('input');
     alert('Connection failed: ' + err.message);
@@ -834,10 +781,26 @@ async function startGen() {
 }
 
 // ══════════════════════════════════════════════════════
+// ▶ CENTRAL ROUTER — single place that decides what to show
+// ══════════════════════════════════════════════════════
+function routeResponse(raw) {
+  if (isEndResponse(raw)) {
+    showEnd();
+  } else if (!_proceedingToReport && isOrchestratorResponse(raw)) {
+    showReview(raw);
+  } else {
+    // Everything else = full report (Writer output)
+    showFullReport(raw);
+  }
+}
+
+// ══════════════════════════════════════════════════════
 // SHOW REVIEW SCREEN
 // ══════════════════════════════════════════════════════
 function showReview(orcText) {
-  document.getElementById('orc-body').textContent    = orcText;
+  // Clean search query noise from display text
+  const cleaned = stripSearchNoise(orcText).trim();
+  document.getElementById('orc-body').textContent    = cleaned;
   document.getElementById('amend-input').value       = '';
   document.getElementById('btn-proceed').disabled    = false;
   document.getElementById('btn-amend').disabled      = false;
@@ -846,15 +809,11 @@ function showReview(orcText) {
 
 // ══════════════════════════════════════════════════════
 // ROUND 2A — Proceed to full research
-//
-// PATH A: Nothing in amendment box → send "go ahead" → full report
-// PATH B: Text in amendment box → re-analyse instead (smart guard)
 // ══════════════════════════════════════════════════════
 async function proceedResearch() {
   const amendment = document.getElementById('amend-input').value.trim();
 
-  // Guard: if user typed something and clicked Proceed by mistake,
-  // treat it as an amendment not a confirmation
+  // If user typed in the amendment box, treat as amendment
   if (amendment) {
     await submitAmendment();
     return;
@@ -863,39 +822,27 @@ async function proceedResearch() {
   document.getElementById('btn-proceed').disabled = true;
   document.getElementById('btn-amend').disabled   = true;
 
+  // ▶ KEY: set flag BEFORE the API call so the router never shows review again
+  _proceedingToReport = true;
+
   showSection('loading');
   setAgent(2,'active'); setAgent(3,'waiting'); setAgent(4,'waiting');
   setLdTxt('Research Scout is searching for papers…');
 
   try {
-    let raw = await callAPI('go ahead');
-
-    // Safety: if Orchestrator ran again, try once with stronger signal
-    if (isOrchestratorResponse(raw)) {
-      setLdTxt('Confirming and proceeding…');
-      raw = await callAPI('Yes, I am happy with this topic. Please proceed with the full research now and generate the complete report.');
-    }
-
-    if (isOrchestratorResponse(raw)) {
-      // Still stuck — return user to review
-      toast('Please try clicking Proceed again.');
-      showSection('review');
-      document.getElementById('btn-proceed').disabled = false;
-      document.getElementById('btn-amend').disabled   = false;
-    } else if (isEndResponse(raw)) {
-      showEnd();
-    } else {
-      // Full report — animate and display
-      setAgent(2,'done'); setAgent(3,'active');
-      setLdTxt('Evaluator is scoring paper quality…');
-      await new Promise(r => setTimeout(r, 700));
-      setAgent(3,'done'); setAgent(4,'active');
-      setLdTxt('Academic Writer is synthesising your report…');
-      await new Promise(r => setTimeout(r, 700));
-      setAgent(4,'done'); setLdTxt('Report ready!');
-      processFullReport(raw);
-    }
+    const raw = await callAPI('go ahead');
+    // Animate pipeline regardless of content
+    setAgent(2,'done'); setAgent(3,'active');
+    setLdTxt('Evaluator is scoring paper quality…');
+    await new Promise(r => setTimeout(r, 700));
+    setAgent(3,'done'); setAgent(4,'active');
+    setLdTxt('Academic Writer is synthesising your report…');
+    await new Promise(r => setTimeout(r, 700));
+    setAgent(4,'done'); setLdTxt('Report ready!');
+    // Route — _proceedingToReport=true means isOrchestratorResponse() always returns false
+    routeResponse(raw);
   } catch (err) {
+    _proceedingToReport = false;
     showSection('review');
     document.getElementById('btn-proceed').disabled = false;
     document.getElementById('btn-amend').disabled   = false;
@@ -904,12 +851,7 @@ async function proceedResearch() {
 }
 
 // ══════════════════════════════════════════════════════
-// ROUND 2B — Submit amendment
-//
-// Starts a COMPLETELY FRESH SESSION with the amended topic.
-// This bypasses the unreliable Loop node in Flowise entirely.
-// The user experience is identical — Orchestrator re-analyses
-// the new topic from scratch.
+// ROUND 2B — Submit amendment (fresh session)
 // ══════════════════════════════════════════════════════
 async function submitAmendment() {
   const amendment = document.getElementById('amend-input').value.trim();
@@ -921,28 +863,17 @@ async function submitAmendment() {
   document.getElementById('btn-proceed').disabled = true;
   document.getElementById('btn-amend').disabled   = true;
 
-  // Update the stored topic
   topic = amendment;
-
-  // CRITICAL: Reset sessionId to null so Flowise starts fresh
-  // This avoids the 500 Loop node error entirely
   sessionId = null;
+  _proceedingToReport = false; // fresh session, Orchestrator should run again
 
   showSection('checking');
   document.getElementById('checking-txt').textContent = 'Re-analysing your amended topic…';
 
   try {
-    // Update the topic-input field so buildPrompt() uses the new topic
     document.getElementById('topic-input').value = amendment;
     const raw = await callAPI(buildPrompt());
-
-    if (isOrchestratorResponse(raw)) {
-      showReview(raw);
-    } else if (isEndResponse(raw)) {
-      showEnd();
-    } else {
-      processFullReport(raw);
-    }
+    routeResponse(raw);
   } catch (err) {
     showSection('review');
     document.getElementById('btn-proceed').disabled = false;
@@ -959,17 +890,12 @@ async function rejectResearch() {
   showEnd();
 }
 
-// ══════════════════════════════════════════════════════
-// SHOW END SCREEN
-// ══════════════════════════════════════════════════════
-function showEnd() {
-  showSection('end');
-}
+function showEnd() { showSection('end'); }
 
 // ══════════════════════════════════════════════════════
-// PROCESS FULL REPORT
+// SHOW FULL REPORT
 // ══════════════════════════════════════════════════════
-function processFullReport(raw) {
+function showFullReport(raw) {
   fullText = raw;
   const { sec, any } = parse(raw);
   populate(sec, any, raw);
@@ -977,13 +903,12 @@ function processFullReport(raw) {
 }
 
 // ══════════════════════════════════════════════════════
-// PARSE RESPONSE — flexible section extraction
+// PARSE RESPONSE
 // ══════════════════════════════════════════════════════
 function parse(text) {
   const out = { ideas:'', papers:'', gaps:'', rev:'', road:'', abstract:'', journals:'', datasets:'', score:'' };
   const t = text.replace(/\*\*/g,'').replace(/#{1,3}\s*/g,'');
 
-  // Extract confidence score
   const scoreMatch = t.match(/RESEARCH CONFIDENCE SCORE:[\s\S]*?(?=##?\s*1\.|RESEARCH IDEAS|$)/i);
   if (scoreMatch) out.score = scoreMatch[0].trim();
 
@@ -1096,7 +1021,6 @@ function downloadPDF() {
     doc.setDrawColor(79,70,229); doc.setLineWidth(.4);
     doc.line(mg,y,W-mg,y); y+=5;
   };
-  // Cover
   doc.setFillColor(8,11,26); doc.rect(0,0,W,H,'F');
   doc.setFillColor(79,70,229); doc.rect(0,H*.55,W,6,'F');
   doc.setFillColor(6,182,212); doc.rect(0,H*.55+5,W,H*.45-5,'F');
@@ -1119,7 +1043,6 @@ function downloadPDF() {
   meta.forEach(([k,v],i)=>{doc.setFont('helvetica','bold');doc.text(k+':',mg,cy+8+i*8);doc.setFont('helvetica','normal');doc.text(v,mg+28,cy+8+i*8);});
   doc.setFontSize(8); doc.setTextColor(8,11,26);
   doc.text('scholarbot.app · Research Intelligence',W/2,H-8,{align:'center'});
-  // Content
   doc.addPage(); y=mg;
   add('Research Topic',9,'normal',[120,120,120]);
   add(topic,17,'bold',[8,11,26]); y+=2; line();
